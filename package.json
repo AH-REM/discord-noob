@@ -9,6 +9,14 @@
     "type": "git",
     "url": "git+https://github.com/AH-REM/discord-noob.git"
   },
+  "keywords": [
+    "discord",
+    "api",
+    "bot",
+    "node",
+    "yaml",
+    "discordapp"
+  ],
   "author": "AH_REM",
   "dependencies": {
     "discord.js": "^12.2.0",
