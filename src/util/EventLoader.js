@@ -1,10 +1,10 @@
 'use_strict';
 
-const reqEvent = event => require(`../client/event/${event}`);
+const reqEvent = event => require(`../event/${event}`);
 
 /**
-* @param {Client} client
-*/
+ * @param {Client} client
+ */
 module.exports = client => {
 
     client.bot.on('ready', () => reqEvent('ready')(client));
