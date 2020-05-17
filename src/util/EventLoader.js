@@ -3,12 +3,12 @@
 const reqEvent = event => require(`../client/event/${event}`);
 
 /**
-* @param {Discord.Client} bot
+* @param {Client} client
 */
-module.exports = bot => {
+module.exports = client => {
 
-    bot.on('ready', reqEvent('ready'));
+    client.bot.on('ready', () => reqEvent('ready')(client));
 
-    bot.on('message', reqEvent('message'));
+    client.bot.on('message', message => reqEvent('message')(client, message));
 
 };

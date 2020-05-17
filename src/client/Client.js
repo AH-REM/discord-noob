@@ -15,9 +15,9 @@ class Client {
         this.options = { ...DefaultOptions, ...options }
         this.bot = new Discord.Client();
 
-        EventLoader(this.bot);
+        EventLoader(this);
         this.login();
-        
+
     }
 
     login() {

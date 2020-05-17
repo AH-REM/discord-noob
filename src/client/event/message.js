@@ -3,7 +3,7 @@
 /**
  * @param {Message} message
  */
-module.exports = message => {
+module.exports = (client, message) => {
 
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;

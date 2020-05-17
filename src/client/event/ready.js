@@ -1,9 +1,11 @@
 'use_strict';
 
 /**
-* @param {Discord.Client} bot
+* @param {Client} client
 */
-module.exports = bot => {
+module.exports = client => {
+
+    const { bot } = client;
 
     console.log(`${bot.user.tag} is online and ready to serve ${bot.guilds.cache.size} servers.`);
 
