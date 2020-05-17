@@ -1,5 +1,11 @@
 # discord-noob
 
+<div>
+    <p>
+        <a href="https://nodei.co/npm/discord-noob/"><img src="https://nodei.co/npm/discord-noob.png?downloads=true&stars=true" alt="npm installnfo"></a>
+    </p>
+</div>
+
 ## Table of contents
 
 - [About](#about)
@@ -15,7 +21,7 @@ discord-noob is a project to make easily a discord bot based on [discord.js](htt
 - YML language
 
 ## Installation
- 
+
 This is a [Node.js](https://nodejs.org/) module available through the [npm registry](https://www.npmjs.com/).
 
 Before installing, [download and install Node.js](https://nodejs.org/en/download/). Node.js 13.0.1 or higher is required.
@@ -46,3 +52,7 @@ ping:
         send:
             - pong 🏓
 ```
+
+Result:
+
+![pong-test](https://raw.githubusercontent.com/AH-REM/discord-noob/master/images/pong-test.png)
