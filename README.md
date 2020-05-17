@@ -40,7 +40,7 @@ noob.load(path.join(__dirname, 'command.yml'));
 ```
 
 ```yml
-// command.js
+# command.js
 ping:
     message:
         send:
