@@ -40,7 +40,7 @@ class Client {
     load(path) {
         try {
 
-            const file = fs.readFileSync(addExtension(path), 'utf8');
+            const file = fs.readFileSync(path, 'utf8');
             const json = YAML.parse(file);
 
             for (let [ name, options ] of Object.entries(json)) {

@@ -10,4 +10,4 @@ const noob = new Noob.Client({
     prefix: '.'
 });
 
-noob.load(path.join(__dirname, 'cmdtest'));
+noob.load(path.join(__dirname, 'cmdtest.yml'));
