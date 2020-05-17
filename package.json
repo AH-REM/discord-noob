@@ -1,6 +1,7 @@
 {
   "name": "discord-noob",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "description": "A module to easily make a bot discord without having programming skills.",
   "main": "./src/index.js",
   "scripts": {
     "test": "nodemon ./test/test.js"
@@ -15,6 +16,7 @@
     "bot",
     "node",
     "yaml",
+    "yml",
     "discordapp"
   ],
   "author": "AH_REM",
