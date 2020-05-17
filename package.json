@@ -5,6 +5,10 @@
   "scripts": {
     "test": "nodemon ./test/test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AH-REM/discord-noob.git"
+  },
   "author": "AH_REM",
   "dependencies": {
     "discord.js": "^12.2.0",
