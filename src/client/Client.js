@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const YAML = require('yaml');
 const fs = require('fs');
 
-const { addExtension } = require('../util/Utils');
 const { DefaultOptionsClient } = require('../util/Constants');
 const EventLoader = require('../util/EventLoader');
 const Command = require('../util/Command');
