@@ -1,0 +1,13 @@
+{
+  "name": "discord-noob",
+  "version": "0.0.1",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "nodemon ./test/test.js"
+  },
+  "author": "AH_REM",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "yaml": "^1.9.2"
+  }
+}
