@@ -48,9 +48,12 @@ noob.load(path.join(__dirname, 'command.yml'));
 ```yml
 # command.yml
 ping:
+    unique: true
     message:
-        send:
-            - pong 🏓
+        content:
+            - pong
+        react:
+            - 🏓
 ```
 
 Result:
