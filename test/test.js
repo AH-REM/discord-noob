@@ -7,7 +7,7 @@ const Noob = require('../src');
 
 const noob = new Noob.Client({
     token: token,
-    prefix: '.'
+    prefix: '!'
 });
 
 noob.load(path.join(__dirname, 'cmdtest.yml'));
