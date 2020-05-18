@@ -1,18 +1,23 @@
 hello:
     prefix: false
+    unique: true
     message:
-        send:
+        content:
             - world
 
 re:
     prefix: false
+    unique: true
     message:
-        send:
+        content:
             - nard
             - quin
             - tour
 
 ping:
+    unique: true
     message:
-        send:
-            - pong 🏓
+        content:
+            - pong
+        react:
+            - 🏓

@@ -13,8 +13,22 @@ module.exports = (client, message) => {
 
     if (client.commands.has(command)) {
         const cmd = client.commands.get(command);
+
+        if (cmd.options.unique && args.length > 1) return;
+
         const response = cmd.getMessage();
-        if (response) message.channel.send(response);
+        if (response) {
+
+            message.channel.send(response).then(m => {
+
+                cmd.addReact(m);
+
+            });
+
+        }
+
+        if (cmd.options.delete) message.delete();
+
     }
 
 };

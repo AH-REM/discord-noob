@@ -17,6 +17,11 @@ exports.DefaultOptionsClient = {
 exports.DefaultOptionsCommand = {
 
     prefix: true,
-    message: null
+    unique: false,
+    message: {
+        content: new Array(),
+        react: new Array()
+    },
+    delete: false
 
 };
