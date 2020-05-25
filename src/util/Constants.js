@@ -6,7 +6,16 @@
  */
 exports.DefaultOptionsClient = {
 
-    prefix: '!'
+    prefix: '!',
+
+    status: 'online',
+
+    activity: {
+
+        name: 'test',
+        type: 'PLAYING'
+
+    }
 
 };
 

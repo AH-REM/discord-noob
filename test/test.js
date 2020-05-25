@@ -7,7 +7,11 @@ const Noob = require('../src');
 
 const noob = new Noob.Client({
     token: token,
-    prefix: '!'
+    prefix: '!',
+    activity: {
+        name: 'des grenouilles.',
+        type: 'WATCHING'
+    }
 });
 
 noob.load(path.join(__dirname, 'cmdtest.yml'));
