@@ -13,6 +13,8 @@ re:
             - nard
             - quin
             - tour
+    aliases:
+        - reuh
 
 ping:
     unique: true
@@ -21,3 +23,13 @@ ping:
             - pong
         react:
             - 🏓
+
+test:
+    message:
+        guild: 711916266352541696
+        channel: 711917390577008660
+        content:
+            - Je suis un test
+    aliases:
+        - test2
+    delete: 0

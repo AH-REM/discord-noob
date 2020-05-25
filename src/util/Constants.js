@@ -28,9 +28,12 @@ exports.DefaultOptionsCommand = {
     prefix: true,
     unique: false,
     message: {
+        guild: null,
+        channel: null,
         content: new Array(),
         react: new Array()
     },
-    delete: false
+    aliases: new Array(),
+    delete: -1
 
 };
