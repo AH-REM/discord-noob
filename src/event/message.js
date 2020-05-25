@@ -27,7 +27,7 @@ module.exports = (client, message) => {
 
         }
 
-        if (cmd.options.delete) message.delete();
+        if (cmd.options.delete > -1) message.delete(cmd.options.delete);
 
     }
 
