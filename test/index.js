@@ -14,4 +14,6 @@ const noob = new Noob.Client({
     }
 });
 
-noob.load(path.join(__dirname, 'cmdtest.yml'));
+// noob.load(path.join(__dirname, 'cmdtest.yml'));
+
+noob.start();

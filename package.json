@@ -4,7 +4,7 @@
   "description": "A module to easily make a bot discord without having programming skills.",
   "main": "./src/index.js",
   "scripts": {
-    "test": "nodemon ./test/test.js"
+    "test": "nodemon ./test"
   },
   "repository": {
     "type": "git",
