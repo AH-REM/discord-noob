@@ -1,12 +1,8 @@
 'use strict';
 
 const Discord = require('discord.js');
-const YAML = require('yaml');
-const fs = require('fs');
-
-const { DefaultOptionsClient } = require('../util/Constants');
-const EventLoader = require('../util/EventLoader');
-const Command = require('../util/Command');
+const { DefaultOptions } = require('../util/Constants');
+const EventLoader = require('./events/EventLoader');
 
 class Client {
 
@@ -15,51 +11,29 @@ class Client {
      */
     constructor(options = {}) {
 
-        this.options = { ...DefaultOptionsClient, ...options }
         this.bot = new Discord.Client();
 
-        // Commands list
-        this.commands = new Map();
+        /**
+         * Sets default properties on an object that aren't already specified.
+         * @type {Object}
+         */
+        this.options = Discord.Util.mergeDefault(DefaultOptions, options);
 
+        /**
+         * Load all liseners.
+         */
         EventLoader(this);
-        this.login();
 
     }
 
-    login() {
+    start() {
         this.bot
             .login(this.options.token)
             .catch(console.error);
     }
 
-    /**
-     * Load yaml file
-     * @param {string} path
-     */
-    load(path) {
-        try {
-
-            const file = fs.readFileSync(path, 'utf8');
-            const json = YAML.parse(file);
-
-            for (let [ name, options ] of Object.entries(json)) {
-
-                const cmd = new Command(name, options);
-                if (cmd.isAvailable()) {
-
-                    name = cmd.options.prefix ? this.options.prefix + name : name;
-
-                    this.commands.set(name, cmd);
-
-                }
-                else throw new Error(`The command "${name}" has not message to send.`);
-
-            }
-
-        }
-        catch(err) {
-            console.error(err);
-        }
+    load() {
+        console.log('loader?');
     }
 
 }
