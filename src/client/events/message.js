@@ -1,6 +1,7 @@
 'use_strict';
 
 /**
+ * @param {Client} client
  * @param {Message} message
  */
 module.exports = (client, message) => {
