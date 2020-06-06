@@ -20,7 +20,7 @@ class Client {
         this.options = Discord.Util.mergeDefault(DefaultOptions, options);
 
         /**
-         * Load all liseners.
+         * Load all listeners.
          */
         EventLoader(this);
 
