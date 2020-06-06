@@ -4,18 +4,18 @@
  * Options for a client.
  * @return {Object}
  */
-exports.DefaultOptionsClient = {
+exports.DefaultOptions = {
 
     prefix: '!',
 
     status: 'online',
 
-    activity: {
-
-        name: 'test',
-        type: 'PLAYING'
-
-    }
+    // activity: {
+    //
+    //     name: 'test',
+    //     type: 'PLAYING'
+    //
+    // }
 
 };
 
@@ -23,7 +23,7 @@ exports.DefaultOptionsClient = {
  * Options for a command.
  * @return {Object}
  */
-exports.DefaultOptionsCommand = {
+exports.DefaultCommand = {
 
     prefix: true,
     unique: false,
