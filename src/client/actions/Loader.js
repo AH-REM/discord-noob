@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const YAML = require('yaml');
 const Util = require('../../util/Util');
 
 class Loader {
@@ -10,14 +11,17 @@ class Loader {
     }
 
     /**
+     * @param {string} action
      * @param {string} filename
-     * @return - ?????
      */
-    static load(filename) {
+    static load(action, filename) {
         try {
 
             const path = Util.getCurrentPath(filename);
 
+            const data = fs.readFileSync(path, { encoding:'utf8', flag:'r' });
+            const json = YAML.parse(data);
+            console.log(json);
 
         }
         catch (err) {

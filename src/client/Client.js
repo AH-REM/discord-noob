@@ -34,12 +34,13 @@ class Client {
     }
 
     /**
+     * @param {string} action
      * @param {string} path
      * @return {Promise<Error|void>}
      */
-    load(path) {
+    load(action, path) {
         return new Promise((resolve, reject) => {
-            const res = Loader.load(path);
+            const res = Loader.load(action, path);
             if (res instanceof Error) reject(res);
             else resolve();
         });
