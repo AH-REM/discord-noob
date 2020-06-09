@@ -3,6 +3,7 @@
 const Discord = require('discord.js');
 const { DefaultOptions } = require('../util/Constants');
 const EventLoader = require('./events/EventLoader');
+const Loader = require('./actions/Loader');
 
 class Client {
 
@@ -32,8 +33,16 @@ class Client {
             .catch(console.error);
     }
 
-    load() {
-        console.log('loader?');
+    /**
+     * @param {string} path
+     * @return {Promise<Error|void>}
+     */
+    load(path) {
+        return new Promise((resolve, reject) => {
+            const res = Loader.load(path);
+            if (res instanceof Error) reject(res);
+            else resolve();
+        });
     }
 
 }
