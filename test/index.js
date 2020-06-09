@@ -1,19 +1,23 @@
 'use_strict';
 
-const path = require('path');
+(async function() {
 
-const { token } = require('./auth.js');
-const Noob = require('../src');
+    const path = require('path');
 
-const noob = new Noob.Client({
-    token: token,
-    prefix: '!',
-    activity: {
-        name: 'des grenouilles.',
-        type: 'WATCHING'
-    }
-});
+    const { token } = require('./auth.js');
+    const Noob = require('../src');
 
-// noob.load(path.join(__dirname, 'cmdtest.yml'));
+    const noob = new Noob.Client({
+        token: token,
+        prefix: '!',
+        activity: {
+            name: 'des grenouilles.',
+            type: 'WATCHING'
+        }
+    });
 
-noob.start();
+    await noob.load('./cmdtest.yml');
+
+    noob.start();
+
+})();
