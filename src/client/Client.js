@@ -3,7 +3,8 @@
 const Discord = require('discord.js');
 const { DefaultOptions } = require('../util/Constants');
 const EventLoader = require('./events/EventLoader');
-const Loader = require('./actions/Loader');
+const Loader = require('./loader/Loader');
+const Managers = require('../managers/Managers');
 
 class Client {
 
@@ -19,6 +20,8 @@ class Client {
          * @type {Object}
          */
         this.options = Discord.Util.mergeDefault(DefaultOptions, options);
+
+        this.managers = new Managers();
 
         /**
          * Load all listeners.
@@ -40,9 +43,12 @@ class Client {
      */
     load(action, path) {
         return new Promise((resolve, reject) => {
-            const res = Loader.load(action, path);
+
+            const res = Loader.load(this, action, path);
+
             if (res instanceof Error) reject(res);
             else resolve();
+
         });
     }
 
