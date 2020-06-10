@@ -26,7 +26,7 @@ class Loader {
             const data = fs.readFileSync(path, { encoding:'utf8', flag:'r' });
             const json = YAML.parse(data);
 
-            await Manager.load(json);
+            await Manager.load(client, json);
 
         }
         catch (err) {

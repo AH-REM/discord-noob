@@ -1,16 +1,35 @@
 'use strict';
 
+const Command = require('../structures/Command');
+
 class CommandManager {
 
     constructor() {
-        throw new Error(`The ${this.constructor.name} class may not be instantiated.`);
+        this.cache = new Map();
     }
 
     /**
+     * @param {Client} client
      * @param {Object} json
      */
-    static load(json) {
-        return 'true';
+    load(client, json) {
+
+        const { prefix } = client.options;
+
+        for (let [ name, options ] of Object.entries(json)) {
+
+            const cmd = new Command(name, options);
+            if (cmd.isAvailable()) {
+
+                name = cmd.options.prefix ? prefix + name : name;
+
+                this.cache.set(name, cmd);
+
+            }
+            else throw `The command ${name} has not message to send.`;
+
+        }
+
     }
 
 }

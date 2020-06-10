@@ -11,7 +11,7 @@ class Managers {
     }
 
     register(Manager) {
-        this[Manager.name.replace(/Manager$/, '').toLowerCase()] = Manager;
+        this[Manager.name.replace(/Manager$/, '').toLowerCase()] = new Manager();
     }
 
 }
