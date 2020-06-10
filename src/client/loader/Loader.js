@@ -11,21 +11,26 @@ class Loader {
     }
 
     /**
+     * @param {Client} client
      * @param {string} action
      * @param {string} filename
      */
-    static load(action, filename) {
+    static async load(client, action, filename) {
         try {
 
-            const path = Util.getCurrentPath(filename);
+            const Manager = client.managers[action.toLowerCase()];
+            if (!Manager) throw `The ${action} manager does not exist.`;
+
+            const path = Util.getCurrentPath(filename); // edit l'erreur
 
             const data = fs.readFileSync(path, { encoding:'utf8', flag:'r' });
             const json = YAML.parse(data);
-            console.log(json);
+
+            await Manager.load(json);
 
         }
         catch (err) {
-            throw new Error('Fail to load');
+            throw new Error(err);
         }
     }
 
