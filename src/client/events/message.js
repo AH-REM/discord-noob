@@ -23,21 +23,15 @@ module.exports = (client, message) => {
         if (response) {
 
             const channel = Command.getChannel(message);
-            channel.send(response).catch(console.error);
+            channel.send(response)
+            .then(m => {
+                Command.addReact(m);
+            })
+            .catch(console.error);
 
         }
 
-        /*if (response) {
-
-            message.channel.send(response).then(m => {
-
-                Command.addReact(m);
-
-            });
-
-        }*/
-
-        //if (Command.options.delete > -1) message.delete(Command.options.delete);
+        if (Command.options.delete > -1) message.delete(Command.options.delete);
 
     }
 
