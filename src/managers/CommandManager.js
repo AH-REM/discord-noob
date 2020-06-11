@@ -5,7 +5,10 @@ const Command = require('../structures/Command');
 class CommandManager {
 
     constructor() {
-        this.cache = new Map();
+        this.cache = {
+            commands: new Map(),
+            aliases: new Map()
+        }
     }
 
     /**
@@ -23,7 +26,12 @@ class CommandManager {
 
                 name = cmd.options.prefix ? prefix + name : name;
 
-                this.cache.set(name, cmd);
+                this.cache.commands.set(name, cmd);
+
+                for (let alias of cmd.options.aliases) {
+                    alias = cmd.options.prefix ? prefix + alias : alias;
+                    this.cache.aliases.set(alias, name);
+                }
 
             }
             else throw `The command ${name} has not message to send.`;

@@ -14,25 +14,35 @@ module.exports = (client, message) => {
 
     const Manager = client.managers['command'];
 
-    if (Manager.cache.has(cmd)) {
-        const Command = Manager.cache.get(cmd);
+    /**
+     * Get command
+     */
+    let Command;
+    if (Manager.cache.commands.has(cmd)) {
+        Command = Manager.cache.commands.get(cmd);
+    } else if (Manager.cache.aliases.has(cmd)) {
+        Command = Manager.cache.commands.get(Manager.cache.aliases.get(cmd));
+    }
+    else return;
 
-        if (Command.options.unique && args.length > 1) return;
+    /**
+     * If command is unique
+     */
+    if (Command.options.unique && args.length > 1) return;
 
-        const response = Command.getMessage();
-        if (response) {
+    const response = Command.getMessage();
+    if (response) {
 
-            const channel = Command.getChannel(message);
-            channel.send(response)
-            .then(m => {
-                Command.addReact(m);
-            })
-            .catch(console.error);
-
-        }
-
-        if (Command.options.delete > -1) message.delete(Command.options.delete);
+        const channel = Command.getChannel(message);
+        channel.send(response)
+        .then(m => {
+            Command.addReact(m);
+        })
+        .catch(console.error);
 
     }
+
+    if (Command.options.delete > -1)
+        message.delete({ timeout: Command.options.delete });
 
 };
