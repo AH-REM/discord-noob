@@ -38,9 +38,10 @@ class Message {
      * @param {Discord.Message} message
      */
     addReact(message) {
-        const { react } = this.options.react;
+        const { react } = this.options.message;
         if (react.length < 1) return;
         for (let emoji of react) {
+            // Gérer les erreurs
             message.react(emoji).catch(console.error);
         }
     }
