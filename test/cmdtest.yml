@@ -26,8 +26,8 @@ ping:
 
 test:
     message:
-        guild: 711916266352541696
-        channel: 711917390577008660
+        guild: '711916266352541696'
+        channel: '711922686108106883'
         content:
             - Je suis un test
     aliases:
