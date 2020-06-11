@@ -30,7 +30,7 @@ class Loader {
 
         }
         catch (err) {
-            throw new Error(err);
+            throw err;
         }
     }
 
