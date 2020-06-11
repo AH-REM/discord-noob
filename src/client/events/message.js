@@ -10,25 +10,34 @@ module.exports = (client, message) => {
     if (message.author.bot || message.webhookID) return;
 
     const args = message.content.split(' ');
-    const command = args[0];
+    const cmd = args[0];
 
-    if (client.commands.has(command)) {
-        const cmd = client.commands.get(command);
+    const Manager = client.managers['command'];
 
-        if (cmd.options.unique && args.length > 1) return;
+    if (Manager.cache.has(cmd)) {
+        const Command = Manager.cache.get(cmd);
 
-        const response = cmd.getMessage();
+        if (Command.options.unique && args.length > 1) return;
+
+        const response = Command.getMessage();
         if (response) {
 
-            message.channel.send(response).then(m => {
-
-                cmd.addReact(m);
-
-            });
+            const channel = Command.getChannel(message);
+            channel.send(response).catch(console.error);
 
         }
 
-        if (cmd.options.delete > -1) message.delete(cmd.options.delete);
+        /*if (response) {
+
+            message.channel.send(response).then(m => {
+
+                Command.addReact(m);
+
+            });
+
+        }*/
+
+        //if (Command.options.delete > -1) message.delete(Command.options.delete);
 
     }
 

@@ -11,6 +11,6 @@ module.exports = client => {
 
     bot.on('ready', () => req('ready')(client));
 
-    // bot.on('message', message => req('message')(client, message));
+    bot.on('message', message => req('message')(client, message));
 
 };
