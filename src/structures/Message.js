@@ -34,6 +34,17 @@ class Message {
         return this.options.message.content[rand];
     }
 
+    /**
+     * @param {Discord.Message} message
+     */
+    addReact(message) {
+        const { react } = this.options.react;
+        if (react.length < 1) return;
+        for (let emoji of react) {
+            message.react(emoji).catch(console.error);
+        }
+    }
+
 }
 
 module.exports = Message;
