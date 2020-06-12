@@ -3,12 +3,14 @@
 const Discord = require('discord.js');
 const Message = require('./Message');
 const { DefaultCommand } = require('../util/Constants');
+const Util = require('../util/Util');
 
 class Command extends Message {
 
-    constructor(name, options = {}) {
+    constructor(client, name, options = {}) {
         super();
 
+        this.client = client;
         this.name = name;
 
         /**
@@ -17,6 +19,7 @@ class Command extends Message {
          */
         this.options = Discord.Util.mergeDefault(DefaultCommand, options);
 
+        this.script = require(Util.getCurrentPath(client.options.scripts + this.options.script));
     }
 
     /**
@@ -26,6 +29,9 @@ class Command extends Message {
         return true;
     }
 
+    action(message, args) {
+        this.script(this, message, ...args);
+    }
 }
 
 module.exports = Command;

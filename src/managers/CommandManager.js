@@ -21,7 +21,7 @@ class CommandManager {
 
         for (let [ name, options ] of Object.entries(json)) {
 
-            const cmd = new Command(name, options);
+            const cmd = new Command(client, name, options);
             if (cmd.isAvailable()) {
 
                 name = cmd.options.prefix ? prefix + name : name;

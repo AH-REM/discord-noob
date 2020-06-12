@@ -9,8 +9,7 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const args = messageParse(message.content);
-    const cmd = args[0];
+    const [cmd, ...args] = messageParse(message.content);
 
     const manager = client.managers['command'];
 
@@ -28,22 +27,9 @@ module.exports = (client, message) => {
     /**
      * If command is unique
      */
-    if (command.options.unique && args.length > 1) return;
+    if (command.options.unique && args.length > 0) return;
 
-    const response = command.getMessage();
-    if (response) {
-
-        const channel = command.getChannel(message);
-        channel.send(response)
-        .then(m => {
-            command.addReact(m);
-        })
-        .catch(console.error);
-
-    }
-
-    if (command.options.delete > -1)
-        message.delete({ timeout: command.options.delete });
+    command.action(message, args);
 
 };
 

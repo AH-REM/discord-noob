@@ -27,7 +27,8 @@ exports.DefaultCommand = {
 
     prefix: true,
     unique: false,
-    message: {
+    script: 'message',
+    script_options: {
         guild: null,
         channel: null,
         content: new Array(),
