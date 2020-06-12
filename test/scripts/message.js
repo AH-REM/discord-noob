@@ -9,6 +9,7 @@ const DefaultOptions = {
         content: new Array(),
         react: new Array()
     },
+    roles: new Array(),
     aliases: new Array(),
     delete: -1
 };
@@ -16,6 +17,8 @@ const DefaultOptions = {
 exports.run = (options, message) => {
 
     options = Discord.Util.mergeDefault(DefaultOptions, options);
+
+    addRole(options, message);
 
     const response = getMessage(options);
     if (response) {
@@ -54,10 +57,18 @@ function getChannel(options, message) {
 }
 
 function addReact(options, message) {
-    const { react } = options.message;
-    if (react.length < 1) return;
-    for (let emoji of react) {
+    for (let emoji of options.message.react) {
         // Gérer les erreurs
         message.react(emoji).catch(console.error);
     }
+}
+
+function addRole(options, message) {
+    const roles = new Array();
+    for (let roleName of options.roles) {
+        const role = message.guild.roles.cache.find(role => role.name === roleName);
+        if (role) roles.push(role);
+    }
+    if (roles.length > 0)
+        message.member.roles.add(roles);
 }

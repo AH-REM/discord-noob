@@ -49,3 +49,13 @@ echo:
     script: 'echo'
     options:
         delete: 1500
+
+osu:
+    unique: true
+    options:
+        message:
+            content:
+                - 'Tu as eu le rôle'
+        roles:
+            # role name
+            - osu
