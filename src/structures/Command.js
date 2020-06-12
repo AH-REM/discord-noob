@@ -1,13 +1,11 @@
 'use strict';
 
 const Discord = require('discord.js');
-const Message = require('./Message');
 const { DefaultCommand } = require('../util/Constants');
 
-class Command extends Message {
+class Command {
 
     constructor(name, options = {}) {
-        super();
 
         this.name = name;
 
