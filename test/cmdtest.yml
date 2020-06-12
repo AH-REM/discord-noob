@@ -3,18 +3,20 @@ hello:
     unique: true
     script: 'message'
     options:
-        content:
-            - 'world'
+        message:
+            content:
+                - 'world'
 
 re:
     prefix: false
     unique: true
     script: 'message'
     options:
-        content:
-            - 'nard'
-            - 'quin'
-            - 'tour'
+        message:
+            content:
+                - 'nard'
+                - 'quin'
+                - 'tour'
     aliases:
         - 'reuh'
 
@@ -22,10 +24,11 @@ ping:
     unique: true
     script: 'message'
     options:
-        content:
-            - 'pong'
-        react:
-            - '🏓'
+        message:
+            content:
+                - 'pong'
+            react:
+                - '🏓'
 
 test:
     script: 'message'
