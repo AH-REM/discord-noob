@@ -17,6 +17,8 @@ class Command {
         this.options = Discord.Util.mergeDefault(DefaultCommand, options);
 
         this.script = require(Util.getCurrentPath(client.options.scripts + this.options.script));
+
+        // Setting up some properties if
     }
 
     /**
@@ -27,7 +29,7 @@ class Command {
     }
 
     action(message, args) {
-        this.script(this, message, ...args);
+        this.script(this.options.script_options, message, ...args);
     }
 }
 

@@ -31,6 +31,8 @@ module.exports = (client, message) => {
 
     command.action(message, args);
 
+    if (command.options.delete > -1)
+        message.delete({timeout: command.options.delete});
 };
 
 /**
