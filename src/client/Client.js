@@ -38,13 +38,13 @@ class Client {
 
     /**
      * @param {string} action
-     * @param {string} path
+     * @param {string} filename
      * @return {Promise<Error|void>}
      */
-    load(action, path) {
+    load(action, filename) {
         return new Promise((resolve, reject) => {
 
-            const res = Loader.load(this, action, path);
+            const res = Loader.load(this, action, filename);
 
             if (res instanceof Error) reject(res);
             else resolve();
