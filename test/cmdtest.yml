@@ -44,3 +44,8 @@ test:
                 - '❤️'
                 - '🥰'
         delete: 1500
+
+echo:
+    script: 'echo'
+    options:
+        delete: 1500
