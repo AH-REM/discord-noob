@@ -4,3 +4,6 @@ package-lock.json
 
 # Authentication
 test/auth.js
+
+# IDE
+.idea/

@@ -9,8 +9,7 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const args = message.content.split(' ');
-    const cmd = args[0];
+    const [cmd, ...args] = messageParse(message.content);
 
     const manager = client.managers['command'];
 
@@ -28,13 +27,58 @@ module.exports = (client, message) => {
     /**
      * If command is unique
      */
-    if (command.unique && args.length > 1) return;
+    if (command.options.unique && args.length > 0) return;
 
-    try {
-        command.action(message, args);
-    }
-    catch (err) {
-        console.log(err);
-    }
+    command.action(message, args);
 
+    if (command.options.delete > -1)
+        message.delete({timeout: command.options.delete});
 };
+
+/**
+ *  A more powerful message parsing, allows escaping characters (\) and quotes ("").
+ * @param {string} content
+ * @return {string[]} args
+ */
+function messageParse(content) {
+    let args = [];
+    let buffer = "";
+    let inQuote = false;
+    let escaped = false;
+    let ready = false;
+    for (let char of content) {
+        if (escaped) {
+            buffer += char;
+            escaped = false;
+        }
+        else if (char === '"') {
+            if (inQuote) {
+                ready = true;
+                inQuote = false;
+            }
+            else {
+                inQuote = true;
+            }
+        }
+        else if (char === ' ' && !inQuote) {
+            ready = true;
+        }
+        else if (char === "\\") {
+            escaped = true;
+        }
+        else {
+            buffer += char;
+        }
+        if (ready && buffer) {
+            args.push(buffer);
+        }
+        if (ready) {
+            ready = false;
+            buffer = "";
+        }
+    }
+    if (buffer) {
+        args.push(buffer);
+    }
+    return args;
+}

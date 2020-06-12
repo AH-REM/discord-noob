@@ -5,8 +5,8 @@ const Util = require('../util/Util');
 
 class Command {
 
-    constructor(client, name, values = {}) {
-
+    constructor(client, name, options = {}) {
+      
         this.client = client;
         this.name = name;
 
@@ -24,6 +24,8 @@ class Command {
 
         this.script = require(Util.getCurrentPath(client.options.scripts + this.script));
 
+        // Setting up some properties if
+      
     }
 
     /**
@@ -41,7 +43,7 @@ class Command {
      * @param {string[]} args
      */
     action(message, args) {
-        this.script.run(this, message, ...args);
+        this.script.run(this.options, message, ...args);
     }
 
 }
