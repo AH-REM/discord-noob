@@ -40,3 +40,7 @@ test:
     aliases:
         - 'test2'
     delete: 1500
+
+echo:
+    script: 'echo'
+    delete: 1500

@@ -7,8 +7,6 @@ const Util = require('../util/Util');
 class Command {
 
     constructor(client, name, options = {}) {
-        super();
-
         this.client = client;
         this.name = name;
 
