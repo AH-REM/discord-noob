@@ -1,4 +1,22 @@
-module.exports = (options, message) => {
+'use strict';
+
+const Discord = require('discord.js');
+
+const DefaultOptions = {
+    message: {
+        guild: null,
+        channel: null,
+        content: new Array(),
+        react: new Array()
+    },
+    aliases: new Array(),
+    delete: -1
+};
+
+exports.run = (options, message) => {
+
+    options = Discord.Util.mergeDefault(DefaultOptions, options);
+
     const response = getMessage(options);
     if (response) {
 
@@ -10,32 +28,33 @@ module.exports = (options, message) => {
             .catch(console.error);
 
     }
+
+    if (options.delete > -1)
+        message.delete({timeout: options.delete});
+};
+
+exports.isAvailable = () => {
+    return true;
 };
 
 function getMessage(options) {
-    const rand = Math.floor(Math.random() * options.content.length);
-    return options.content[rand];
+    const rand = Math.floor(Math.random() * options.message.content.length);
+    return options.message.content[rand];
 }
 
 function getChannel(options, message) {
-    try {
-        const { client } = message;
-        const { guild, channel } = options;
+    const { client } = message;
+    const { guild, channel } = options.message;
 
-        if (guild && channel) {
-            const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
-            return chan;
-        }
-        else return message.channel;
+    if (guild && channel) {
+        const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
+        return chan;
     }
-    catch (err) {
-        // return err ?
-        return message.channel;
-    }
+    else return message.channel;
 }
 
 function addReact(options, message) {
-    const { react } = options;
+    const { react } = options.message;
     if (react.length < 1) return;
     for (let emoji of react) {
         // Gérer les erreurs

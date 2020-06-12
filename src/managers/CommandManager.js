@@ -19,17 +19,17 @@ class CommandManager {
 
         const { prefix } = client.options;
 
-        for (let [ name, options ] of Object.entries(json)) {
+        for (let [ name, values ] of Object.entries(json)) {
 
-            const cmd = new Command(client, name, options);
+            const cmd = new Command(client, name, values);
             if (cmd.isAvailable()) {
 
-                name = cmd.options.prefix ? prefix + name : name;
+                name = cmd.prefix ? prefix + name : name;
 
                 this.cache.commands.set(name, cmd);
 
-                for (let alias of cmd.options.aliases) {
-                    alias = cmd.options.prefix ? prefix + alias : alias;
+                for (let alias of cmd.aliases) {
+                    alias = cmd.prefix ? prefix + alias : alias;
                     this.cache.aliases.set(alias, name);
                 }
 

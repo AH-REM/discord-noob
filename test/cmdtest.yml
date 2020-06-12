@@ -2,45 +2,45 @@ hello:
     prefix: false
     unique: true
     script: 'message'
-    script_options:
-        content:
-            - 'world'
+    options:
+        message:
+            content:
+                - 'world'
 
 re:
     prefix: false
     unique: true
     script: 'message'
-    script_options:
-        content:
-            - 'nard'
-            - 'quin'
-            - 'tour'
+    options:
+        message:
+            content:
+                - 'nard'
+                - 'quin'
+                - 'tour'
     aliases:
         - 'reuh'
 
 ping:
     unique: true
     script: 'message'
-    script_options:
-        content:
-            - 'pong'
-        react:
-            - '🏓'
+    options:
+        message:
+            content:
+                - 'pong'
+            react:
+                - '🏓'
 
 test:
     script: 'message'
-    script_options:
-        guild: '711916266352541696'
-        channel: '711922686108106883'
-        content:
-            - 'Je suis un test'
-        react:
-            - '❤️'
-            - '🥰'
     aliases:
         - 'test2'
-    delete: 1500
-
-echo:
-    script: 'echo'
-    delete: 1500
+    options:
+        message:
+            guild: '711916266352541696'
+            channel: '711922686108106883'
+            content:
+                - 'Je suis un test'
+            react:
+                - '❤️'
+                - '🥰'
+        delete: 1500
