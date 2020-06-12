@@ -10,6 +10,8 @@ exports.DefaultOptions = {
 
     status: 'online',
 
+    scripts: './scripts/',
+
     // activity: {
     //
     //     name: 'test',
@@ -17,17 +19,4 @@ exports.DefaultOptions = {
     //
     // }
 
-};
-
-/**
- * Options for a command.
- * @return {Object}
- */
-exports.DefaultCommand = {
-
-    prefix: true,
-    unique: false,
-    aliases: new Array(),
-    options: new Object()
-    
 };

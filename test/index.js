@@ -13,7 +13,8 @@
         activity: {
             name: 'des grenouilles.',
             type: 'WATCHING'
-        }
+        },
+        scripts: './scripts/'
     });
 
     await noob.load('command', './cmdtest.yml');
