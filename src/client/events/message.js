@@ -9,40 +9,88 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const args = message.content.split(' ');
+    const args = messageParse(message.content);
     const cmd = args[0];
 
-    const Manager = client.managers['command'];
+    const manager = client.managers['command'];
 
     /**
      * Get command
      */
-    let Command;
-    if (Manager.cache.commands.has(cmd)) {
-        Command = Manager.cache.commands.get(cmd);
-    } else if (Manager.cache.aliases.has(cmd)) {
-        Command = Manager.cache.commands.get(Manager.cache.aliases.get(cmd));
+    let command;
+    if (manager.cache.commands.has(cmd)) {
+        command = manager.cache.commands.get(cmd);
+    } else if (manager.cache.aliases.has(cmd)) {
+        command = manager.cache.commands.get(manager.cache.aliases.get(cmd));
     }
     else return;
 
     /**
      * If command is unique
      */
-    if (Command.options.unique && args.length > 1) return;
+    if (command.options.unique && args.length > 1) return;
 
-    const response = Command.getMessage();
+    const response = command.getMessage();
     if (response) {
 
-        const channel = Command.getChannel(message);
+        const channel = command.getChannel(message);
         channel.send(response)
         .then(m => {
-            Command.addReact(m);
+            command.addReact(m);
         })
         .catch(console.error);
 
     }
 
-    if (Command.options.delete > -1)
-        message.delete({ timeout: Command.options.delete });
+    if (command.options.delete > -1)
+        message.delete({ timeout: command.options.delete });
 
 };
+
+/**
+ *  A more powerful message parsing, allows escaping characters (\) and quotes ("").
+ * @param {string} content
+ * @return {string[]} args
+ */
+function messageParse(content) {
+    let args = [];
+    let buffer = "";
+    let inQuote = false;
+    let escaped = false;
+    let ready = false;
+    for (let char of content) {
+        if (escaped) {
+            buffer += char;
+            escaped = false;
+        }
+        else if (char === '"') {
+            if (inQuote) {
+                ready = true;
+                inQuote = false;
+            }
+            else {
+                inQuote = true;
+            }
+        }
+        else if (char === ' ' && !inQuote) {
+            ready = true;
+        }
+        else if (char === "\\") {
+            escaped = true;
+        }
+        else {
+            buffer += char;
+        }
+        if (ready && buffer) {
+            args.push(buffer);
+        }
+        if (ready) {
+            ready = false;
+            buffer = "";
+        }
+    }
+    if (buffer) {
+        args.push(buffer);
+    }
+    return args;
+}
