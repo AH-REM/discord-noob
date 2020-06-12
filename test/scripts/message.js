@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-const options = {
+const DefaultOptions = {
     message: {
         guild: null,
         channel: null,
@@ -13,38 +13,38 @@ const options = {
     delete: -1
 };
 
-exports.run = (command, message) => {
+exports.run = (options, message) => {
 
-    command.options = Discord.Util.mergeDefault(options, command.options);
+    options = Discord.Util.mergeDefault(DefaultOptions, options);
 
-    const response = getMessage(command);
+    const response = getMessage(options);
     if (response) {
 
-        const channel = getChannel(command, message);
+        const channel = getChannel(options, message);
         channel.send(response)
             .then(m => {
-                addReact(command, m);
+                addReact(options, m);
             })
             .catch(console.error);
 
     }
 
-    if (command.options.delete > -1)
-        message.delete({timeout: command.options.delete});
+    if (options.delete > -1)
+        message.delete({timeout: options.delete});
 };
 
 exports.isAvailable = () => {
     return true;
 };
 
-function getMessage(command) {
-    const rand = Math.floor(Math.random() * command.options.message.content.length);
-    return command.options.message.content[rand];
+function getMessage(options) {
+    const rand = Math.floor(Math.random() * options.message.content.length);
+    return options.message.content[rand];
 }
 
-function getChannel(command, message) {
+function getChannel(options, message) {
     const { client } = message;
-    const { guild, channel } = command.options.message;
+    const { guild, channel } = options.message;
 
     if (guild && channel) {
         const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
@@ -53,8 +53,8 @@ function getChannel(command, message) {
     else return message.channel;
 }
 
-function addReact(command, message) {
-    const { react } = command.options.message;
+function addReact(options, message) {
+    const { react } = options.message;
     if (react.length < 1) return;
     for (let emoji of react) {
         // Gérer les erreurs
