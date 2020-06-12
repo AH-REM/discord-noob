@@ -5,7 +5,7 @@ const Util = require('../util/Util');
 
 class Command {
 
-    constructor(client, name, options = {}) {
+    constructor(client, name, values = {}) {
       
         this.client = client;
         this.name = name;
@@ -25,7 +25,7 @@ class Command {
         this.script = require(Util.getCurrentPath(client.options.scripts + this.script));
 
         // Setting up some properties if
-      
+
     }
 
     /**
