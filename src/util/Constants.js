@@ -27,13 +27,7 @@ exports.DefaultCommand = {
 
     prefix: true,
     unique: false,
-    message: {
-        guild: null,
-        channel: null,
-        content: new Array(),
-        react: new Array()
-    },
     aliases: new Array(),
-    delete: -1
-
+    options: new Object()
+    
 };

@@ -1,14 +1,16 @@
 hello:
     prefix: false
     unique: true
-    message:
+    script: 'message'
+    options:
         content:
             - 'world'
 
 re:
     prefix: false
     unique: true
-    message:
+    script: 'message'
+    options:
         content:
             - 'nard'
             - 'quin'
@@ -18,21 +20,24 @@ re:
 
 ping:
     unique: true
-    message:
+    script: 'message'
+    options:
         content:
             - 'pong'
         react:
             - '🏓'
 
 test:
-    message:
-        guild: '711916266352541696'
-        channel: '711922686108106883'
-        content:
-            - 'Je suis un test'
-        react:
-            - '❤️'
-            - '🥰'
+    script: 'message'
     aliases:
         - 'test2'
-    delete: 1500
+    options:
+        message:
+            guild: '711916266352541696'
+            channel: '711922686108106883'
+            content:
+                - 'Je suis un test'
+            react:
+                - '❤️'
+                - '🥰'
+        delete: 1500
