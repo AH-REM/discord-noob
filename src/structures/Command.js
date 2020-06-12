@@ -30,6 +30,9 @@ class Command {
      * @return {boolean}
      */
     isAvailable() {
+        if (this.script.isAvailable) {
+            return !!this.script.isAvailable();
+        }
         return true;
     }
 
@@ -38,7 +41,7 @@ class Command {
      * @param {string[]} args
      */
     action(message, args) {
-        this.script(this, message, ...args);
+        this.script.run(this, message, ...args);
     }
 
 }

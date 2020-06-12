@@ -13,10 +13,10 @@ const options = {
     delete: -1
 };
 
-module.exports = (command, message) => {
+exports.run = (command, message) => {
 
     command.options = Discord.Util.mergeDefault(options, command.options);
-    
+
     const response = getMessage(command);
     if (response) {
 
@@ -31,6 +31,10 @@ module.exports = (command, message) => {
 
     if (command.options.delete > -1)
         message.delete({timeout: command.options.delete});
+};
+
+exports.isAvailable = () => {
+    return true;
 };
 
 function getMessage(command) {
