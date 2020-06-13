@@ -65,3 +65,17 @@ osu:
         roles:
             # role name
             - osu
+
+# A group is basically a command that holds other commands
+groupe:
+    commands:
+        echo:
+            script: 'echo'
+            options:
+                delete: 1500
+    # A script can be executed if no command fits the 2nd word
+    script: 'message'
+    options:
+        message:
+            content:
+                - 'Fait groupe echo <mot>'
