@@ -1,5 +1,7 @@
 'use_strict';
 
+const Group = require('../../structures/Group');
+
 /**
  * @param {Client} client
  * @param {Message} message
@@ -9,27 +11,28 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const [cmd, ...args] = messageParse(message.content);
+    const [command] = messageParse(message.content);
+    const { prefix } = client.options;
+    let commandFound = false;
 
     const manager = client.managers['command'];
 
     /**
      * Get command
      */
-    let command;
-    if (manager.cache.commands.has(cmd)) {
-        command = manager.cache.commands.get(cmd);
-    } else if (manager.cache.aliases.has(cmd)) {
-        command = manager.cache.commands.get(manager.cache.aliases.get(cmd));
+    if (command.startsWith(prefix)) {
+        let noPrefix = message.content.split('').slice(prefix.length).join('');
+        commandFound = commandHandler(message, noPrefix, manager.cache, [], true);
     }
-    else return;
+
+    if (!commandFound) {
+        commandHandler(message, message.content, manager.cache, []);
+    }
 
     /**
-     * If command is unique
+     * If command is unique, TODO: parsing scripts to know the needed arguments and use that instead
      */
-    if (command.options.unique && args.length > 0) return;
-
-    command.action(message, args);
+    // if (command.options.unique && args.length > 0) return;
 
     // if (command.options.delete > -1)
     //     message.delete({timeout: command.options.delete});
@@ -82,4 +85,43 @@ function messageParse(content) {
         args.push(buffer);
     }
     return args;
+}
+
+/**
+ * Loops in a commandHolder commands to find the one being called, used recursively for Groups.
+ * @param {Discord.Message} message
+ * @param {string} content
+ * @param {Client|Group} commandHolder
+ * @param {string[]} pastArgs
+ * @param {boolean} prefix
+ *
+ * @return {boolean} - If a command has been found
+ */
+function commandHandler(message, content, commandHolder, pastArgs = [], prefix = false) {
+    const [name, ...args] = messageParse(content);
+    let rawArgs = args.join(" ");
+    let command;
+
+    if (commandHolder.commands.has(name)) {
+        command = commandHolder.commands.get(name);
+    } else if (commandHolder.aliases.has(name)) {
+        command = commandHolder.aliases.get(name);
+    } else if (commandHolder instanceof Group) {
+        commandHolder.action(message, pastArgs);
+        return true;
+    } else {
+        return false;
+    }
+
+    if (command.prefix === prefix) {
+        if (command instanceof Group) {
+            return commandHandler(message, rawArgs, command.manager.cache, args);
+        } else {
+            command.action(message, args);
+            return true;
+        }
+    }
+    else {
+        return false;
+    }
 }

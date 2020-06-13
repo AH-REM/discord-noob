@@ -5,14 +5,14 @@ const Util = require('../util/Util');
 
 class Command {
 
-    constructor(client, name, values = {}) {
+    constructor(client, prefixDefault, name, values = {}) {
       
         this.client = client;
         this.name = name;
 
         const { prefix, unique, aliases, script } = values;
 
-        this.prefix = prefix !== undefined ? prefix : true;
+        this.prefix = prefix !== undefined ? prefix : prefixDefault;
 
         this.unique = unique !== undefined ? unique : false;
 
