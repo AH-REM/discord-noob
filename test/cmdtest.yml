@@ -50,6 +50,12 @@ echo:
     options:
         delete: 1500
 
+rand:
+    script: 'rand'
+    options:
+        message: '{author}, tu as choisit le nombre **{rand:11}** !'
+        delete: 1500
+
 osu:
     unique: true
     options:
