@@ -43,7 +43,8 @@ class Command {
      * @param {string[]} args
      */
     action(message, args) {
-        this.script.run(this.options, message, ...args);
+        const func = this.script.run || this.script;
+        func(this.options, message, ...args);
     }
 
 }
