@@ -1,6 +1,6 @@
 'use strict';
 
-exports.run = (command, message, content) => {
+module.exports = (options, message, content) => {
     message.channel.send(content)
         .catch(console.error);
 };
