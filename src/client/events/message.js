@@ -11,22 +11,20 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const [command] = messageParse(message.content);
+    const args = messageParse(message.content);
     const { prefix } = client.options;
     let commandFound = false;
-
-    const manager = client.managers['command'];
 
     /**
      * Get command
      */
-    if (command.startsWith(prefix)) {
-        let noPrefix = message.content.split('').slice(prefix.length).join('');
-        commandFound = commandHandler(message, noPrefix, manager.cache, [], true);
+    if (args[0].startsWith(prefix)) {
+        let noPrefixMessage = message.content.split('').slice(prefix.length).join('');
+        commandFound = commandHandler(message, client, messageParse(noPrefixMessage), true);
     }
 
     if (!commandFound) {
-        commandHandler(message, message.content, manager.cache, []);
+        commandHandler(message, client, args);
     }
 
     /**
@@ -97,15 +95,14 @@ function messageParse(content) {
  *
  * @return {boolean} - If a command has been found
  */
-function commandHandler(message, content, commandHolder, pastArgs = [], prefix = false) {
-    const [name, ...args] = messageParse(content);
-    let rawArgs = args.join(" ");
+function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
+    const [name, ...args] = pastArgs;
     let command;
 
-    if (commandHolder.commands.has(name)) {
-        command = commandHolder.commands.get(name);
-    } else if (commandHolder.aliases.has(name)) {
-        command = commandHolder.aliases.get(name);
+    if (commandHolder.managers['command'].cache.commands.has(name)) {
+        command = commandHolder.managers['command'].cache.commands.get(name);
+    } else if (commandHolder.managers['command'].cache.aliases.has(name)) {
+        command = commandHolder.managers['command'].cache.aliases.get(name);
     } else if (commandHolder instanceof Group) {
         commandHolder.action(message, pastArgs);
         return true;
@@ -115,7 +112,7 @@ function commandHandler(message, content, commandHolder, pastArgs = [], prefix =
 
     if (command.prefix === prefix) {
         if (command instanceof Group) {
-            return commandHandler(message, rawArgs, command.manager.cache, args);
+            return commandHandler(message, command, args);
         } else {
             command.action(message, args);
             return true;

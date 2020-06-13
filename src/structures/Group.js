@@ -7,8 +7,9 @@ class Group extends Command {
     constructor(client, prefix, name, values = {}) {
         super(client, prefix, name, values);
 
-        this.manager = new CommandManager(false);
-        this.manager.load(client, values.commands);
+        this.managers = [];
+        this.managers['command'] = new CommandManager(false);
+        this.managers['command'].load(client, values.commands);
     }
 }
 
