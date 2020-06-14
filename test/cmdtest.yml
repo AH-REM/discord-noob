@@ -79,3 +79,22 @@ groupe:
         message:
             content:
                 - 'Fait groupe echo <mot>'
+
+superping:
+    script: 'message'
+    options:
+        message:
+            content:
+                - 'superpong'
+            react:
+                - '🏓'
+        hasRole:
+            role: 'Test'
+            onError: 'message'
+            message:
+                content:
+                    - 'Nope'
+                react:
+                    - '❌'
+    checks:
+        - 'hasRole'

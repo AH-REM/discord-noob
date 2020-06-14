@@ -14,7 +14,8 @@
             name: 'des grenouilles.',
             type: 'WATCHING'
         },
-        scripts: './scripts/'
+        scripts: './scripts/',
+        checks: './checks/'
     });
 
     await noob.load('command', './cmdtest.yml');
