@@ -88,7 +88,6 @@ function messageParse(content) {
 /**
  * Loops in a commandHolder commands to find the one being called, used recursively for Groups.
  * @param {Discord.Message} message
- * @param {string} content
  * @param {Client|Group} commandHolder
  * @param {string[]} pastArgs
  * @param {boolean} prefix
@@ -110,7 +109,7 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
         return false;
     }
 
-    if (command.prefix === prefix) {
+    if (command.prefix === prefix && command.validateChecks(message, false)) {
         if (command instanceof Group) {
             return commandHandler(message, command, args);
         } else {

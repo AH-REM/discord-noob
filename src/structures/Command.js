@@ -2,6 +2,7 @@
 
 const { DefaultCommand } = require('../util/Constants');
 const Util = require('../util/Util');
+const Check = require('./Check');
 
 class Command {
 
@@ -22,6 +23,8 @@ class Command {
 
         this.options = values.options ? values.options : new Object();
 
+        this.checks = values.checks ? values.checks.map((name) => new Check(client, name, this.options[name])) : [];
+
         this.script = require(Util.getCurrentPath(client.options.scripts + this.script));
 
         // Setting up some properties if
@@ -34,6 +37,22 @@ class Command {
     isAvailable() {
         if (this.script.isAvailable) {
             return !!this.script.isAvailable();
+        }
+        return true;
+    }
+
+    /**
+     * Checks that the message that called the Command fulfils all
+     * @param message
+     * @param silent - if the check should perform the onError script or jus run silently.
+     *
+     * @returns {boolean}
+     */
+    validateChecks(message, silent) {
+        for (let check of this.checks) {
+            if (!check.validate(message, silent)) {
+                return false;
+            }
         }
         return true;
     }
