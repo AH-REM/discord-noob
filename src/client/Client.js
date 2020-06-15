@@ -5,6 +5,7 @@ const { DefaultOptions } = require('../util/Constants');
 const EventLoader = require('./events/EventLoader');
 const Loader = require('./loader/Loader');
 const Managers = require('../managers/Managers');
+const SlugManager = require('../managers/SlugManager');
 
 class Client {
 
@@ -22,6 +23,8 @@ class Client {
         this.options = Discord.Util.mergeDefault(DefaultOptions, options);
 
         this.managers = new Managers();
+        
+        this.slugs = new SlugManager();
 
         /**
          * Load all listeners.
