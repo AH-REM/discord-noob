@@ -17,4 +17,9 @@ module.exports = client => {
         bot.user.setPresence({ activity: options.activity }).catch(console.error);
     }
 
+    // Exec all action
+    for (let [ name, action ] of client.managers['ready'].cache) {
+        action.run(bot);
+    }
+
 };

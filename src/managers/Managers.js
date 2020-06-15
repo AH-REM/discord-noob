@@ -7,6 +7,7 @@ class Managers {
     constructor() {
 
         this.register(req('Command'));
+        this.register(req('Ready'));
 
     }
 

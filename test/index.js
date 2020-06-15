@@ -19,6 +19,7 @@
     });
 
     await noob.load('command', './cmdtest.yml');
+    await noob.load('ready', './actiontest.yml');
 
     noob.start();
 

@@ -1,0 +1,4 @@
+test:
+    script: 'ready'
+    options:
+        console: 'Hello World !'
