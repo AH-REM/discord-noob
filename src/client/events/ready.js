@@ -19,7 +19,7 @@ module.exports = client => {
 
     // Exec all action
     for (let [ name, action ] of client.managers['ready'].cache) {
-        action.run(bot);
+        action.run(client);
     }
 
 };

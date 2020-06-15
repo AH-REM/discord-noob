@@ -14,15 +14,15 @@ class Action {
         this.options = options || new Object();
 
         script = script || 'ready';
-        this.script = require(Util.getCurrentPath(client.options.scripts + script));
+        this.script = require(Util.getCurrentPath(client.noobOptions.scripts + script));
 
     }
 
     /**
-     * @param {Discord.Client} bot
+     * @param {Client} client
      */
-    run(bot) {
-        this.script(bot, this.options);
+    run(client) {
+        this.script(client, this.options);
     }
 
 }
