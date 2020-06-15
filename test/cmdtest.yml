@@ -54,10 +54,13 @@ echo:
     description: 'echo echo'
 
 rand:
-    script: 'rand'
+    script: 'message'
     options:
-        message: '{author}, tu as choisit le nombre **{rand:11}** !'
-        delete: 1500
+        message:
+            raw: false
+            content:
+                - '{author}, tu as choisit le nombre **{rand:11}** !'
+        # delete: 1500
     description: 'Feeling lucky?'
 
 osu:
