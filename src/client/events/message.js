@@ -12,7 +12,7 @@ module.exports = (client, message) => {
     if (message.author.bot || message.webhookID) return;
 
     const args = messageParse(message.content);
-    const { prefix } = client.options;
+    const { prefix } = client.noobOptions;
     let commandFound = false;
 
     /**

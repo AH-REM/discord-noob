@@ -4,11 +4,11 @@ const Util = require('../util/Util');
 
 class Check {
     constructor(client, name, options) {
-        this.check = require(Util.getCurrentPath(client.options.checks + name));
+        this.check = require(Util.getCurrentPath(client.noobOptions.checks + name));
 
         this.options = options? options : {};
 
-        this.onError = require(Util.getCurrentPath(client.options.scripts + options.onError));
+        this.onError = require(Util.getCurrentPath(client.noobOptions.scripts + options.onError));
     }
 
     /**

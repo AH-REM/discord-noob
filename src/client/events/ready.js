@@ -5,16 +5,16 @@
  */
 module.exports = client => {
 
-    const { bot, options } = client;
+    const { noobOptions } = client;
 
-    console.log(`${bot.user.tag} is online and ready to serve ${bot.guilds.cache.size} servers.`);
+    console.log(`${client.user.tag} is online and ready to serve ${client.guilds.cache.size} servers.`);
 
     // Set the client user's status
-    bot.user.setStatus(options.status).catch(console.error);
+    client.user.setStatus(noobOptions.status).catch(console.error);
 
     // Set the client user's presence
-    if (options.activity) {
-        bot.user.setPresence({ activity: options.activity }).catch(console.error);
+    if (noobOptions.activity) {
+        client.user.setPresence({ activity: noobOptions.activity }).catch(console.error);
     }
 
 };
