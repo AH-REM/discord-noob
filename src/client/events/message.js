@@ -4,7 +4,7 @@ const Group = require('../../structures/Group');
 
 /**
  * @param {Client} client
- * @param {Message} message
+ * @param {Discord.Message} message
  */
 module.exports = (client, message) => {
 
@@ -19,8 +19,9 @@ module.exports = (client, message) => {
      * Get command
      */
     if (args[0].startsWith(prefix)) {
-        let noPrefixMessage = message.content.split('').slice(prefix.length).join('');
-        commandFound = commandHandler(message, client, messageParse(noPrefixMessage), true);
+        args[0] = args[0].substr(prefix.length);
+        commandFound = commandHandler(message, client, args, true);
+        args[0] = prefix + args[0];
     }
 
     if (!commandFound) {

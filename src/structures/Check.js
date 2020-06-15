@@ -13,16 +13,16 @@ class Check {
 
     /**
      * Verifies that the check condition is fulfilled, if not silent it'll also run the onError script when it doesn't.
-     * @param message
+     * @param eventEmitter
      * @param silent
      * @returns {boolean}
      */
-    validate(message, silent) {
-        if (this.check.run(this.options, message)) {
+    validate(eventEmitter, silent) {
+        if (this.check.run(this.options, eventEmitter)) {
             return true;
         } else if (!silent){
             const func = this.onError.run || this.onError;
-            func(this.options, message);
+            func(this.options, eventEmitter);
         }
         return false;
     };

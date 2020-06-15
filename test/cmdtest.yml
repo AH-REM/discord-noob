@@ -98,3 +98,17 @@ superping:
                     - '❌'
     checks:
         - 'hasRole'
+
+owner:
+    script: 'message'
+    options:
+        message:
+            content:
+                - 'Tu es le propriétaire de cette guilde'
+        guildOwner:
+            onError: 'message'
+            message:
+                content:
+                    - "Tu n'es pas le propriétaire de cette guilde"
+    checks:
+        - 'guildOwner'
