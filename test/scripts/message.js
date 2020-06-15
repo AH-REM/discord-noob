@@ -1,9 +1,12 @@
 'use strict';
 
 const Discord = require('discord.js');
+// const Noob = require('discord-noob');
+const Noob = require('../../src/');
 
 const DefaultOptions = {
     message: {
+        raw: true,
         guild: null,
         channel: null,
         content: new Array(),
@@ -20,8 +23,12 @@ exports.run = (options, message) => {
 
     addRole(options, message);
 
-    const response = getMessage(options);
+    let response = getMessage(options);
     if (response) {
+
+        if (!options.raw) {
+            response = Noob.parserMessage(message.client, message, response);
+        }
 
         const channel = getChannel(options, message);
         channel.send(response)
