@@ -7,10 +7,8 @@ const req = event => require(`./${event}`);
  */
 module.exports = client => {
 
-    const { bot } = client;
+    client.on('ready', () => req('ready')(client));
 
-    bot.on('ready', () => req('ready')(client));
-
-    bot.on('message', message => req('message')(client, message));
+    client.on('message', message => req('message')(client, message));
 
 };

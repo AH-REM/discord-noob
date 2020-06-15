@@ -7,20 +7,20 @@ const Loader = require('./loader/Loader');
 const Managers = require('../managers/Managers');
 const SlugManager = require('../managers/SlugManager');
 
-class Client {
+class Client extends Discord.Client{
 
     /**
      * @param {Object} options - Options for the client
      */
     constructor(options = {}) {
 
-        this.bot = new Discord.Client();
+        super();
 
         /**
          * Sets default properties on an object that aren't already specified.
          * @type {Object}
          */
-        this.options = Discord.Util.mergeDefault(DefaultOptions, options);
+        this.noobOptions = Discord.Util.mergeDefault(DefaultOptions, options);
 
         this.managers = new Managers();
         
@@ -34,8 +34,7 @@ class Client {
     }
 
     start() {
-        this.bot
-            .login(this.options.token)
+        this.login(this.noobOptions.token)
             .catch(console.error);
     }
 

@@ -18,8 +18,6 @@ class CommandManager {
      */
     load(client, json) {
 
-        //const { prefix } = client.options;
-
         for (let [ name, values ] of Object.entries(json)) {
             let cmd;
 
@@ -34,12 +32,9 @@ class CommandManager {
 
             if (cmd.isAvailable()) {
 
-                //name = cmd.prefix ? prefix + name : name;
-
                 this.cache.commands.set(name, cmd);
 
                 for (let alias of cmd.aliases) {
-                    //alias = cmd.prefix ? prefix + alias : alias;
                     this.cache.aliases.set(alias, cmd);
                 }
 

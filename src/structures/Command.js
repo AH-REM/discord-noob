@@ -10,6 +10,7 @@ class Command {
       
         this.client = client;
         this.name = name;
+        this.values = values;
 
         const { prefix, unique, aliases, script } = values;
 
@@ -25,7 +26,7 @@ class Command {
 
         this.checks = values.checks ? values.checks.map((name) => new Check(client, name, this.options[name])) : [];
 
-        this.script = require(Util.getCurrentPath(client.options.scripts + this.script));
+        this.script = require(Util.getCurrentPath(client.noobOptions.scripts + this.script));
 
         // Setting up some properties if
 

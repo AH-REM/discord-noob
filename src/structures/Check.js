@@ -4,25 +4,25 @@ const Util = require('../util/Util');
 
 class Check {
     constructor(client, name, options) {
-        this.check = require(Util.getCurrentPath(client.options.checks + name));
+        this.check = require(Util.getCurrentPath(client.noobOptions.checks + name));
 
         this.options = options? options : {};
 
-        this.onError = require(Util.getCurrentPath(client.options.scripts + options.onError));
+        this.onError = require(Util.getCurrentPath(client.noobOptions.scripts + options.onError));
     }
 
     /**
      * Verifies that the check condition is fulfilled, if not silent it'll also run the onError script when it doesn't.
-     * @param message
+     * @param eventEmitter
      * @param silent
      * @returns {boolean}
      */
-    validate(message, silent) {
-        if (this.check.run(this.options, message)) {
+    validate(eventEmitter, silent) {
+        if (this.check.run(this.options, eventEmitter)) {
             return true;
         } else if (!silent){
             const func = this.onError.run || this.onError;
-            func(this.options, message);
+            func(this.options, eventEmitter);
         }
         return false;
     };

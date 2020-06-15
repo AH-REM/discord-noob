@@ -29,6 +29,7 @@ ping:
                 - 'pong'
             react:
                 - '🏓'
+    description: 'Pong !'
 
 test:
     script: 'message'
@@ -44,17 +45,20 @@ test:
                 - '❤️'
                 - '🥰'
         delete: 1500
+    hidden: true
 
 echo:
     script: 'echo'
     options:
         delete: 1500
+    description: 'echo echo'
 
 rand:
     script: 'rand'
     options:
         message: '{author}, tu as choisit le nombre **{rand:11}** !'
         delete: 1500
+    description: 'Feeling lucky?'
 
 osu:
     unique: true
@@ -65,6 +69,7 @@ osu:
         roles:
             # role name
             - osu
+    hidden: true
 
 # A group is basically a command that holds other commands
 groupe:
@@ -73,12 +78,14 @@ groupe:
             script: 'echo'
             options:
                 delete: 1500
+            description: 'Echo in a group'
     # A script can be executed if no command fits the 2nd word
     script: 'message'
     options:
         message:
             content:
                 - 'Fait groupe echo <mot>'
+    description: 'Test des groupes'
 
 superping:
     script: 'message'
@@ -98,3 +105,27 @@ superping:
                     - '❌'
     checks:
         - 'hasRole'
+    description: 'Superpong !'
+
+owner:
+    script: 'message'
+    options:
+        message:
+            content:
+                - 'Tu es le propriétaire de cette guilde'
+        guildOwner:
+            onError: 'message'
+            message:
+                content:
+                    - "Tu n'es pas le propriétaire de cette guilde"
+    checks:
+        - 'guildOwner'
+    description: 'Are you the owner?'
+
+help:
+    script: 'help'
+    options:
+        help:
+            color: '#b51b5b'
+    description: 'This command'
+    usage: 'command'
