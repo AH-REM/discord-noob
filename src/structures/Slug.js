@@ -7,33 +7,17 @@ class Slug {
         this.func = func;
     }
 
-    exec(arg, member) {
+    exec(eventEmitter, arg) {
         try {
-            const result = this.func(arg, member);
+            const result = this.func(eventEmitter, arg);
             return result;
         }
         catch (err) {
+            console.log(err);
             return;
         }
     }
 
 }
-
-/*
-const Slug = {
-
-    'author': (arg, member) => {
-        return member;
-    },
-
-    'rand': (arg) => {
-        const nb = parseInt(arg + 1, 10);
-        if (!isNaN(nb)) {
-            return Math.floor(Math.random() * nb);
-        }
-    }
-
-}
-*/
 
 module.exports = Slug;

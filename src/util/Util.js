@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-// const Slug = require('./Slug');
 
 class Util {
 
@@ -19,31 +18,33 @@ class Util {
     }
 
     /**
+     * @param {Client} client
+     * @param {Object} eventEmitter
      * @param {string} content
-     * @param {Discord.Member} member
      * @return {string}
      */
-    static parserMessage(content, member) {
+    static parserMessage(client, eventEmitter, content) {
 
         let response = content;
 
-        // const arr = content.match(/[^{}]+(?=\})/g);
-        // if (arr) {
-        //
-        //     for (let str of arr) {
-        //
-        //         let [ slug, arg ] = str.trim().split(':', 2);
-        //         if (arg) arg = arg.trim();
-        //
-        //         let result;
-        //         const func = Slug[slug];
-        //         if (func) result = func(arg, member);
-        //
-        //         response = response.replace('{' + str + '}', result);
-        //
-        //     }
-        //
-        // }
+        const arr = content.match(/[^{}]+(?=\})/g);
+        if (arr) {
+
+            for (let str of arr) {
+
+                let [ name, arg ] = str.trim().split(':', 2);
+                if (arg) arg = arg.trim();
+
+                if (!client.slugs.cache.has(name)) continue;
+                const slug = client.slugs.cache.get(name);
+
+                const result = slug.exec(eventEmitter, arg);
+
+                response = response.replace('{' + str + '}', result);
+
+            }
+
+        }
 
         return response;
 

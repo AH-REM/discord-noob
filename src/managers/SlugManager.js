@@ -8,6 +8,11 @@ class SlugManager {
         this.cache = new Map();
     }
 
+    add(name, func) {
+        const slug = new Slug(name, func);
+        this.cache.set(name, slug);
+    }
+
 }
 
 module.exports = SlugManager;

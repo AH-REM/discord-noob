@@ -23,7 +23,7 @@ class Client extends Discord.Client{
         this.noobOptions = Discord.Util.mergeDefault(DefaultOptions, options);
 
         this.managers = new Managers();
-        
+
         this.slugs = new SlugManager();
 
         /**
@@ -52,6 +52,14 @@ class Client extends Discord.Client{
             else resolve();
 
         });
+    }
+
+    /**
+     * @param {string} name
+     * @param {Function} func
+     */
+    addSlug(name, func) {
+        this.slugs.add(name, func);
     }
 
 }

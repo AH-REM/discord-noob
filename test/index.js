@@ -18,6 +18,10 @@
         checks: './checks/'
     });
 
+    // Slugs
+    noob.addSlug('author', require('./slugs/author'));
+    noob.addSlug('rand', require('./slugs/rand'));
+
     await noob.load('command', './cmdtest.yml');
     await noob.load('ready', './actiontest.yml');
 
