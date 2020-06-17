@@ -53,6 +53,15 @@ echo:
         delete: 1500
     description: 'echo echo'
 
+guilds:
+    script: 'message'
+    options:
+        message:
+            raw: false
+            content:
+                - 'Le bot est sur **{guilds:size}** serveurs. Voici la liste : ```{guilds}```'
+    description: 'What are the guilds?'
+
 rand:
     script: 'message'
     options:
