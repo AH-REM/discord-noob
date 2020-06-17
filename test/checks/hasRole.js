@@ -1,26 +1,15 @@
 const Discord = require('discord.js');
+//const { Converters } = require('discord-noob');
+const { Converters } = require('../../src');
 
 exports.run = (options, eventEmitter) => {
-    let roleId = roleConverter(options.role, eventEmitter);
-    if (!roleId) {
+    let role = Converters.role(options.role, eventEmitter);
+    if (!role) {
         console.error(`No role with the ID/name ${options.role} could be found, this check will be disabled.`);
         return true;
     }
 
     if (eventEmitter instanceof Discord.Message) {
-        return eventEmitter.member.roles.cache.has(roleId);
+        return eventEmitter.member.roles.cache.has(role.id);
     }
-}
-
-function roleConverter(roleResolvable, eventEmitter) {
-    // Check if it's a roleID
-    let role = eventEmitter.guild.roles.cache.get(roleResolvable);
-    // Check if it's a role name
-    if (!role) {
-        role = eventEmitter.guild.roles.cache.find((role) => role.name === roleResolvable);
-    }
-    if (role) {
-        return role.id;
-    }
-    return null;
 }
