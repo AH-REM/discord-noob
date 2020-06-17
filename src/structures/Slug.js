@@ -7,9 +7,9 @@ class Slug {
         this.func = func;
     }
 
-    exec(eventEmitter, arg) {
+    exec(client, eventEmitter, arg) {
         try {
-            const result = this.func(eventEmitter, arg);
+            const result = this.func(client, eventEmitter, arg);
             return result;
         }
         catch (err) {

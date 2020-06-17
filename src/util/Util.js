@@ -38,7 +38,7 @@ class Util {
                 if (!client.slugs.cache.has(name)) continue;
                 const slug = client.slugs.cache.get(name);
 
-                const result = slug.exec(eventEmitter, arg);
+                const result = slug.exec(client, eventEmitter, arg);
 
                 response = response.replace('{' + str + '}', result);
 

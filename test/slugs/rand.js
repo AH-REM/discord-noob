@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-module.exports = (eventEmitter, arg) => {
+module.exports = (client, eventEmitter, arg) => {
 
     if (!arg) arg = 1;
 
