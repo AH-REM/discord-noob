@@ -33,7 +33,7 @@ exports.run = function(options, message) {
     target = target || commandHolder;
 
     if ((target instanceof Noob.Command) && !(target instanceof Noob.Group)) {
-        let usage = target.values.usage || usageParser(target);
+        let usage = target.values.usage || Noob.Command.usageParser(target);
         usage = usage ? `*${usage}*` : "";
         let field = { "name": `**${target.name} ${usage} **`, "value": `${target.values.description || 'No description'}` };
         fields.push(field);
@@ -71,31 +71,4 @@ function truncateStr(str, max) {
     if (str.length > max)
         return `${str.substr(0, max - 3)}...`;
     return str;
-}
-
-function usageParser(cmd) {
-    let funct = cmd.script.run || cmd.script;
-    let string = funct.toString();
-    let start = -1, stop = 0, inQuote = false, quote;
-    for (let charIndex in string.split("")) {
-        if (start === -1 && string[charIndex] === '(') {
-            start = Number(charIndex);
-        }
-        else if (start !== -1 && !inQuote && string[charIndex].match(/["'`]/)) {
-            quote = string[charIndex];
-            inQuote = true;
-        }
-        else if (start !== -1 && !inQuote && string[charIndex] === ')') {
-            stop = Number(charIndex);
-            break;
-        }
-        else if (start !== -1 && inQuote && string[charIndex] === quote)
-            inQuote = false;
-    }
-    let args = string.substr(start + 1, stop - start - 1)
-        .replace(/ /g, "")
-        .replace(/,/g, " ")
-        .split(" ");
-    args = args.map((word) => word.includes("=") ? `[${word.split("=")[0]}]` : word);
-    return args.slice(2).join(" ");
 }

@@ -44,13 +44,14 @@ test:
             react:
                 - '❤️'
                 - '🥰'
-        delete: 1500
+    delete: 1500
     hidden: true
 
 echo:
     script: 'echo'
     options:
-        delete: 1500
+        definedArgCount: true
+    delete: 1500
     description: 'echo echo'
 
 guilds:
@@ -69,7 +70,7 @@ rand:
             raw: false
             content:
                 - '{author}, tu as choisit le nombre **{rand:11}** !'
-        # delete: 1500
+    delete: 1500
     description: 'Feeling lucky?'
 
 osu:
@@ -84,20 +85,19 @@ osu:
     hidden: true
 
 # A group is basically a command that holds other commands
-groupe:
+group:
     commands:
         echo:
             script: 'echo'
-            options:
-                delete: 1500
+            delete: 1500
             description: 'Echo in a group'
     # A script can be executed if no command fits the 2nd word
     script: 'message'
     options:
         message:
             content:
-                - 'Fait groupe echo <mot>'
-    description: 'Test des groupes'
+                - 'Usage: group echo <word>'
+    description: 'Test of command groups'
 
 superping:
     script: 'message'

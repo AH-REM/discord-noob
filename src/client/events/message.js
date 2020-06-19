@@ -32,9 +32,6 @@ module.exports = (client, message) => {
      * If command is unique, TODO: parsing scripts to know the needed arguments and use that instead
      */
     // if (command.options.unique && args.length > 0) return;
-
-    // if (command.options.delete > -1)
-    //     message.delete({timeout: command.options.delete});
     
 };
 
@@ -104,7 +101,13 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
     } else if (commandHolder.managers['command'].cache.aliases.has(name)) {
         command = commandHolder.managers['command'].cache.aliases.get(name);
     } else if (commandHolder instanceof Group) {
+        if (commandHolder.options.definedArgCount && (args.length < commandHolder.options.minArgs || args.length > commandHolder.options.maxArgs)){
+                message.channel.send(commandHolder.options.argCountError || 'Incorrect amount of arguments provided');
+                return true;
+        }
         commandHolder.action(message, pastArgs);
+        if (commandHolder.options.delete > -1)
+            message.delete({timeout: commandHolder.options.delete});
         return true;
     } else {
         return false;
@@ -114,7 +117,13 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
         if (command instanceof Group) {
             return commandHandler(message, command, args);
         } else {
+            if (command.options.definedArgCount && (args.length < command.options.minArgs || args.length > command.options.maxArgs)){
+                message.channel.send(command.options.argCountError || 'Incorrect amount of arguments provided');
+                return true;
+            }
             command.action(message, args);
+            if (command.options.delete > -1)
+                message.delete({timeout: command.options.delete});
             return true;
         }
     }
