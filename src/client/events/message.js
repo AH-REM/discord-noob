@@ -102,7 +102,8 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
         command = commandHolder.managers['command'].cache.aliases.get(name);
     } else if (commandHolder instanceof Group) {
         if (commandHolder.options.definedArgCount && (args.length < commandHolder.options.minArgs || args.length > commandHolder.options.maxArgs)){
-                message.channel.send(commandHolder.options.argCountError || 'Incorrect amount of arguments provided');
+                if (commandHolder.options.argCountError)
+                    message.channel.send(commandHolder.options.argCountError);
                 return true;
         }
         commandHolder.action(message, pastArgs);

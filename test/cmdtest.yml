@@ -1,6 +1,5 @@
 hello:
     prefix: false
-    unique: true
     script: 'message'
     options:
         message:
@@ -9,7 +8,6 @@ hello:
 
 re:
     prefix: false
-    unique: true
     script: 'message'
     options:
         message:
@@ -21,7 +19,6 @@ re:
         - 'reuh'
 
 ping:
-    unique: true
     script: 'message'
     options:
         message:

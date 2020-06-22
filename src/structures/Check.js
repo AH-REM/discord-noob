@@ -8,7 +8,10 @@ class Check {
 
         this.options = options? options : {};
 
-        this.onError = require(Util.getCurrentPath(client.noobOptions.scripts + options.onError));
+        this.onError = options.onError ?
+             require(Util.getCurrentPath(client.noobOptions.scripts + options.onError))
+            :
+            this.onError = null;
     }
 
     /**
@@ -20,9 +23,10 @@ class Check {
     validate(eventEmitter, silent) {
         if (this.check.run(this.options, eventEmitter)) {
             return true;
-        } else if (!silent){
+        } else if (!silent && this.onError){
             const func = this.onError.run || this.onError;
-            func(this.options, eventEmitter);
+            if (func)
+                func(this.options, eventEmitter);
         }
         return false;
     };
