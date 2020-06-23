@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-//const { Converters } = require('discord-noob').Util;
-const { Converters } = require('../../index').Util;
+//const { Converters } = require('discord-noob');
+const { Converters } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
     let guild = Converters.guild(options.guild, eventEmitter);
