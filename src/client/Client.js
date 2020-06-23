@@ -24,7 +24,7 @@ class Client extends Discord.Client{
 
         this.managers = new Managers();
 
-        this.slugs = new SlugManager();
+        this.slugs = new SlugManager(this);
 
         /**
          * Load all listeners.
@@ -56,10 +56,9 @@ class Client extends Discord.Client{
 
     /**
      * @param {string} name
-     * @param {Function} func
      */
-    addSlug(name, func) {
-        this.slugs.add(name, func);
+    addSlug(name) {
+        this.slugs.add(name);
     }
 
 }

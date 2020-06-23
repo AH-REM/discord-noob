@@ -1,15 +1,17 @@
 'use strict';
 
+const ModuleManager = require('../managers/ModuleManager');
+
 class Slug {
 
-    constructor(name, func) {
+    constructor(client, name) {
         this.name = name;
-        this.func = func;
+        this.script = ModuleManager.load(client, 'slug', name);
     }
 
     exec(client, eventEmitter, arg) {
         try {
-            const result = this.func(client, eventEmitter, arg);
+            const result = this.script(client, eventEmitter, arg);
             return result;
         }
         catch (err) {
