@@ -14,23 +14,13 @@ class ModuleManager {
         switch (type) {
             case "script" : {
                 if (client.noobOptions.scripts && fs.existsSync(Util.getCurrentPath(client.noobOptions.scripts + name + ".js")))
-                    try {
-                        moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name))
-                    }
-                    catch (e) {
-                        moduleLoaded = require('../modules/scripts/' + name);
-                    }
+                    moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name));
                 else
                     moduleLoaded = require('../modules/scripts/' + name);
             } break;
             case "check" : {
                 if (client.noobOptions.checks && fs.existsSync(Util.getCurrentPath(client.noobOptions.checks + name + ".js"))) {
-                    try {
-                        moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name))
-                    }
-                    catch (e) {
-                        moduleLoaded = require('../modules/checks/' + name);
-                    }
+                        moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name));
                 }
                 else {
                     moduleLoaded = require('../modules/checks/' + name);
