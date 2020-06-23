@@ -7,7 +7,7 @@ const ModuleManager = require('../managers/ModuleManager');
 class Command {
 
     constructor(client, prefixDefault, name, values = {}) {
-      
+
         this.client = client;
         this.name = name;
         this.values = values;
@@ -22,9 +22,10 @@ class Command {
 
         this.script = ModuleManager.load(client, 'script', values.script);
 
+        this.func = this.script.run || this.script;
+
         // Setting up some properties if
-        const func = this.script.run || this.script;
-        this.options.minArgs = this.options.minArgs || Math.max(func.length - 2, 0);
+        this.options.minArgs = this.options.minArgs || Math.max(this.func.length - 2, 0);
 
         this.options.maxArgs = this.options.maxArgs ||
             this.values.usage ? this.values.usage.split(' ').length :
@@ -62,8 +63,8 @@ class Command {
      * @param {string[]} args
      */
     action(message, args) {
-        const func = this.script.run || this.script;
-        func(this.options, message, ...args);
+        message.arguments = args;
+        this.func(this.options, message, ...args);
     }
 
     /**
