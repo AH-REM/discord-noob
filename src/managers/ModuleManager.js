@@ -11,22 +11,14 @@ class ModuleManager {
 
     static load(client, type, name) {
         let moduleLoaded = {};
-        switch (type) {
-            case "script" : {
-                if (client.noobOptions.scripts && fs.existsSync(Util.getCurrentPath(client.noobOptions.scripts + name + ".js")))
-                    moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name));
-                else
-                    moduleLoaded = require('../modules/scripts/' + name);
-            } break;
-            case "check" : {
-                if (client.noobOptions.checks && fs.existsSync(Util.getCurrentPath(client.noobOptions.checks + name + ".js"))) {
-                        moduleLoaded = require(Util.getCurrentPath(client.noobOptions.scripts + name));
-                }
-                else {
-                    moduleLoaded = require('../modules/checks/' + name);
-                }
-            } break;
+        type += 's';
+
+        if (client.noobOptions[type] && fs.existsSync(Util.getCurrentPath(client.noobOptions[type] + name + ".js"))) {
+            moduleLoaded = require(Util.getCurrentPath(client.noobOptions[type] + name));
+        } else if (fs.existsSync('../modules/' + type + '/' + name + ".js")) {
+            moduleLoaded = require('../modules/' + type + '/' + name);
         }
+
         return moduleLoaded;
     }
 
