@@ -1,6 +1,6 @@
 'use strict';
 
-const Util = require('../util/Util');
+const ModuleLoader = require('../managers/ModuleManager');
 
 class Action {
 
@@ -9,13 +9,9 @@ class Action {
         this.client = client;
         this.name = name;
 
-        let { script, options } = values;
+        this.options = values.options || new Object();
 
-        this.options = options || new Object();
-
-        script = script || 'ready';
-        this.script = require(Util.getCurrentPath(client.noobOptions.scripts + script));
-
+        this.script = ModuleLoader.load(client, 'script', values.script);
     }
 
     /**

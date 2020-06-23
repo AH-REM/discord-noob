@@ -1,17 +1,14 @@
 'use strict';
 
-const Util = require('../util/Util');
+const ModuleManager = require('../managers/ModuleManager');
 
 class Check {
     constructor(client, name, options) {
-        this.check = require(Util.getCurrentPath(client.noobOptions.checks + name));
+        this.check = ModuleManager.load(client, 'check', name);
 
         this.options = options? options : {};
 
-        this.onError = options.onError ?
-             require(Util.getCurrentPath(client.noobOptions.scripts + options.onError))
-            :
-            this.onError = null;
+        this.onError = options.onError ? ModuleManager.load(client, 'script', options.onError) : null;
     }
 
     /**

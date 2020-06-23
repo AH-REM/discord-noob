@@ -1,7 +1,7 @@
 'use strict';
 
 // const Noob = require('discord-noob');
-const Noob = require('../../src/');
+const Noob = require('../../index');
 
 module.exports = (client, options) => {
 

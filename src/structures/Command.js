@@ -1,8 +1,8 @@
 'use strict';
 
 const { DefaultCommand } = require('../util/Constants');
-const Util = require('../util/Util');
 const Check = require('./Check');
+const ModuleManager = require('../managers/ModuleManager');
 
 class Command {
 
@@ -16,13 +16,11 @@ class Command {
 
         this.aliases = values.aliases ? values.aliases : new Array();
 
-        this.script = values.script ? values.script : 'message';
-
         this.options = values.options ? values.options : new Object();
 
         this.checks = values.checks ? values.checks.map((name) => new Check(client, name, this.options[name])) : [];
 
-        this.script = require(Util.getCurrentPath(client.noobOptions.scripts + this.script));
+        this.script = ModuleManager.load(client, 'script', values.script);
 
         // Setting up some properties if
         const func = this.script.run || this.script;

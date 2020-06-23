@@ -1,5 +1,5 @@
 // const Noob = require('discord-noob');
-const Noob = require('../../src/');
+const Noob = require('../../index');
 const Discord = require('discord.js');
 
 exports.run = function(options, message) {

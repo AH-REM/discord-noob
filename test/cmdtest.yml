@@ -71,6 +71,7 @@ rand:
     description: 'Feeling lucky?'
 
 osu:
+    script: 'message'
     unique: true
     options:
         message:

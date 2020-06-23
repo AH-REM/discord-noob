@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 // const Noob = require('discord-noob');
-const Noob = require('../../src/');
+const Noob = require('../../index');
 
 const DefaultOptions = {
     message: {
