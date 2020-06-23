@@ -1,10 +1,6 @@
 'use strict';
 
-const Discord = require('discord.js');
-
-module.exports = (client, eventEmitter, arg) => {
-
-    if (!arg) arg = 1;
+module.exports = (client, eventEmitter, arg = 1) => {
 
     const nb = parseInt(arg, 10);
     if (!isNaN(nb)) {

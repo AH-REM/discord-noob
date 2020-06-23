@@ -139,3 +139,13 @@ help:
             color: '#b51b5b'
     description: 'This command'
     usage: 'command'
+
+say:
+    script: 'message'
+    options:
+        definedArgCount: true
+        minArgs: 1
+        message:
+            raw: false
+            content:
+                - '{author} a dit {args}'
