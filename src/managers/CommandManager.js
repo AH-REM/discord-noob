@@ -30,19 +30,18 @@ class CommandManager {
             }
 
 
-            if (cmd.isAvailable()) {
+            this.cache.commands.set(name, cmd);
 
-                this.cache.commands.set(name, cmd);
-
-                for (let alias of cmd.aliases) {
-                    this.cache.aliases.set(alias, cmd);
-                }
-
+            for (let alias of cmd.aliases) {
+                this.cache.aliases.set(alias, cmd);
             }
-            else throw `The command ${name} has not message to send.`;
 
         }
 
+    }
+
+    verifyAvailability() {
+        this.cache.commands.forEach(cmd => cmd.isAvailable());
     }
 
 }

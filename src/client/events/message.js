@@ -11,7 +11,7 @@ module.exports = (client, message) => {
     if (!message.guild) return;
     if (message.author.bot || message.webhookID) return;
 
-    const args = messageParse(message.content);
+    const args = message.content.split(" ");
     const { prefix } = client.noobOptions;
     let commandFound = false;
 
@@ -101,12 +101,13 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
     } else if (commandHolder.managers['command'].cache.aliases.has(name)) {
         command = commandHolder.managers['command'].cache.aliases.get(name);
     } else if (commandHolder instanceof Group) {
-        if (commandHolder.options.definedArgCount && (args.length < commandHolder.options.minArgs || args.length > commandHolder.options.maxArgs)){
+        let parsedArgs = messageParse(pastArgs.join(' '));
+        if (commandHolder.options.definedArgCount && (parsedArgs.length < commandHolder.options.minArgs || parsedArgs.length > commandHolder.options.maxArgs)){
                 if (commandHolder.options.argCountError)
                     message.channel.send(commandHolder.options.argCountError);
                 return true;
         }
-        commandHolder.action(message, pastArgs);
+        commandHolder.action(message, parsedArgs);
         if (commandHolder.options.delete > -1)
             message.delete({timeout: commandHolder.options.delete});
         return true;
@@ -114,15 +115,17 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
         return false;
     }
 
-    if (command.prefix === prefix && command.validateChecks(message, false)) {
+    if (command.available && command.prefix === prefix && command.validateChecks(message, false)) {
         if (command instanceof Group) {
             return commandHandler(message, command, args);
         } else {
-            if (command.options.definedArgCount && (args.length < command.options.minArgs || args.length > command.options.maxArgs)){
-                message.channel.send(command.options.argCountError || 'Incorrect amount of arguments provided');
+            let parsedArgs = messageParse(args.join(' '));
+            if (command.options.definedArgCount && (parsedArgs.length < command.options.minArgs || parsedArgs.length > command.options.maxArgs)){
+                if (commandHolder.options.argCountError)
+                    message.channel.send(commandHolder.options.argCountError);
                 return true;
             }
-            command.action(message, args);
+            command.action(message, parsedArgs);
             if (command.options.delete > -1)
                 message.delete({timeout: command.options.delete});
             return true;

@@ -24,12 +24,10 @@ class Command {
 
         this.func = this.script.run || this.script;
 
-        // Setting up some properties if
-        this.options.minArgs = this.options.minArgs || Math.max(this.func.length - 2, 0);
+        this.available = true;
 
-        this.options.maxArgs = this.options.maxArgs ||
-            this.values.usage ? this.values.usage.split(' ').length :
-            Command.usageParser(this).split(' ').length
+        // Setting up some properties if
+        this.calculateArgCount();
     }
 
     /**
@@ -37,9 +35,12 @@ class Command {
      */
     isAvailable() {
         if (this.script.isAvailable) {
-            return !!this.script.isAvailable();
+            if (!!this.script.isAvailable(this.client, this.options) !== this.available) {
+                this.available = !this.available;
+                console.error(`The command ${this.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
+            }
         }
-        return true;
+        return this.available;
     }
 
     /**
@@ -97,6 +98,22 @@ class Command {
             .split(" ");
         args = args.map((word) => word.includes("=") ? `[${word.split("=")[0]}]` : word);
         return args.slice(2).join(" ");
+    }
+
+    /**
+     * Calculates the min and maxArgs, first by the setting provided, then by the script calculation, then by the custom usage
+     * provided and finally by the usage automatically parsed.
+     */
+    calculateArgCount() {
+        this.options.minArgs = this.options.minArgs ||
+            (this.script.calcMin ? this.script.calcMin(this.client, this.options) :
+            Math.max(this.func.length - 2, 0));
+
+        this.options.maxArgs = this.options.maxArgs ||
+            (this.script.calcMax ? this.script.calcMax(this.client, this.options) :
+                Math.max(this.func.length - 2, 0)) ||
+            (this.values.usage ? this.values.usage.split(' ').length :
+                Command.usageParser(this).split(' ').length);
     }
 }
 

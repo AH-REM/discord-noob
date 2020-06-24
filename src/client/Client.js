@@ -35,7 +35,8 @@ class Client extends Discord.Client{
 
     start() {
         this.login(this.noobOptions.token)
-            .catch(console.error);
+            .catch(console.error)
+            .then(this.managers['command'].verifyAvailability());
     }
 
     /**
