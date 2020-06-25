@@ -1,5 +1,6 @@
 test:
     script: 'ready'
+    event: 'ready'
     options:
         parse: true
         console: 'Le bot est sur {guilds:size} guild(s) actuellement.'

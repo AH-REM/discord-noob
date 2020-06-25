@@ -33,7 +33,7 @@
     }
 
     await noob.load('command', './cmdtest.yml');
-    await noob.load('ready', './actiontest.yml');
+    await noob.load('action', './actiontest.yml');
 
     noob.start();
 

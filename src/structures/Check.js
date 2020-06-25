@@ -3,12 +3,18 @@
 const ModuleManager = require('../managers/ModuleManager');
 
 class Check {
-    constructor(client, name, options) {
+    constructor(client, action, name, options) {
+        this.client = client;
+        this.available = true;
+        this.action = action;
+        this.name = name;
+
         this.check = ModuleManager.load(client, 'check', name);
 
         this.options = options? options : {};
 
         this.onError = options.onError ? ModuleManager.load(client, 'script', options.onError) : null;
+
     }
 
     /**
@@ -27,6 +33,19 @@ class Check {
         }
         return false;
     };
+
+    /**
+     * @return {boolean}
+     */
+    isAvailable() {
+        if (this.check.isAvailable) {
+            if (!!this.check.isAvailable(this.client, this.options) !== this.available) {
+                this.available = !this.available;
+                console.error(`The check ${this.name} from the action ${this.action.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
+            }
+        }
+        return this.available;
+    }
 }
 
 module.exports = Check;

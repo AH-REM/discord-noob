@@ -18,7 +18,7 @@ class Command {
 
         this.options = values.options ? values.options : new Object();
 
-        this.checks = values.checks ? values.checks.map((name) => new Check(client, name, this.options[name])) : [];
+        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];
 
         this.script = ModuleManager.load(client, 'script', values.script);
 
@@ -40,6 +40,7 @@ class Command {
                 console.error(`The command ${this.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
             }
         }
+        this.checks.forEach(check => check.isAvailable());
         return this.available;
     }
 
@@ -52,7 +53,7 @@ class Command {
      */
     validateChecks(message, silent) {
         for (let check of this.checks) {
-            if (!check.validate(message, silent)) {
+            if (check.available && !check.validate(message, silent)) {
                 return false;
             }
         }

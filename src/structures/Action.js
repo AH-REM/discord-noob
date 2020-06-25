@@ -4,10 +4,11 @@ const ModuleLoader = require('../managers/ModuleManager');
 
 class Action {
 
-    constructor(client, name, values = {}) {
+    constructor(client, event, name, values = {}) {
 
         this.client = client;
         this.name = name;
+        this.event = event;
 
         this.options = values.options || new Object();
 
