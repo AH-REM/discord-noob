@@ -52,8 +52,9 @@ class Command {
      * @returns {boolean}
      */
     validateChecks(message, silent) {
+        let eventEmitter = {event: 'command', eventArgs: [message]};
         for (let check of this.checks) {
-            if (check.available && !check.validate(message, silent)) {
+            if (check.available && !check.validate(eventEmitter, silent)) {
                 return false;
             }
         }
@@ -61,12 +62,11 @@ class Command {
     }
 
     /**
-     * @param {Discord.Message} message
+     * @param {eventEmitter} eventEmitter
      * @param {string[]} args
      */
-    action(message, args) {
-        message.arguments = args;
-        this.func(this.options, message, ...args);
+    action(eventEmitter, args) {
+        this.func(this.options, eventEmitter, ...args);
     }
 
     /**

@@ -4,11 +4,11 @@ const ModuleLoader = require('../managers/ModuleManager');
 
 class Action {
 
-    constructor(client, event, name, values = {}) {
+    constructor(client, name, values = {}) {
 
         this.client = client;
         this.name = name;
-        this.event = event;
+        this.event = values.event;
 
         this.options = values.options || new Object();
 
@@ -17,9 +17,10 @@ class Action {
 
     /**
      * @param {Client} client
+     * @param {Object} eventEmitter
      */
-    run(client) {
-        this.script(client, this.options);
+    run(eventEmitter) {
+        this.script(this.options, eventEmitter);
     }
 
 }

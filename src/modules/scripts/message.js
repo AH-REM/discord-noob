@@ -17,20 +17,20 @@ const DefaultOptions = {
     delete: -1
 };
 
-exports.run = (options, message) => {
+exports.run = (options, eventEmitter) => {
 
     options = Discord.Util.mergeDefault(DefaultOptions, options);
 
-    addRole(options, message);
+    addRole(options, eventEmitter);
 
     let response = getMessage(options);
     if (response) {
 
         if (!options.raw) {
-            response = Noob.parserMessage(message.client, message, response);
+            response = Noob.parserMessage(eventEmitter.client, eventEmitter, response);
         }
 
-        const channel = getChannel(options, message);
+        const channel = getChannel(options, eventEmitter.eventArgs[0]);
         channel.send(response)
             .then(m => {
                 addReact(options, m);
@@ -38,9 +38,6 @@ exports.run = (options, message) => {
             .catch(console.error);
 
     }
-
-    if (options.delete > -1)
-        message.delete({timeout: options.delete});
 };
 
 exports.isAvailable = () => {
@@ -70,7 +67,8 @@ function addReact(options, message) {
     }
 }
 
-function addRole(options, message) {
+function addRole(options, eventEmitter) {
+    let message = eventEmitter.eventArgs[0];
     const roles = new Array();
     for (let roleName of options.roles) {
         const role = message.guild.roles.cache.find(role => role.name === roleName);

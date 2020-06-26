@@ -9,7 +9,7 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    if (eventEmitter instanceof Discord.Message) {
-        return eventEmitter.guild.id === guild.id;
+    if (eventEmitter.event in ['command', 'message']) {
+        return eventEmitter.eventArgs[0].guild.id === guild.id;
     }
 }

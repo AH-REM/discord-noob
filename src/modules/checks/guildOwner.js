@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 exports.run = (options, eventEmitter) => {
     if (!eventEmitter.guild) {
         return false;
@@ -7,7 +5,7 @@ exports.run = (options, eventEmitter) => {
 
     let ownerId = eventEmitter.guild.owner.id;
 
-    if (eventEmitter instanceof Discord.Message) {
-        return eventEmitter.member.id === ownerId;
+    if (eventEmitter.event in ['command', 'message']) {
+        return eventEmitter.eventArgs[0].member.id === ownerId;
     }
 }

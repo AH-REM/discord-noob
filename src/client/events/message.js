@@ -107,7 +107,8 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
                     message.channel.send(commandHolder.options.argCountError);
                 return true;
         }
-        commandHolder.action(message, parsedArgs);
+        let eventEmitter = {event: 'command', eventArgs: [message], arguments: [parsedArgs], client: message.client};
+        commandHolder.action(eventEmitter, parsedArgs);
         if (commandHolder.options.delete > -1)
             message.delete({timeout: commandHolder.options.delete});
         return true;
@@ -125,7 +126,8 @@ function commandHandler(message, commandHolder, pastArgs = [], prefix = false) {
                     message.channel.send(commandHolder.options.argCountError);
                 return true;
             }
-            command.action(message, parsedArgs);
+            let eventEmitter = {event: 'command', eventArgs: [message], arguments: [parsedArgs], client: message.client};
+            command.action(eventEmitter, parsedArgs);
             if (command.options.delete > -1)
                 message.delete({timeout: command.options.delete});
             return true;

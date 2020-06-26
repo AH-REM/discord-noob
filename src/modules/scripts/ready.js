@@ -3,14 +3,14 @@
 // const Noob = require('discord-noob');
 const Noob = require('../../index');
 
-module.exports = (client, options) => {
+module.exports = (options, eventEmitter) => {
 
     if (options.console) {
 
         let message = options.console;
 
         if (options.parse) {
-            message = Noob.parserMessage(client, client, message);
+            message = Noob.parserMessage(eventEmitter.client, eventEmitter.client, message);
         }
 
         console.log(message);

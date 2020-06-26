@@ -5,7 +5,7 @@ const Action = require('../structures/Action');
 class ActionManager {
 
     constructor() {
-        this.cache = ActionManager.eventList();
+        this.cache = new Map();
     }
 
     /**
@@ -13,28 +13,25 @@ class ActionManager {
      * @param {Object} json
      */
     load(client, json) {
-
         for (let [ name, values ] of Object.entries(json)) {
-            let event = ActionManager.eventDict(values.event);
-            if (event) {
-                const action = new Action(client, event, name, values);
 
+            const action = new Action(client, name, values);
+            for (let event of ActionManager.event(values.event)) {
+                if (!this.cache.has(event)) {
+                    this.cache.set(event, new Map());
+                }
                 this.cache.get(event).set(name, action);
             }
         }
-
     }
 
-    static eventList() {
-        return new Map([['ready',new Map()],['reaction',new Map()]]);
-    }
-
-    static eventDict(name) {
-        let dict = {ready: 'ready',
-                    messageReactionAdd: 'reaction', messageReactionRemove: 'reaction', messageReactionRemoveAll: 'reaction', messageReactionRemoveEmoji: 'reaction'
+    static event(name) {
+        let groups = {
+            ready: ['ready'],
+            reaction: ['messageReactionAdd', 'messageReactionRemove', 'messageReactionRemoveAll', 'messageReactionRemoveEmoji']
         }
 
-        return dict[name];
+        return name in groups? groups[name]: [name];
     }
 }
 

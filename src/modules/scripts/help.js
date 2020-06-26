@@ -2,7 +2,9 @@
 const Noob = require('../../index');
 const Discord = require('discord.js');
 
-exports.run = function(options, message) {
+exports.run = function(options, eventEmitter) {
+    let message = eventEmitter.eventArgs[0];
+
     let bot = message.client;
     let prefix = bot.noobOptions.prefix;
 

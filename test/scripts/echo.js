@@ -1,6 +1,6 @@
 'use strict';
 
-exports.run = (options, message, content) => {
-    message.channel.send(content)
+exports.run = (options, eventEmitter, content) => {
+    eventEmitter.eventArgs[0].channel.send(content)
         .catch(console.error);
 };
