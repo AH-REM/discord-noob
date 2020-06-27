@@ -4,16 +4,19 @@ const Discord = require('discord.js');
 
 exports.run = function(options, eventEmitter) {
     let message = eventEmitter.eventArgs[0];
-
-    let bot = message.client;
+    let bot = eventEmitter.client;
     let prefix = bot.noobOptions.prefix;
 
+    // Settings
+    if (!options.help)
+        options.help = {};
     let title = options.help.title || "Commands";
     let description = options.help.description || `**Prefix:** ${prefix}`;
     let color = options.help.color || 0;
     let thumbnailUrl = bot.user.avatarURL();
     let maxLength = 60;
 
+    // Loop in the command holders to go as deep as possible.
     let fields = [];
     let commandHolder = bot;
     let target;

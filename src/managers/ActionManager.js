@@ -14,7 +14,6 @@ class ActionManager {
      */
     load(client, json) {
         for (let [ name, values ] of Object.entries(json)) {
-
             const action = new Action(client, name, values);
             for (let event of ActionManager.event(values.event)) {
                 if (!this.cache.has(event)) {
@@ -25,6 +24,11 @@ class ActionManager {
         }
     }
 
+    /**
+     * Verifies if an event is actually a group of events.
+     * @param name
+     * @returns {string[]}
+     */
     static event(name) {
         let groups = {
             ready: ['ready'],
@@ -32,6 +36,10 @@ class ActionManager {
         }
 
         return name in groups? groups[name]: [name];
+    }
+
+    verifyAvailability() {
+        this.cache.forEach((event) => event.forEach(action => action.isAvailable()));
     }
 }
 

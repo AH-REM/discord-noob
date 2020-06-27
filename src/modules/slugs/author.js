@@ -7,7 +7,7 @@ module.exports = (client, eventEmitter, arg) => {
     switch (eventEmitter.event) {
         case 'command':
         case 'message':
-            return eventEmitter.member;
+            return eventEmitter.eventArgs[0].member;
         default:
             return;
     }

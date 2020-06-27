@@ -26,17 +26,13 @@ class Client extends Discord.Client{
 
         this.slugs = new SlugManager(this);
 
-        /**
-         * Load all listeners.
-         */
-        EventLoader(this);
-
     }
 
     start() {
         this.login(this.noobOptions.token)
             .catch(console.error)
-            .then(this.managers['command'].verifyAvailability());
+            .then(() => {this.managers['command'].verifyAvailability();
+                         this.managers['action'].verifyAvailability();} );
     }
 
     /**
@@ -48,6 +44,7 @@ class Client extends Discord.Client{
         return new Promise((resolve, reject) => {
 
             const res = Loader.load(this, action, filename);
+            EventLoader(this);
 
             if (res instanceof Error) reject(res);
             else resolve();

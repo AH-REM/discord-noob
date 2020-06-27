@@ -9,6 +9,7 @@ class Command {
     constructor(client, prefixDefault, name, values = {}) {
 
         this.client = client;
+        this.available = true;
         this.name = name;
         this.values = values;
 
@@ -35,7 +36,7 @@ class Command {
      */
     isAvailable() {
         if (this.script.isAvailable) {
-            if (!!this.script.isAvailable(this.client, this.options) !== this.available) {
+            if (!!this.script.isAvailable(this.options, this.client) !== this.available) {
                 this.available = !this.available;
                 console.error(`The command ${this.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
             }
@@ -62,10 +63,11 @@ class Command {
     }
 
     /**
-     * @param {eventEmitter} eventEmitter
+     * @param eventEmitter
      * @param {string[]} args
      */
     action(eventEmitter, args) {
+        eventEmitter.arguments = args;
         this.func(this.options, eventEmitter, ...args);
     }
 

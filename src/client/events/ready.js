@@ -10,7 +10,8 @@ module.exports = client => {
     console.log(`${client.user.tag} is online and ready to serve ${client.guilds.cache.size} servers.`);
 
     // Set the client user's status
-    client.user.setStatus(noobOptions.status).catch(console.error);
+    if (noobOptions.status)
+        client.user.setStatus(noobOptions.status).catch(console.error);
 
     // Set the client user's presence
     if (noobOptions.activity) {
@@ -19,7 +20,7 @@ module.exports = client => {
 
     // Exec all action
     let eventEmitter = {event: 'ready', eventArgs: [], client: client};
-    for (let [ name, action ] of client.managers['action'].cache.get('ready')) {
+    for (let [ _, action ] of client.managers['action'].cache.get('ready')) {
         action.run(eventEmitter);
     }
 

@@ -1,8 +1,10 @@
 'use_strict';
 
-const ActionManager = require('../../managers/ActionManager');
-
-const specificEvents = ['ready'];
+/**
+ * List of events than need a specific loader.
+ * @type {string[]}
+ */
+const specificEvents = ['ready', 'message'];
 const req = event => require(`./${event}`);
 
 /**
@@ -10,12 +12,12 @@ const req = event => require(`./${event}`);
  */
 module.exports = function(client){
 
-    client.on('ready', () => req('ready')(client));
-
-    client.on('message', message => req('message')(client, message));
-
     for (let event of client.managers['action'].cache.keys()) {
-        if (event in specificEvents) continue;
+        console.log(`Loading event "${event}"`);
+        if (specificEvents.includes(event))
+            client.on(event, function(...args){req(event)(client, ...args)})
+        else
         client.on(event, function(...args){req('default')(client, event, args)});
     }
+
 };

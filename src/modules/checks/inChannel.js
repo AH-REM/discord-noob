@@ -9,7 +9,7 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    if (eventEmitter.event in ['command', 'message']) {
+    if (['command', 'message'].includes(eventEmitter.event)) {
         return eventEmitter.eventArgs[0].channel.id === channel.id;
     }
 }

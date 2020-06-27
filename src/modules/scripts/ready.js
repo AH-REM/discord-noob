@@ -10,7 +10,7 @@ module.exports = (options, eventEmitter) => {
         let message = options.console;
 
         if (options.parse) {
-            message = Noob.parserMessage(eventEmitter.client, eventEmitter.client, message);
+            message = Noob.parserMessage(eventEmitter.client, eventEmitter, message);
         }
 
         console.log(message);

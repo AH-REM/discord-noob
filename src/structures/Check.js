@@ -39,7 +39,7 @@ class Check {
      */
     isAvailable() {
         if (this.check.isAvailable) {
-            if (!!this.check.isAvailable(this.client, this.options) !== this.available) {
+            if (!!this.check.isAvailable(this.options, this.client) !== this.available) {
                 this.available = !this.available;
                 console.error(`The check ${this.name} from the action ${this.action.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
             }

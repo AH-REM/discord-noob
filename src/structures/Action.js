@@ -1,6 +1,7 @@
 'use strict';
 
 const ModuleLoader = require('../managers/ModuleManager');
+const Check = require('./Check');
 
 class Action {
 
@@ -13,16 +14,37 @@ class Action {
         this.options = values.options || new Object();
 
         this.script = ModuleLoader.load(client, 'script', values.script);
+        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];
     }
 
     /**
-     * @param {Client} client
-     * @param {Object} eventEmitter
+     * @param eventEmitter
      */
     run(eventEmitter) {
-        this.script(this.options, eventEmitter);
+        let func = this.script.run || this.script;
+        if (this.validateChecks(eventEmitter, false))
+            func(this.options, eventEmitter);
     }
 
+    validateChecks(eventEmitter, silent) {
+        for (let check of this.checks) {
+            if (check.available && !check.validate(eventEmitter, silent)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    isAvailable() {
+        if (this.script.isAvailable) {
+            if (!!this.script.isAvailable(this.options, this.client) !== this.available) {
+                this.available = !this.available;
+                console.error(`The action ${this.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
+            }
+        }
+        this.checks.forEach(check => check.isAvailable());
+        return this.available;
+    }
 }
 
 module.exports = Action;

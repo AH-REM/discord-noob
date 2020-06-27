@@ -12,9 +12,7 @@ const DefaultOptions = {
         content: new Array(),
         react: new Array()
     },
-    roles: new Array(),
-    aliases: new Array(),
-    delete: -1
+    roles: new Array()
 };
 
 exports.run = (options, eventEmitter) => {

@@ -5,7 +5,7 @@ exports.run = (options, eventEmitter) => {
 
     let ownerId = eventEmitter.guild.owner.id;
 
-    if (eventEmitter.event in ['command', 'message']) {
+    if (['command', 'message'].includes(eventEmitter.event)) {
         return eventEmitter.eventArgs[0].member.id === ownerId;
     }
 }
