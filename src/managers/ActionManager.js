@@ -5,7 +5,7 @@ const Action = require('../structures/Action');
 class ActionManager {
 
     constructor() {
-        this.cache = new Map();
+        this.cache = new Map([['message',new Map()]]);
     }
 
     /**
@@ -13,6 +13,7 @@ class ActionManager {
      * @param {Object} json
      */
     load(client, json) {
+        console.log('Loading actions...');
         for (let [ name, values ] of Object.entries(json)) {
             const action = new Action(client, name, values);
             for (let event of ActionManager.event(values.event)) {

@@ -11,9 +11,9 @@ class Check {
 
         this.check = ModuleManager.load(client, 'check', name);
 
-        this.options = options? options : {};
+        this.options = options || {};
 
-        this.onError = options.onError ? ModuleManager.load(client, 'script', options.onError) : null;
+        this.onError = this.options.onError ? ModuleManager.load(client, 'script', options.onError) : null;
 
     }
 

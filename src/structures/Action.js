@@ -10,8 +10,9 @@ class Action {
         this.client = client;
         this.name = name;
         this.event = values.event;
+        this.available = true;
 
-        this.options = values.options || new Object();
+        this.options = values.options[values.script] || new Object();
 
         this.script = ModuleLoader.load(client, 'script', values.script);
         this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];

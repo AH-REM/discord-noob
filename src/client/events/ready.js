@@ -18,6 +18,10 @@ module.exports = client => {
         client.user.setPresence({ activity: noobOptions.activity }).catch(console.error);
     }
 
+    // Validate Actions
+    client.managers['command'].verifyAvailability();
+    client.managers['action'].verifyAvailability();
+
     // Exec all action
     let eventEmitter = {event: 'ready', eventArgs: [], client: client};
     for (let [ _, action ] of client.managers['action'].cache.get('ready')) {

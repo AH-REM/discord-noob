@@ -17,7 +17,6 @@ class CommandManager {
      * @param {Object} json
      */
     load(client, json) {
-
         for (let [ name, values ] of Object.entries(json)) {
             let cmd;
 

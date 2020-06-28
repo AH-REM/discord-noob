@@ -10,9 +10,17 @@ exports.role = (roleResolvable, eventEmitter) => {
         roleResolvable = Discord.MessageMentions.ROLES_PATTERN.exec(roleResolvable)[1];
     }
     //It's an id or name
-    if (eventEmitter.guild) {
-        return eventEmitter.guild.roles.cache.get(roleResolvable) ||
-            eventEmitter.guild.roles.cache.find((role) => role.name === roleResolvable) ||
+    let guild;
+    switch (eventEmitter.event) {
+        case 'command':
+        case 'message': guild = eventEmitter.eventArgs[0].guild; break;
+        case 'messageReactionRemove':
+        case 'messageReactionAdd': guild = eventEmitter.eventArgs[0].message.guild; break;
+    }
+
+    if (guild) {
+        return guild.roles.cache.get(roleResolvable) ||
+            guild.roles.cache.find((role) => role.name === roleResolvable) ||
             null;
     }
     return null;
@@ -50,11 +58,9 @@ exports.guild = (guildResolvable, eventEmitter) => {
         return guildResolvable;
     }
     //It's an id or name
-    if (eventEmitter.client) {
-        return eventEmitter.client.guilds.cache.get(guildResolvable) ||
-            eventEmitter.client.guilds.cache.find((guild) => guild.name === guildResolvable) ||
-            null;
-    }
+    return eventEmitter.client.guilds.resolve(guildResolvable) ||
+           eventEmitter.client.guilds.cache.find((guild) => guild.name === guildResolvable) ||
+           null;
 }
 
 exports.member = (memberResolvable, eventEmitter) => {
@@ -67,11 +73,19 @@ exports.member = (memberResolvable, eventEmitter) => {
         memberResolvable = Discord.MessageMentions.USERS_PATTERN.exec(memberResolvable)[1];
     }
     //It's an id or name
-    if (eventEmitter.guild) {
-        return eventEmitter.guild.members.cache.get(memberResolvable) ||
-            eventEmitter.guild.members.cache.find((member) => member.displayName === memberResolvable) ||
-            eventEmitter.guild.members.cache.find((member) => member.user.tag === memberResolvable) ||
-            eventEmitter.guild.members.cache.find((member) => member.user.username === memberResolvable) ||
+    let guild;
+    switch (eventEmitter.event) {
+        case 'command':
+        case 'message': guild = eventEmitter.eventArgs[0].guild; break;
+        case 'messageReactionRemove':
+        case 'messageReactionAdd': guild = eventEmitter.eventArgs[0].message.guild; break;
+    }
+
+    if (guild) {
+        return guild.members.cache.get(memberResolvable) ||
+            guild.members.cache.find((member) => member.displayName === memberResolvable) ||
+            guild.members.cache.find((member) => member.user.tag === memberResolvable) ||
+            guild.members.cache.find((member) => member.user.username === memberResolvable) ||
             null;
     } else if (eventEmitter.users) {
         return eventEmitter.users.cache.get(memberResolvable) ||

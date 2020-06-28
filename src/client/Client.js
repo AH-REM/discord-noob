@@ -29,10 +29,10 @@ class Client extends Discord.Client{
     }
 
     start() {
+        EventLoader(this);
+
         this.login(this.noobOptions.token)
-            .catch(console.error)
-            .then(() => {this.managers['command'].verifyAvailability();
-                         this.managers['action'].verifyAvailability();} );
+            .catch(console.error);
     }
 
     /**
@@ -44,7 +44,6 @@ class Client extends Discord.Client{
         return new Promise((resolve, reject) => {
 
             const res = Loader.load(this, action, filename);
-            EventLoader(this);
 
             if (res instanceof Error) reject(res);
             else resolve();

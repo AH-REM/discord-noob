@@ -5,21 +5,18 @@ const Discord = require('discord.js');
 const Noob = require('../../index');
 
 const DefaultOptions = {
-    message: {
-        raw: true,
-        guild: null,
-        channel: null,
-        content: new Array(),
-        react: new Array()
-    },
-    roles: new Array()
+    raw: true,
+    guild: null,
+    channel: null,
+    content: new Array(),
+    react: new Array()
 };
 
 exports.run = (options, eventEmitter) => {
 
     options = Discord.Util.mergeDefault(DefaultOptions, options);
 
-    addRole(options, eventEmitter);
+    //addRole(options, eventEmitter);
 
     let response = getMessage(options);
     if (response) {
@@ -43,13 +40,13 @@ exports.isAvailable = () => {
 };
 
 function getMessage(options) {
-    const rand = Math.floor(Math.random() * options.message.content.length);
-    return options.message.content[rand];
+    const rand = Math.floor(Math.random() * options.content.length);
+    return options.content[rand];
 }
 
 function getChannel(options, message) {
     const { client } = message;
-    const { guild, channel } = options.message;
+    const { guild, channel } = options;
 
     if (guild && channel) {
         const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
@@ -59,7 +56,7 @@ function getChannel(options, message) {
 }
 
 function addReact(options, message) {
-    for (let emoji of options.message.react) {
+    for (let emoji of options.react) {
         // Gérer les erreurs
         message.react(emoji).catch(console.error);
     }

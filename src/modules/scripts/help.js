@@ -8,11 +8,9 @@ exports.run = function(options, eventEmitter) {
     let prefix = bot.noobOptions.prefix;
 
     // Settings
-    if (!options.help)
-        options.help = {};
-    let title = options.help.title || "Commands";
-    let description = options.help.description || `**Prefix:** ${prefix}`;
-    let color = options.help.color || 0;
+    let title = options.title || "Commands";
+    let description = options.description || `**Prefix:** ${prefix}`;
+    let color = options.color || 0;
     let thumbnailUrl = bot.user.avatarURL();
     let maxLength = 60;
 

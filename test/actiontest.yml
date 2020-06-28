@@ -2,5 +2,15 @@ test:
     script: 'ready'
     event: 'ready'
     options:
-        parse: true
-        console: 'Le bot est sur {guilds:size} guild(s) actuellement.'
+        ready:
+            parse: true
+            console: 'Le bot est sur {guilds:size} guild(s) actuellement.'
+
+giveTestRole:
+    script: 'reactionRole'
+    event: 'reaction'
+    options:
+        reactionRole:
+            role: 'Test'
+            reaction: '❤️'
+            message: '726825754511409153'

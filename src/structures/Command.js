@@ -17,9 +17,11 @@ class Command {
 
         this.aliases = values.aliases ? values.aliases : new Array();
 
-        this.options = values.options ? values.options : new Object();
+        this.options = {};
+        if (values.options)
+            this.options = values.options[values.script] || new Object();
 
-        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];
+        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, values.options[name])) : [];
 
         this.script = ModuleManager.load(client, 'script', values.script);
 

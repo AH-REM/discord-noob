@@ -17,7 +17,7 @@ module.exports = function(client){
         if (specificEvents.includes(event))
             client.on(event, function(...args){req(event)(client, ...args)})
         else
-        client.on(event, function(...args){req('default')(client, event, args)});
+            client.on(event, function(...args){req('default')(client, event, args)});
     }
 
 };

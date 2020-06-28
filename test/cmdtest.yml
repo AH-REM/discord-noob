@@ -77,9 +77,9 @@ osu:
         message:
             content:
                 - 'Tu as eu le rôle'
-        roles:
-            # role name
-            - osu
+            roles:
+                # role name
+                - osu
     hidden: true
 
 # A group is basically a command that holds other commands
@@ -145,7 +145,14 @@ say:
     options:
         definedArgCount: true
         minArgs: 1
+        maxArgs: 256 #'Message' needs a calcMax property to do it properly.
         message:
             raw: false
             content:
                 - '{author} a dit {args}'
+
+gettest:
+    script: 'giveRole'
+    options:
+        giveRole:
+            role: 'Test'
