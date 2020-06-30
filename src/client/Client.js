@@ -58,6 +58,11 @@ class Client extends Discord.Client{
         this.slugs.add(name);
     }
 
+    validateActions() {
+        this.managers['command'].verifyAvailability();
+        this.managers['action'].verifyAvailability();
+    }
+
 }
 
 module.exports = Client;

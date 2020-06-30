@@ -19,8 +19,7 @@ module.exports = client => {
     }
 
     // Validate Actions
-    client.managers['command'].verifyAvailability();
-    client.managers['action'].verifyAvailability();
+    client.validateActions();
 
     // Exec all action
     let eventEmitter = {event: 'ready', eventArgs: [], client: client};

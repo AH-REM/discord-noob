@@ -51,7 +51,7 @@ function messageParse(content) {
     let ready = false;
     for (let char of content) {
         if (escaped) {
-            buffer += char;
+            buffer += char === 'n' ? '\n' : char;
             escaped = false;
         }
         else if (char === '"') {
