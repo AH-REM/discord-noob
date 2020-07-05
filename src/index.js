@@ -4,6 +4,7 @@ const Util = require('./util/Util');
 const Command = require('./structures/Command');
 const Group = require('./structures/Group');
 const Converters = require('./util/Converters');
+const Extractors = require('./util/Extractors');
 
 module.exports = {
 
@@ -12,6 +13,8 @@ module.exports = {
     Util: Util,
 
     Converters: Converters,
+
+    Extractors: Extractors,
 
     Command: Command,
 

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-//const { Converters } = require('discord-noob');
-const { Converters } = require('../../index');
+//const { Converters, Extractors } = require('discord-noob');
+const { Converters, Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
     let role = Converters.role(options.role, eventEmitter);
@@ -9,7 +9,12 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    if (['command', 'message'].includes(eventEmitter.event)) {
-        return eventEmitter.eventArgs[0].member.roles.cache.has(role.id);
+    let author = Extractors.member(eventEmitter);
+
+    if (!author || author instanceof Discord.User) {
+        console.error(`There was an error executing the hasRole check with the ${eventEmitter.event} event, is it supported?`);
+        return true;
     }
-}
+
+    return author.roles.cache.has(role.id);
+};
