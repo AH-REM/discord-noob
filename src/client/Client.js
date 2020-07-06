@@ -43,6 +43,8 @@ class Client extends Discord.Client{
     load(action, filename) {
         return new Promise((resolve, reject) => {
 
+            console.log(`Loading ${action}s...`)
+
             const res = Loader.load(this, action, filename);
 
             if (res instanceof Error) reject(res);

@@ -97,39 +97,27 @@ function messageParse(content) {
  */
 function commandHandler(eventEmitter, commandHolder, pastArgs, prefix = false) {
     let message = eventEmitter.eventArgs[0];
-    const [name, ...args] = pastArgs;
-    let command;
+    let groupFailed = false;
+    let [name, ...args] = pastArgs;
+    let command = commandHolder.managers['command'].cache.commands.get(name) ||
+                  commandHolder.managers['command'].cache.aliases.get(name);
 
-    if (commandHolder.managers['command'].cache.commands.has(name)) {
-        command = commandHolder.managers['command'].cache.commands.get(name);
-    } else if (commandHolder.managers['command'].cache.aliases.has(name)) {
-        command = commandHolder.managers['command'].cache.aliases.get(name);
-    } else if (commandHolder instanceof Group) {
-        let parsedArgs = messageParse(pastArgs.join(' '));
-
-        if (commandHolder.options.definedArgCount && (parsedArgs.length < commandHolder.options.minArgs || parsedArgs.length > commandHolder.options.maxArgs)){
-                if (commandHolder.options.argCountError)
-                    message.channel.send(commandHolder.options.argCountError);
-                return true;
-        }
-        commandHolder.action(eventEmitter, parsedArgs);
-
-        if (commandHolder.options.delete > -1)
-            message.delete({timeout: commandHolder.options.delete});
-
-        return true;
-    } else
+    if (!command && commandHolder instanceof Group) {
+        groupFailed = true;
+        args = pastArgs;
+        command = commandHolder;
+    } else if (!command)
         return false;
 
     if (command.available && command.prefix === prefix && command.validateChecks(message, false)) {
-        if (command instanceof Group) {
+        if (command instanceof Group && !groupFailed) {
             return commandHandler(message, command, args);
         } else {
             let parsedArgs = messageParse(args.join(' '));
 
-            if (command.options.definedArgCount && (parsedArgs.length < command.options.minArgs || parsedArgs.length > command.options.maxArgs)){
-                if (commandHolder.options.argCountError)
-                    message.channel.send(commandHolder.options.argCountError);
+            if (command.values.options.definedArgCount && (parsedArgs.length < command.values.options.minArgs || parsedArgs.length > command.values.options.maxArgs)){
+                if (command.values.options.argCountError)
+                    message.channel.send(command.values.options.argCountError);
                 return true;
             }
             command.action(eventEmitter, parsedArgs);

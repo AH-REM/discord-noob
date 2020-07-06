@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-//const { Converters } = require('discord-noob');
-const { Converters } = require('../../index');
+//const { Converters, Extractors } = require('discord-noob');
+const { Converters, Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
     let channel = Converters.channel(options.channel, eventEmitter);
@@ -9,7 +9,12 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    if (['command', 'message'].includes(eventEmitter.event)) {
-        return eventEmitter.eventArgs[0].channel.id === channel.id;
+    let eventChannel = Extractors.channel(eventEmitter);
+
+    if (!eventChannel) {
+        console.error(`There was an error executing the inChannel check with the ${eventEmitter.event} event, is it supported?`);
+        return true;
     }
+
+    return channel.id === eventChannel.id;
 }

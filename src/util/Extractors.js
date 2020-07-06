@@ -98,3 +98,34 @@ exports.user = (eventEmitter) => {
     if (!exports.member(eventEmitter)) return null;
     return exports.member(eventEmitter).user || exports.member(eventEmitter);
 };
+
+exports.channel = (eventEmitter) => {
+    switch (eventEmitter.event) {
+        case "typingStart":
+        case "voiceStateUpdate":
+
+        case "channelCreate":
+        case "channelDelete":
+        case "channelPinsUpdate":
+        case "channelUpdate":
+        case "webhookUpdate": return eventEmitter.eventArgs[0];
+
+        case "inviteCreate":
+        case "inviteDelete":
+
+        case "command":
+        case "message":
+        case "messageDelete":
+        case "messageUpdate":
+
+        case "messageReactionRemoveAll": return eventEmitter.eventArgs[0].channel;
+
+        case "messageReactionAdd":
+        case "messageReactionRemove":
+        case "messageReactionRemoveEmoji": return eventEmitter.eventArgs[0].message.channel;
+
+        case "messageDeleteBulk": if (eventEmitter.eventArgs[0].every(msg => msg.channel.id === eventEmitter.eventArgs[0].first().channel.id))
+                                          return eventEmitter.eventArgs[0].first().channel;
+        default : return null;
+    }
+};

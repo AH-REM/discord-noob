@@ -17,9 +17,9 @@ class Command {
 
         this.aliases = values.aliases ? values.aliases : new Array();
 
-        this.options = {};
-        if (values.options)
-            this.options = values.options[values.script] || new Object();
+        this.values.options = this.values.options || {};
+
+        this.options = this.values.options[values.script] || new Object();
 
         this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, values.options[name])) : [];
 
@@ -29,8 +29,8 @@ class Command {
 
         this.available = true;
 
-        // Setting up some properties if
-        this.calculateArgCount();
+        if (this.values.options.definedArgCount)
+            this.calculateArgCount();
     }
 
     /**
@@ -110,15 +110,17 @@ class Command {
      * provided and finally by the usage automatically parsed.
      */
     calculateArgCount() {
-        this.options.minArgs = this.options.minArgs ||
+        this.values.options.minArgs = this.values.options.minArgs ||
             (this.script.calcMin ? this.script.calcMin(this.client, this.options) :
             Math.max(this.func.length - 2, 0));
 
-        this.options.maxArgs = this.options.maxArgs ||
+        this.values.options.maxArgs = this.values.options.maxArgs ||
             (this.script.calcMax ? this.script.calcMax(this.client, this.options) :
                 Math.max(this.func.length - 2, 0)) ||
             (this.values.usage ? this.values.usage.split(' ').length :
-                Command.usageParser(this).split(' ').length);
+                Command.usageParser(this).length ? Command.usageParser(this).split(' ').length : 0);
+
+        console.log(`The command ${this.name} has a defined argument count range: [${this.values.options.minArgs}, ${this.values.options.maxArgs}]`)
     }
 }
 

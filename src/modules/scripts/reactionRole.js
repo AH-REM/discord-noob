@@ -1,6 +1,6 @@
 'use strict';
 //let { Converters } = require('discord-noob');
-let Converters = require('../../util/Converters');
+let { Converters, Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
     if (!['messageReactionAdd', 'messageReactionRemove'].includes(eventEmitter.event))
@@ -19,7 +19,7 @@ exports.run = (options, eventEmitter) => {
     if (eventEmitter.eventArgs[0].emoji.name !== options.reaction || eventEmitter.eventArgs[0].message.id !== options.message)
         return;
 
-    let member = Converters.member(eventEmitter.eventArgs[1].id, eventEmitter);
+    let member = Extractors.member(eventEmitter);
 
     switch (eventEmitter.event) {
         case 'messageReactionAdd': {

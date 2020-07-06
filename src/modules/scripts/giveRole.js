@@ -1,6 +1,6 @@
 'use strict';
 //let { Converters } = require('discord-noob');
-let Converters = require('../../util/Converters');
+let { Converters, Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
     let role = Converters.role(options.role, eventEmitter);
@@ -9,12 +9,7 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    let member;
-    switch (eventEmitter.event) {
-        case 'message':
-        case 'command': member = eventEmitter.eventArgs[0].member; break;
-        case 'messageReactionAdd': member = Converters.member(eventEmitter.eventArgs[1].id, eventEmitter); break;
-    }
+    let member = Extractors.member(eventEmitter);
 
     try {
         member.roles.add(role);

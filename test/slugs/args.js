@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 module.exports = (client, eventEmitter, arg = 0) => {
 
-    if (!eventEmitter instanceof Discord.Message) return;
+    if (eventEmitter.event !== 'command') return;
 
     let result;
     const nb = parseInt(arg, 10);

@@ -13,7 +13,6 @@ class ActionManager {
      * @param {Object} json
      */
     load(client, json) {
-        console.log('Loading actions...');
         for (let [ name, values ] of Object.entries(json)) {
             const action = new Action(client, name, values);
             for (let event of ActionManager.event(values.event)) {

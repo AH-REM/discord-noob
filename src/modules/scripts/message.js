@@ -25,7 +25,7 @@ exports.run = (options, eventEmitter) => {
             response = Noob.parserMessage(eventEmitter.client, eventEmitter, response);
         }
 
-        const channel = getChannel(options, eventEmitter.eventArgs[0]);
+        const channel = getChannel(options, eventEmitter);
         channel.send(response)
             .then(m => {
                 addReact(options, m);
@@ -44,15 +44,15 @@ function getMessage(options) {
     return options.content[rand];
 }
 
-function getChannel(options, message) {
-    const { client } = message;
+function getChannel(options, eventEmitter) {
+    const { client } = eventEmitter;
     const { guild, channel } = options;
 
     if (guild && channel) {
         const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
         return chan;
     }
-    else return message.channel;
+    else return Noob.Extractors.channel(eventEmitter);
 }
 
 function addReact(options, message) {
@@ -60,15 +60,4 @@ function addReact(options, message) {
         // Gérer les erreurs
         message.react(emoji).catch(console.error);
     }
-}
-
-function addRole(options, eventEmitter) {
-    let message = eventEmitter.eventArgs[0];
-    const roles = new Array();
-    for (let roleName of options.roles) {
-        const role = message.guild.roles.cache.find(role => role.name === roleName);
-        if (role) roles.push(role);
-    }
-    if (roles.length > 0)
-        message.member.roles.add(roles);
 }

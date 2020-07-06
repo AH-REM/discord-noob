@@ -1,15 +1,10 @@
 'use strict';
 
 const Discord = require('discord.js');
+const { Extractors } = require('../../index');
 
 module.exports = (client, eventEmitter, arg) => {
 
-    switch (eventEmitter.event) {
-        case 'command':
-        case 'message':
-            return eventEmitter.eventArgs[0].member;
-        default:
-            return;
-    }
+    return Extractors.member(eventEmitter) ? Extractors.member(eventEmitter).toString() : 'ERROR';
 
 }

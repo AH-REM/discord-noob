@@ -5,6 +5,7 @@ hello:
         message:
             content:
                 - 'world'
+        definedArgCount: true
 
 re:
     prefix: false
@@ -15,6 +16,7 @@ re:
                 - 'nard'
                 - 'quin'
                 - 'tour'
+        definedArgCount: true
     aliases:
         - 'reuh'
 
@@ -69,18 +71,6 @@ rand:
                 - '{author}, tu as choisit le nombre **{rand:11}** !'
     delete: 1500
     description: 'Feeling lucky?'
-
-osu:
-    script: 'message'
-    unique: true
-    options:
-        message:
-            content:
-                - 'Tu as eu le rôle'
-            roles:
-                # role name
-                - osu
-    hidden: true
 
 # A group is basically a command that holds other commands
 group:
