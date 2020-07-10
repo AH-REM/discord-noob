@@ -17,5 +17,23 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    return guild.id === eventGuild.id;
+    return inGuild(eventGuild, options.guild, eventEmitter);
 };
+
+function inGuild(eventGuild, guilds, eventEmitter) {
+    if (guilds instanceof Array) {
+        for (let guild of guilds) {
+            let Guild = Converters.guild(guild, eventEmitter);
+            if (!Guild)
+                console.error(`No guild with the ID/name ${guild} could be found.`)
+            else if (eventGuild.id === Guild.id) return true;
+        }
+        return false;
+    }
+    let Guild = Converters.guild(guilds, eventEmitter);
+    if (!Guild) {
+        console.error(`No guild with the ID/name ${guilds} could be found.`);
+        return false;
+    }
+    return eventGuild.id === Guild.id;
+}

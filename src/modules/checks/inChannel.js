@@ -3,12 +3,6 @@ const Discord = require('discord.js');
 const { Converters, Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
-    let channel = Converters.channel(options.channel, eventEmitter);
-    if (!channel) {
-        console.error(`No channel with the ID/name ${options.role} could be found, this check will be disabled.`);
-        return true;
-    }
-
     let eventChannel = Extractors.channel(eventEmitter);
 
     if (!eventChannel) {
@@ -16,5 +10,23 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    return channel.id === eventChannel.id;
+    return inChannel(eventChannel, options.channel, eventEmitter);
+}
+
+function inChannel(eventChannel, channels, eventEmitter) {
+    if (channels instanceof Array) {
+        for (let channel of channels) {
+            let Channel = Converters.channel(channel, eventEmitter);
+            if (!Channel)
+                console.error(`No channel with the ID/name ${channel} could be found.`)
+            else if (eventChannel.id === Channel.id) return true;
+        }
+        return false;
+    }
+    let Channel = Converters.channel(channels, eventEmitter);
+    if (!Channel) {
+        console.error(`No channel with the ID/name ${channels} could be found.`);
+        return false;
+    }
+    return eventChannel.id === Channel.id;
 }

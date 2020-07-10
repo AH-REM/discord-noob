@@ -115,8 +115,7 @@ class Command {
             Math.max(this.func.length - 2, 0));
 
         this.values.options.maxArgs = this.values.options.maxArgs ||
-            (this.script.calcMax ? this.script.calcMax(this.client, this.options) :
-                Math.max(this.func.length - 2, 0)) ||
+            (this.script.calcMax ? this.script.calcMax(this.client, this.options) : null) ||
             (this.values.usage ? this.values.usage.split(' ').length :
                 Command.usageParser(this).length ? Command.usageParser(this).split(' ').length : 0);
 

@@ -14,6 +14,6 @@ exports.run = (options, eventEmitter) => {
     try {
         member.roles.add(role);
     } catch(e) {
-        console.err(`Couldn't give the role ${role.name}`);
+        console.error(`Couldn't give the role ${role.name}`);
     }
 };

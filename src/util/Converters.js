@@ -87,10 +87,10 @@ exports.member = (memberResolvable, eventEmitter) => {
             guild.members.cache.find((member) => member.user.tag === memberResolvable) ||
             guild.members.cache.find((member) => member.user.username === memberResolvable) ||
             null;
-    } else if (eventEmitter.users) {
-        return eventEmitter.users.cache.get(memberResolvable) ||
-            eventEmitter.users.cache.find((user) => user.tag === memberResolvable) ||
-            eventEmitter.users.cache.find((user) => user.username === memberResolvable) ||
+    } else if (eventEmitter.client.users) {
+        return eventEmitter.client.users.cache.get(memberResolvable) ||
+            eventEmitter.client.users.cache.find((user) => user.tag === memberResolvable) ||
+            eventEmitter.client.users.cache.find((user) => user.username === memberResolvable) ||
             null;
     }
     return null;

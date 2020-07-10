@@ -135,7 +135,7 @@ say:
     options:
         definedArgCount: true
         minArgs: 1
-        maxArgs: 256 #'Message' needs a calcMax property to do it properly.
+        maxArgs: 256 #'message' needs a calcMax() property to do it properly.
         message:
             raw: false
             content:
@@ -146,3 +146,13 @@ gettest:
     options:
         giveRole:
             role: 'Test'
+    hidden: true
+
+ban:
+    script: 'ban'
+    options:
+        ban:
+            reason: 'Default reason'
+        definedArgCount: true
+        argCountError: 'Use !help ban'
+    description: 'For when a member gets naughty'

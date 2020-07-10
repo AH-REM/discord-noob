@@ -40,8 +40,11 @@ exports.isAvailable = () => {
 };
 
 function getMessage(options) {
-    const rand = Math.floor(Math.random() * options.content.length);
-    return options.content[rand];
+    if (options.content instanceof Array) {
+        const rand = Math.floor(Math.random() * options.content.length);
+        return options.content[rand];
+    }
+    return options.content;
 }
 
 function getChannel(options, eventEmitter) {
@@ -56,8 +59,10 @@ function getChannel(options, eventEmitter) {
 }
 
 function addReact(options, message) {
-    for (let emoji of options.react) {
-        // Gérer les erreurs
-        message.react(emoji).catch(console.error);
+    if (!options.react) return;
+    if (options.react instanceof Array) {
+        options.react.forEach(r => message.react(r).catch(console.error));
+    } else {
+        message.react(options.react).catch(console.error);
     }
 }
