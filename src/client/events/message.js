@@ -109,7 +109,7 @@ function commandHandler(eventEmitter, commandHolder, pastArgs, prefix = false) {
     } else if (!command)
         return false;
 
-    if (command.available && command.prefix === prefix && command.validateChecks(message, false)) {
+    if (groupFailed || (command.available && command.prefix === prefix && command.validateChecks(message, false))) {
         if (command instanceof Group && !groupFailed) {
             return commandHandler(eventEmitter, command, args);
         } else {
@@ -121,7 +121,6 @@ function commandHandler(eventEmitter, commandHolder, pastArgs, prefix = false) {
                 return true;
             }
             command.action(eventEmitter, parsedArgs);
-
             if (command.values.delete > -1)
                 message.delete({timeout: command.values.delete});
 

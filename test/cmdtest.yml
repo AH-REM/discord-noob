@@ -77,7 +77,7 @@ group:
     script: 'message'
     options:
         message:
-            content: 'Usage: group echo <word>'
+            content: 'Usage: group echo <message>'
     description: 'Test of command groups'
 
 superping:

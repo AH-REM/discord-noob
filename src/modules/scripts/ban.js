@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 //const { Converters, Extractors } = require('discord-noob');
 const { Converters, Extractors } = require('../../index');
 
-exports.run = (options, eventEmitter, member, reason = '') => {
+exports.run = (options, eventEmitter, member, ...reason) => {
     if (eventEmitter.event === 'command') {
         let guildMember = Converters.member(member, eventEmitter);
         if (!(guildMember instanceof Discord.GuildMember)) {
@@ -10,7 +10,7 @@ exports.run = (options, eventEmitter, member, reason = '') => {
             console.error(`No member ${member} could be found.`);
             return;
         }
-        options.reason = reason || options.reason;
+        options.reason = reason.join(' ') || options.reason;
         guildMember.ban(options)
                     .then(() => eventEmitter.eventArgs[0].react('✅').catch(console.error))
                     .catch(e => {eventEmitter.eventArgs[0].react('❌').catch(console.error);

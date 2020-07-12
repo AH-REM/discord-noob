@@ -29,7 +29,7 @@ class Command {
 
         this.available = true;
 
-        if (this.values.options.definedArgCount)
+        if (this.options.definedArgCount)
             this.calculateArgCount();
     }
 
@@ -116,12 +116,12 @@ class Command {
      * provided and finally by the usage automatically parsed.
      */
     calculateArgCount() {
-        this.values.options.minArgs = this.values.options.minArgs ||
-            (this.script.calcMin ? this.script.calcMin(this.client, this.options) :
+        this.options.minArgs = this.options.minArgs ||
+            (this.script.calcMin ? this.script.calcMin(this.client, this.scriptOptions) :
             Math.max(this.func.length - 2, 0));
 
-        this.values.options.maxArgs = this.values.options.maxArgs ||
-            (this.script.calcMax ? this.script.calcMax(this.client, this.options) : null) ||
+        this.options.maxArgs = this.options.maxArgs ||
+            (this.script.calcMax ? this.script.calcMax(this.client, this.scriptOptions) : null) ||
              Command.usageToArgCount(this.values.usage || Command.usageParser(this));
 
         console.log(`The command ${this.name} has a defined argument count range: [${this.values.options.minArgs}, ${this.values.options.maxArgs}]`)
