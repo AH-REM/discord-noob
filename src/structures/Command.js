@@ -17,11 +17,11 @@ class Command {
 
         this.aliases = values.aliases ? values.aliases : new Array();
 
-        this.values.options = this.values.options || {};
+        this.options = this.values.options || {};
 
-        this.options = this.values.options[values.script] || new Object();
+        this.scriptOptions = this.options[values.script] || {};
 
-        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, values.options[name])) : [];
+        this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];
 
         this.script = ModuleManager.load(client, 'script', values.script);
 
@@ -38,7 +38,7 @@ class Command {
      */
     isAvailable() {
         if (this.script.isAvailable) {
-            if (!!this.script.isAvailable(this.options, this.client) !== this.available) {
+            if (!!this.script.isAvailable(this.scriptOptions, this.client) !== this.available) {
                 this.available = !this.available;
                 console.error(`The command ${this.name} has been ${this.available? 're-enabled' : 'disabled'}.`)
             }
@@ -70,7 +70,7 @@ class Command {
      */
     action(eventEmitter, args) {
         eventEmitter.arguments = args;
-        this.func(this.options, eventEmitter, ...args);
+        this.func(this.scriptOptions, eventEmitter, ...args);
     }
 
     /**
@@ -79,8 +79,8 @@ class Command {
      * @return {string}
      */
     static usageParser(cmd) {
-        let funct = cmd.script.run || cmd.script;
-        let string = funct.toString();
+        let func = cmd.script.run || cmd.script;
+        let string = func.toString();
         let start = -1, stop = 0, inQuote = false, quote;
         for (let charIndex in string.split("")) {
             if (start === -1 && string[charIndex] === '(') {
@@ -101,8 +101,14 @@ class Command {
             .replace(/ /g, "")
             .replace(/,/g, " ")
             .split(" ");
-        args = args.map((word) => word.includes("=") ? `[${word.split("=")[0]}]` : word);
+        args = args.map((word) => word.includes("=") || word.includes("...") ? `[${word.split("=")[0]}]` : word);
         return args.slice(2).join(" ");
+    }
+
+    static usageToArgCount(usage) {
+        if (!usage.length) return 0;
+        let args = usage.split(" ");
+        return args[args.length - 1].includes('...') ? Infinity : args.length;
     }
 
     /**
@@ -116,8 +122,7 @@ class Command {
 
         this.values.options.maxArgs = this.values.options.maxArgs ||
             (this.script.calcMax ? this.script.calcMax(this.client, this.options) : null) ||
-            (this.values.usage ? this.values.usage.split(' ').length :
-                Command.usageParser(this).length ? Command.usageParser(this).split(' ').length : 0);
+             Command.usageToArgCount(this.values.usage || Command.usageParser(this));
 
         console.log(`The command ${this.name} has a defined argument count range: [${this.values.options.minArgs}, ${this.values.options.maxArgs}]`)
     }

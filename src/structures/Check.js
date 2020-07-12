@@ -13,8 +13,10 @@ class Check {
 
         this.options = options || {};
 
-        this.onError = this.options.onError ? ModuleManager.load(client, 'script', options.onError) : null;
-
+        if (this.options.onError) {
+            this.onError = ModuleManager.load(client, 'script', this.options.onError);
+            this.scriptOptions = this.options[this.options.onError];
+        }
     }
 
     /**
@@ -29,7 +31,7 @@ class Check {
         } else if (!silent && this.onError){
             const func = this.onError.run || this.onError;
             if (func)
-                func(this.options, eventEmitter);
+                func(this.scriptOptions, eventEmitter);
         }
         return false;
     };

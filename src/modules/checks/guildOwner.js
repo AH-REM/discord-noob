@@ -2,10 +2,6 @@
 const { Extractors } = require('../../index');
 
 exports.run = (options, eventEmitter) => {
-    if (!eventEmitter.guild) {
-        return false;
-    }
-
     let guild = Extractors.guild(eventEmitter);
 
     let author = Extractors.member(eventEmitter);

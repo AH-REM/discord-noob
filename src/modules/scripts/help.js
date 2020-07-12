@@ -6,13 +6,12 @@ exports.run = function(options, eventEmitter) {
     let message = eventEmitter.eventArgs[0];
     let bot = eventEmitter.client;
     let prefix = bot.noobOptions.prefix;
-
     // Settings
     let title = options.title || "Commands";
     let description = options.description || `**Prefix:** ${prefix}`;
     let color = options.color || 0;
-    let thumbnailUrl = bot.user.avatarURL();
-    let maxLength = 60;
+    let thumbnailUrl = options.thumbnailUrl || bot.user.avatarURL();
+    let maxLength = options.maxLength || 60;
 
     // Loop in the command holders to go as deep as possible.
     let fields = [];

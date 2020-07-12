@@ -3,8 +3,7 @@ hello:
     script: 'message'
     options:
         message:
-            content:
-                - 'world'
+            content: 'world'
         definedArgCount: true
 
 re:
@@ -24,10 +23,8 @@ ping:
     script: 'message'
     options:
         message:
-            content:
-                - 'pong'
-            react:
-                - '🏓'
+            content: 'pong'
+            react: '🏓'
     description: 'Pong !'
 
 test:
@@ -38,8 +35,7 @@ test:
         message:
             guild: '711916266352541696'
             channel: '711922686108106883'
-            content:
-                - 'Je suis un test'
+            content: 'Je suis un test'
             react:
                 - '❤️'
                 - '🥰'
@@ -58,8 +54,7 @@ guilds:
     options:
         message:
             raw: false
-            content:
-                - 'Le bot est sur **{guilds:size}** serveurs. Voici la liste : ```{guilds}```'
+            content: 'Le bot est sur **{guilds:size}** serveurs. Voici la liste : ```{guilds}```'
     description: 'What are the guilds?'
 
 rand:
@@ -67,8 +62,7 @@ rand:
     options:
         message:
             raw: false
-            content:
-                - '{author}, tu as choisit le nombre **{rand:11}** !'
+            content: '{author}, tu as choisit le nombre **{rand:11}** !'
     delete: 1500
     description: 'Feeling lucky?'
 
@@ -83,26 +77,21 @@ group:
     script: 'message'
     options:
         message:
-            content:
-                - 'Usage: group echo <word>'
+            content: 'Usage: group echo <word>'
     description: 'Test of command groups'
 
 superping:
     script: 'message'
     options:
         message:
-            content:
-                - 'superpong'
-            react:
-                - '🏓'
+            content: 'superpong'
+            react: '🏓'
         hasRole:
             role: 'Test'
             onError: 'message'
             message:
-                content:
-                    - 'Nope'
-                react:
-                    - '❌'
+                content: 'Nope'
+                react: '❌'
     checks:
         - 'hasRole'
     description: 'Superpong !'
@@ -111,13 +100,11 @@ owner:
     script: 'message'
     options:
         message:
-            content:
-                - 'Tu es le propriétaire de cette guilde'
+            content: 'Tu es le propriétaire de cette guilde'
         guildOwner:
             onError: 'message'
             message:
-                content:
-                    - "Tu n'es pas le propriétaire de cette guilde"
+                content: "Tu n'es pas le propriétaire de cette guilde"
     checks:
         - 'guildOwner'
     description: 'Are you the owner?'
@@ -129,6 +116,8 @@ help:
             color: '#b51b5b'
     description: 'This command'
     usage: 'command'
+    aliases:
+        - 'aide'
 
 say:
     script: 'message'
@@ -138,8 +127,7 @@ say:
         maxArgs: 256 #'message' needs a calcMax() property to do it properly.
         message:
             raw: false
-            content:
-                - '{author} a dit {args}'
+            content: '{author} a dit {args}'
 
 gettest:
     script: 'giveRole'
