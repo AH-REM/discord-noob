@@ -14,8 +14,8 @@
             name: 'des grenouilles.',
             type: 'WATCHING'
         },
-        scripts: './scripts/',
-        checks: './checks/',
+        scripts: './scripts',
+        checks: './checks',
         slugs: './slugs/'
     });
 
