@@ -14,3 +14,23 @@ giveTestRole:
             role: 'Test'
             reaction: '❤️'
             message: '726825754511409153'
+
+bannedReaction:
+    script: 'message'
+    event: 'messageReactionAdd'
+    options:
+        message:
+            content: "You shouldn't add that reaction in here."
+        contains:
+            - "🖕"
+            - "🍆"
+    checks:
+        - 'contains'
+
+logMessageEdits:
+    script: 'logMessage'
+    event: 'messageUpdate'
+    options:
+        logMessage:
+            channel: 'logs'
+            color: '#b51b5b'

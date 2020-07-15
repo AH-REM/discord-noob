@@ -12,7 +12,8 @@ class Action {
         this.event = values.event;
         this.available = true;
 
-        this.options = values.options[values.script] || new Object();
+        this.options = values.options || {};
+        this.scriptOptions = this.options[values.script] || {};
 
         this.script = ModuleLoader.load(client, 'script', values.script);
         this.checks = values.checks ? values.checks.map((name) => new Check(client, this, name, this.options[name])) : [];
@@ -24,7 +25,7 @@ class Action {
     run(eventEmitter) {
         let func = this.script.run || this.script;
         if (this.validateChecks(eventEmitter, false))
-            func(this.options, eventEmitter);
+            func(this.scriptOptions, eventEmitter);
     }
 
     validateChecks(eventEmitter, silent) {

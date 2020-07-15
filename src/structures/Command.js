@@ -70,6 +70,7 @@ class Command {
      */
     action(eventEmitter, args) {
         eventEmitter.arguments = args;
+        eventEmitter.action = this;
         this.func(this.scriptOptions, eventEmitter, ...args);
     }
 

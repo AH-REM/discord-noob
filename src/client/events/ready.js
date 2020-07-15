@@ -24,6 +24,7 @@ module.exports = client => {
     // Exec all action
     let eventEmitter = {event: 'ready', eventArgs: [], client: client};
     for (let [ _, action ] of client.managers['action'].cache.get('ready')) {
+        eventEmitter.action = action;
         action.run(eventEmitter);
     }
 
