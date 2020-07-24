@@ -143,4 +143,25 @@ ban:
             reason: 'Default reason'
         definedArgCount: true
         argCountError: 'Use !help ban'
+    description: 'For when a member gets really naughty'
+
+warn:
+    script: 'warn'
+    options:
+        warn:
+            reason: 'Default reason'
+        definedArgCount: true
+        argCountError: 'Use !help warn'
     description: 'For when a member gets naughty'
+
+moderation:
+    script: 'moderationInfo'
+    options:
+        moderationInfo:
+            enabled:
+                - 'warnings'
+                - 'bans'
+            color: '#b51b5b'
+    aliases:
+        - 'warnings'
+        - 'bans'

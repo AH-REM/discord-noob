@@ -12,6 +12,10 @@ exports.DefaultOptions = {
 
     scripts: './scripts/',
 
+    checks: './checks/',
+
+    data: './data/'
+
     // activity: {
     //
     //     name: 'test',

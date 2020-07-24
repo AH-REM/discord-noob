@@ -12,25 +12,16 @@ exports.run = (options, eventEmitter, member, ...reason) => {
             console.error(`No member ${member} could be found.`);
             return;
         }
-        options.reason = reason || options.reason;
-        guildMember.ban(options)
-                    .then(() => eventEmitter.eventArgs[0].react('✅').catch(console.error))
-                    .catch(e => {eventEmitter.eventArgs[0].react('❌').catch(console.error);
-                                 console.error(`Couldn't ban the member ${guildMember.displayName}`)});
+        eventEmitter.eventArgs[0].react('✅').catch(console.error);
     } else {
         guildMember = Extractors.member(eventEmitter);
-        try {
-            guildMember.ban(options).then(() => eventEmitter.eventArgs[0].react('✅').catch(console.error));
-        } catch(e) {
-            console.error(`Couldn't ban the member who emitted the event ${eventEmitter.event}`);
-        }
     }
 
     let data = eventEmitter.client.data.get('moderation');
     data[guildMember.guild.id] = data[guildMember.guild.id] || {};
     let userData = data[guildMember.guild.id][guildMember.id] || {};
-    userData.bans = userData.bans || [];
-    userData.bans.push({date: Date.now(), reason: reason || options.reason});
+    userData.warnings = userData.warnings || [];
+    userData.warnings.push({date: Date.now(), reason: reason || options.reason});
     data[guildMember.guild.id][guildMember.id] = userData;
 
     eventEmitter.client.data.set('moderation', data);

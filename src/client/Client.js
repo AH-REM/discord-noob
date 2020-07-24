@@ -6,6 +6,7 @@ const EventLoader = require('./events/EventLoader');
 const Loader = require('./loader/Loader');
 const Managers = require('../managers/Managers');
 const SlugManager = require('../managers/SlugManager');
+const DataStorage = require('./Data');
 
 class Client extends Discord.Client{
 
@@ -21,6 +22,8 @@ class Client extends Discord.Client{
          * @type {Object}
          */
         this.noobOptions = Discord.Util.mergeDefault(DefaultOptions, options);
+
+        this.data = new DataStorage(this);
 
         this.managers = new Managers();
 

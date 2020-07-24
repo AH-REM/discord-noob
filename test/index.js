@@ -16,7 +16,8 @@
         },
         scripts: './scripts',
         checks: './checks',
-        slugs: './slugs/'
+        slugs: './slugs/',
+        data: './data'
     });
 
     // Add all slugs
