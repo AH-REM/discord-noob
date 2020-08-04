@@ -17,10 +17,13 @@ giveTestRole:
 
 bannedReaction:
     script: 'message'
-    event: 'messageReactionAdd'
+    event:
+        - 'messageReactionAdd'
+        - 'message'
     options:
         message:
-            content: "You shouldn't add that reaction in here."
+            raw: false
+            content: "{author}, you shouldn't use that reaction in here!"
         contains:
             - "🖕"
             - "🍆"

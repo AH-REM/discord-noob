@@ -30,12 +30,15 @@ class ActionManager {
      * @returns {string[]}
      */
     static event(name) {
+        if (!(name instanceof Array)) {
+            name = [name];
+        }
+
         let groups = {
             ready: ['ready'],
             reaction: ['messageReactionAdd', 'messageReactionRemove', 'messageReactionRemoveAll', 'messageReactionRemoveEmoji']
         }
-
-        return name in groups? groups[name]: [name];
+        return name.flatMap(n => n in groups? groups[n]: n);
     }
 
     verifyAvailability() {

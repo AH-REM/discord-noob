@@ -9,7 +9,7 @@ class Action {
 
         this.client = client;
         this.name = name;
-        this.event = values.event;
+        this.events = values.event instanceof Array? values.event: [values.event];
         this.available = true;
 
         this.options = values.options || {};
