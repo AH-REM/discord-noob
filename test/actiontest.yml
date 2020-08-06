@@ -37,3 +37,7 @@ logMessageEdits:
         logMessage:
             channel: 'logs'
             color: '#b51b5b'
+
+tempbanBanDetect:
+    script: 'tempban'
+    event: 'guildBanRemove'

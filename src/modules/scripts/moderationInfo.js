@@ -30,6 +30,7 @@ exports.run = (options, eventEmitter, member = "") => {
             for (let modCase of userData[key]) {
             let modCaseContent = [];
             for (let [ type, value ] of Object.entries(modCase)) {
+                if (type[0] === '_') continue;
                 modCaseContent.unshift(parse(type, value));
             }
             content.push(modCaseContent);
@@ -50,7 +51,8 @@ function capitalize(str) {
 
 function parse(type, value) {
     switch (type) {
-        case "date": value = new Date(value).toString(); break;
+        case "expire":
+        case "date": value = new Date(value).toLocaleString(); break;
     }
     return `**${capitalize(type)}:** ${value}`;
 }

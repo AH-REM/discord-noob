@@ -161,7 +161,18 @@ moderation:
             enabled:
                 - 'warnings'
                 - 'bans'
+                - 'tempbans'
             color: '#b51b5b'
     aliases:
         - 'warnings'
         - 'bans'
+        - 'tempbans'
+
+tempban:
+    script: 'tempban'
+    options:
+        tempban:
+            reason: 'Default reason'
+        definedArgCount: true
+        argCountError: 'Use !help tempban'
+    description: "Let's hope this one works"

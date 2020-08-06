@@ -25,6 +25,8 @@ class Client extends Discord.Client{
 
         this.data = new DataStorage(this);
 
+        this.tempData = {unique: []};
+
         this.managers = new Managers();
 
         this.slugs = new SlugManager(this);
