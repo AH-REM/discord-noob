@@ -30,9 +30,11 @@ bannedReaction:
     checks:
         - 'contains'
 
-logMessageEdits:
+logMessages:
     script: 'logMessage'
-    event: 'messageUpdate'
+    event:
+        - 'messageUpdate'
+        - 'messageDelete'
     options:
         logMessage:
             channel: 'logs'

@@ -52,7 +52,7 @@ function capitalize(str) {
 function parse(type, value) {
     switch (type) {
         case "expire":
-        case "date": value = new Date(value).toLocaleString(); break;
+        case "date": value = new Date(value).toLocaleString("en-GB", {dateStyle:'medium', timeStyle:'long'}); break;
     }
     return `**${capitalize(type)}:** ${value}`;
 }
