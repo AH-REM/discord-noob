@@ -6,22 +6,26 @@ exports.run = function(options, eventEmitter) {
     let message = eventEmitter.eventArgs[0];
     let bot = eventEmitter.client;
     let prefix = bot.noobOptions.prefix;
+    let args = eventEmitter.arguments;
     // Settings
     let title = options.title || "Commands";
     let description = options.description || `**Prefix:** ${prefix}`;
     let color = options.color || 0;
     let thumbnailUrl = options.thumbnailUrl || bot.user.avatarURL();
     let maxLength = options.maxLength || 60;
+    let maxCommands = 10;
+
+    let embed = new Discord.MessageEmbed({ "title": title, "description": description, "color": color});
 
     // Loop in the command holders to go as deep as possible.
     let fields = [];
     let commandHolder = bot;
     let target;
-    let counter = 2;
+    let counter = 0;
     let goOn = true;
-    while (counter < arguments.length && goOn) {
+    while (counter < args.length && goOn) {
         goOn = false;
-        let command = commandHolder.managers['command'].cache.commands.get(arguments[counter]) || commandHolder.managers['command'].cache.aliases.get(arguments[counter]);
+        let command = commandHolder.managers['command'].cache.commands.get(args[counter]) || commandHolder.managers['command'].cache.aliases.get(args[counter]);
         if (command && command.validateChecks(message, true)) {
             if (command instanceof Noob.Group) {
                 commandHolder = command;
@@ -46,8 +50,8 @@ exports.run = function(options, eventEmitter) {
     }
     else {
         if (target instanceof Noob.Group) {
-            title = target.name;
-            description = target.values.description || '';
+            embed.setTitle(target.name);
+            embed.setDescription(target.values.description || '');
         }
         target.managers['command'].cache.commands.forEach((cmd) => {
                 let field = { "name": `**${cmd.name}**`, "value": `${truncateStr(cmd.values.description || 'No description', maxLength)}` };
@@ -59,8 +63,20 @@ exports.run = function(options, eventEmitter) {
                 }
             }
         );
+
+        if (fields.length > maxCommands) {
+            let currentPage = parseInt(args[args.length - 1]) || 1;
+            let pageAmount = 1 + parseInt(fields.length / maxCommands);
+
+            if (currentPage < 1 || currentPage > pageAmount) currentPage = 1;
+
+            embed.setFooter(
+                `Page ${currentPage} of ${pageAmount}. Use ${prefix}${eventEmitter.action.name} [command] <number>`
+            );
+            fields = fields.slice((currentPage - 1) * maxCommands, currentPage * maxCommands);
+        }
     }
-    let embed = new Discord.MessageEmbed({ "title": title, "description": description, "color": color});
+
     if (fields) {
         embed.addFields(fields);
     }

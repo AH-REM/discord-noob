@@ -24,6 +24,7 @@ class Action {
      */
     run(eventEmitter) {
         let func = this.script.run || this.script;
+        eventEmitter.action = this;
         if (this.validateChecks(eventEmitter, false))
             func(this.scriptOptions, eventEmitter);
     }
