@@ -80,29 +80,7 @@ function setTempbans(clientData, guild, userId, tempbans) {
 }
 
 function calcExpire(time) {
-    let timeSplit = time.split(" ");
-    if (timeSplit.length === 2) {
-        switch (timeSplit[1]) {
-            case 'milliseconds': return Date.now() + (timeSplit[0]);
-            case 'second':
-            case 'seconds': return Date.now() + (timeSplit[0] * 1000);
-            case 'minute':
-            case 'minutes': return Date.now() + (timeSplit[0] * 1000 * 60);
-            case 'hour':
-            case 'hours': return Date.now() + (timeSplit[0] * 1000 * 3600);
-            case 'day':
-            case 'days': return Date.now() + (timeSplit[0] * 1000 * 3600 * 24);
-        }
-    }
-    let amount = parseInt(time);
-    let multiplier = time.slice(amount.toString().length);
-    switch (multiplier) {
-        case 'ms': return Date.now() + (amount);
-        case 's': return Date.now() + (amount * 1000);
-        case 'm': return Date.now() + (amount * 1000 * 60);
-        case 'h': return Date.now() + (amount * 1000 * 3600);
-        case 'd': return Date.now() + (amount * 1000 * 3600 * 24);
-    }
+    return Date.now() + Converters.time(time, 'ms');
 }
 
 function timeoutFunc(clientData, guild, userId) {
@@ -123,9 +101,10 @@ function timeoutFunc(clientData, guild, userId) {
 function onceBanned(eventEmitter, guildMember, time, reason) {
     let tempbans = getTempbans(eventEmitter.client.data, guildMember.guild, guildMember.id);
     let expire = calcExpire(time);
+    time = Converters.time(Converters.time(time, 'ms'), 'max');
     tempbans.push({date: Date.now(), duration: time, _expire: expire, reason: reason, _banned: true});
     setTempbans(eventEmitter.client.data, guildMember.guild, guildMember.id, tempbans);
 
     setTimeout(timeoutFunc, expire - Date.now(), eventEmitter.client.data, guildMember.guild, guildMember.id);
-    console.log(`${guildMember.tag || guildMember.displayName} will be unbanned in ${expire - Date.now()} milliseconds.`)
+    console.log(`${guildMember.tag || guildMember.displayName} will be unbanned in ${Converters.time(expire - Date.now(), 'max')}.`);
 }

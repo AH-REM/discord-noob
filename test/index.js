@@ -8,7 +8,7 @@
     const Noob = require('../src');
 
     const noob = new Noob.Client({
-        token: token,
+        token: token, // You can place directly your token here, if that's the case you can remove the first token line.
         prefix: '!',
         activity: {
             name: 'des grenouilles.',
@@ -16,7 +16,7 @@
         },
         scripts: './scripts',
         checks: './checks',
-        slugs: './slugs/',
+        slugs: './slugs',
         data: './data'
     });
 

@@ -95,3 +95,43 @@ exports.member = (memberResolvable, eventEmitter) => {
     }
     return null;
 }
+
+exports.time = (str, type) => {
+    switch (type) {
+        case "ms": {
+            let timeSplit = str.split(" ");
+            if (timeSplit.length === 2) {
+                switch (timeSplit[1]) {
+                    case 'milliseconds': return timeSplit[0];
+                    case 'second':
+                    case 'seconds': return timeSplit[0] * 1000;
+                    case 'minute':
+                    case 'minutes': return timeSplit[0] * 1000 * 60;
+                    case 'hour':
+                    case 'hours': return timeSplit[0] * 1000 * 3600;
+                    case 'day':
+                    case 'days': return timeSplit[0] * 1000 * 3600 * 24;
+                }
+            }
+            let amount = parseInt(str);
+            let multiplier = str.slice(amount.toString().length);
+            switch (multiplier) {
+                case 'ms': return amount;
+                case 's': return amount * 1000;
+                case 'm': return amount * 1000 * 60;
+                case 'h': return amount * 1000 * 3600;
+                case 'd': return amount * 1000 * 3600 * 24;
+            }
+        } break;
+        case 'max': {
+            let time = parseInt(str);
+            switch (true) {
+                case (str >= 1000 * 3600 * 24): return `${Number((time/(1000 * 3600 * 24)).toFixed(2))} days`;
+                case (str >= 1000 * 3600): return `${Number((time/(1000 * 3600)).toFixed(2))} hours`;
+                case (str >= 1000 * 60): return `${Number((time/(1000 * 60)).toFixed(2))} minutes`;
+                case (str >= 1000): return `${Number((time/1000).toFixed(2))} seconds`;
+                default: return `${time} milliseconds`;
+            }
+        }
+    }
+}
