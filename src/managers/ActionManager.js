@@ -35,7 +35,15 @@ class ActionManager {
         }
 
         let groups = {
-            ready: ['ready'],
+            channels: ['channelCreate', 'channelDelete', 'channelUpdate'],
+            emojis: ['emojiCreate', 'emojiDelete', 'emojiUpdate'],
+            bans: ['guildBanAdd', 'guildBanRemove'],
+            guilds: ['guildCreate', 'guildDelete', 'guildUnavailable', 'guildUpdate'],
+            guildMembers: ['guildMemberAdd', 'guildMemberRemove', 'guildMemberUpdate', 'presenceUpdate', 'userUpdate'],
+            invites: ['inviteCreate', 'inviteDelete'],
+            messages: ['message', 'messageDelete', 'messageUpdate'],
+            voice: ['voiceStateUpdate', 'guildMemberSpeaking'],
+            roles: ['roleCreate', 'roleRemove', 'roleUpdate'],
             reaction: ['messageReactionAdd', 'messageReactionRemove', 'messageReactionRemoveAll', 'messageReactionRemoveEmoji']
         }
         return name.flatMap(n => n in groups? groups[n]: n);
