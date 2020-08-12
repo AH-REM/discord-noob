@@ -33,7 +33,6 @@ test:
         - 'test2'
     options:
         message:
-            guild: '711916266352541696'
             channel: '711922686108106883'
             content: 'Je suis un test'
             react:
@@ -53,7 +52,7 @@ guilds:
     script: 'message'
     options:
         message:
-            raw: false
+            parse: true
             content: 'Le bot est sur **{guilds:size}** serveurs. Voici la liste : ```{guilds}```'
     description: 'What are the guilds?'
 
@@ -61,7 +60,7 @@ rand:
     script: 'message'
     options:
         message:
-            raw: false
+            parse: true
             content: '{author}, tu as choisit le nombre **{rand:11}** !'
     delete: 1500
     description: 'Feeling lucky?'
@@ -126,7 +125,7 @@ say:
         minArgs: 1
         maxArgs: 256 #'message' needs a calcMax() property to do it properly.
         message:
-            raw: false
+            parse: true
             content: '{author} a dit {args}'
 
 gettest:

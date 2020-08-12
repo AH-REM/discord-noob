@@ -6,7 +6,6 @@ const Noob = require('../../index');
 
 const DefaultOptions = {
     raw: true,
-    guild: null,
     channel: null,
     content: new Array(),
     react: new Array()
@@ -48,21 +47,13 @@ function getMessage(options) {
 }
 
 function getChannel(options, eventEmitter) {
-    const { client } = eventEmitter;
-    const { guild, channel } = options;
-
-    if (guild && channel) {
-        const chan = client.guilds.cache.get(guild).channels.cache.get(channel);
-        return chan;
-    }
-    else return Noob.Extractors.channel(eventEmitter);
+    return Noob.Converters.channel(options.channel, eventEmitter) || Noob.Extractors.channel(eventEmitter);
 }
 
 function addReact(options, message) {
     if (!options.react) return;
-    if (options.react instanceof Array) {
-        options.react.forEach(r => message.react(r).catch(console.error));
-    } else {
-        message.react(options.react).catch(console.error);
-    }
+    if (!(options.react instanceof Array)) options.react = [options.react];
+    options.react
+        .map(r => message.client.emojis.resolveIdentifier(r))
+        .forEach(r => {if (r) message.react(r).catch(console.error)});
 }

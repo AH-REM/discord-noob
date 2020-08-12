@@ -13,7 +13,7 @@ exports.run = function(options, eventEmitter) {
     let color = options.color || 0;
     let thumbnailUrl = options.thumbnailUrl || bot.user.avatarURL();
     let maxLength = options.maxLength || 60;
-    let maxCommands = 10;
+    let maxCommands = options.maxCommands || 10;
 
     let embed = new Discord.MessageEmbed({ "title": title, "description": description, "color": color});
 

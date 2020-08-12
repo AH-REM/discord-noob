@@ -1,10 +1,10 @@
 test:
-    script: 'ready'
+    script: 'console'
     event: 'ready'
     options:
-        ready:
+        console:
             parse: true
-            console: 'Le bot est sur {guilds:size} guild(s) actuellement.'
+            content: 'Le bot est sur {guilds:size} guild(s) actuellement.'
 
 giveTestRole:
     script: 'reactionRole'
@@ -22,11 +22,12 @@ bannedReaction:
         - 'message'
     options:
         message:
-            raw: false
+            parse: true
             content: "{author}, you shouldn't use that reaction in here!"
         contains:
-            - "🖕"
-            - "🍆"
+            content:
+                - "🖕"
+                - "🍆"
     checks:
         - 'contains'
 

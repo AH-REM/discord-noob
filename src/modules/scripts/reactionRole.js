@@ -13,7 +13,7 @@ exports.run = (options, eventEmitter) => {
     }
 
     if (!eventEmitter.client.emojis.resolveIdentifier(options.reaction)) {
-        console.error(`No role with the name/unicode ${options.reaction} could be found`);
+        console.error(`No emote with the name/unicode ${options.reaction} could be found`);
         return;
     }
     if (eventEmitter.eventArgs[0].emoji.name !== options.reaction || eventEmitter.eventArgs[0].message.id !== options.message)

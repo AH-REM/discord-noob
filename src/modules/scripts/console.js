@@ -5,9 +5,9 @@ const Noob = require('../../index');
 
 module.exports = (options, eventEmitter) => {
 
-    if (options.console) {
+    if (options.content) {
 
-        let message = options.console;
+        let message = options.content;
 
         if (options.parse) {
             message = Noob.parserMessage(eventEmitter.client, eventEmitter, message);

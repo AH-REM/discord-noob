@@ -1,6 +1,6 @@
 exports.run = (options, eventEmitter) => {
     let contents;
-    if (!(options instanceof Array)) options = [options];
+    if (!(options.content instanceof Array)) options.content = [options.content];
     switch (eventEmitter.event) {
         case "command":
         case "messageDelete":
@@ -14,7 +14,7 @@ exports.run = (options, eventEmitter) => {
     }
 
     for (let content of contents) {
-        for (let option of options) {
+        for (let option of options.content) {
             if (content.match(option) && content.match(content)[0].length) return true;
         }
     }

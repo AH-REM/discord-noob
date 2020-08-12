@@ -1,4 +1,5 @@
 let Discord = require('discord.js');
+let Exractors = require('./Extractors');
 
 exports.role = (roleResolvable, eventEmitter) => {
     //It's already a Role
@@ -10,13 +11,7 @@ exports.role = (roleResolvable, eventEmitter) => {
         roleResolvable = Discord.MessageMentions.ROLES_PATTERN.exec(roleResolvable)[1];
     }
     //It's an id or name
-    let guild;
-    switch (eventEmitter.event) {
-        case 'command':
-        case 'message': guild = eventEmitter.eventArgs[0].guild; break;
-        case 'messageReactionRemove':
-        case 'messageReactionAdd': guild = eventEmitter.eventArgs[0].message.guild; break;
-    }
+    let guild = Exractors.guild(eventEmitter);
 
     if (guild) {
         return guild.roles.cache.get(roleResolvable) ||
@@ -36,20 +31,9 @@ exports.channel = (channelResolvable, eventEmitter) => {
         channelResolvable = Discord.MessageMentions.CHANNELS_PATTERN.exec(channelResolvable)[1];
     }
     //It's an id or name
-    if (eventEmitter.guild) {
-        return eventEmitter.guild.channels.cache.get(channelResolvable) ||
-            eventEmitter.guild.channels.cache.find((channel) => channel.name === channelResolvable) ||
-            null;
-    } else if (eventEmitter.channels) {
-        return eventEmitter.channels.cache.get(channelResolvable) ||
-            eventEmitter.channels.cache.find((channel) => channel.name === channelResolvable) ||
-            null;
-    } else if (eventEmitter.client) {
-        return eventEmitter.client.channels.cache.get(channelResolvable) ||
-            eventEmitter.client.channels.cache.find((channel) => channel.name === channelResolvable) ||
-            null;
-    }
-    return null;
+    return eventEmitter.client.channels.cache.get(channelResolvable) ||
+        eventEmitter.client.channels.cache.find((channel) => channel.name === channelResolvable) ||
+        null;
 }
 
 exports.guild = (guildResolvable, eventEmitter) => {
@@ -73,13 +57,7 @@ exports.member = (memberResolvable, eventEmitter) => {
         memberResolvable = Discord.MessageMentions.USERS_PATTERN.exec(memberResolvable)[1];
     }
     //It's an id or name
-    let guild;
-    switch (eventEmitter.event) {
-        case 'command':
-        case 'message': guild = eventEmitter.eventArgs[0].guild; break;
-        case 'messageReactionRemove':
-        case 'messageReactionAdd': guild = eventEmitter.eventArgs[0].message.guild; break;
-    }
+    let guild = Extractors.guild(eventEmitter);
 
     if (guild) {
         return guild.members.cache.get(memberResolvable) ||
@@ -87,13 +65,12 @@ exports.member = (memberResolvable, eventEmitter) => {
             guild.members.cache.find((member) => member.user.tag === memberResolvable) ||
             guild.members.cache.find((member) => member.user.username === memberResolvable) ||
             null;
-    } else if (eventEmitter.client.users) {
+    } else {
         return eventEmitter.client.users.cache.get(memberResolvable) ||
             eventEmitter.client.users.cache.find((user) => user.tag === memberResolvable) ||
             eventEmitter.client.users.cache.find((user) => user.username === memberResolvable) ||
             null;
     }
-    return null;
 }
 
 exports.time = (str, type) => {
@@ -116,6 +93,7 @@ exports.time = (str, type) => {
             let amount = parseInt(str);
             let multiplier = str.slice(amount.toString().length);
             switch (multiplier) {
+                case '':
                 case 'ms': return amount;
                 case 's': return amount * 1000;
                 case 'm': return amount * 1000 * 60;
