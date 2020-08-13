@@ -5,10 +5,6 @@ module.exports = (client, eventEmitter, arg = 'name') => {
     let response;
 
     switch (arg) {
-        case 'name':
-            response = client.guilds.cache.map(guild => guild.name);
-            break;
-
         case 'id':
             response = client.guilds.cache.map(guild => guild.id);
             break;
@@ -17,8 +13,10 @@ module.exports = (client, eventEmitter, arg = 'name') => {
             response = client.guilds.cache.size;
             break;
 
+        case 'name':
         default:
-            // ...
+            response = client.guilds.cache.map(guild => guild.name);
+            break;
     }
 
     if (response instanceof Array) response = response.join(', ');

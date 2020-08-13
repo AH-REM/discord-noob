@@ -11,6 +11,7 @@ module.exports = (client, message) => {
     // Normal "message" event
     let eventEmitter = {event: "message", eventArgs: [message], client: client};
     for (let [ _, action ] of client.managers['action'].cache.get("message")) {
+        eventEmitter.action = action;
         action.run(eventEmitter);
     }
 
