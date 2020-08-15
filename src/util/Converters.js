@@ -2,6 +2,7 @@ let Discord = require('discord.js');
 let Exractors = require('./Extractors');
 
 exports.role = (roleResolvable, eventEmitter) => {
+    if (roleResolvable === undefined || roleResolvable === null) return null;
     //It's already a Role
     if (roleResolvable instanceof Discord.Role) {
         return roleResolvable;
@@ -22,6 +23,7 @@ exports.role = (roleResolvable, eventEmitter) => {
 }
 
 exports.channel = (channelResolvable, eventEmitter) => {
+    if (channelResolvable === undefined || channelResolvable === null) return null;
     //It's already a Channel
     if (channelResolvable instanceof Discord.Channel) {
         return channelResolvable;
@@ -37,6 +39,7 @@ exports.channel = (channelResolvable, eventEmitter) => {
 }
 
 exports.guild = (guildResolvable, eventEmitter) => {
+    if (guildResolvable === undefined || guildResolvable === null) return null;
     //It's already a Guild
     if (guildResolvable instanceof Discord.Guild) {
         return guildResolvable;
@@ -48,6 +51,7 @@ exports.guild = (guildResolvable, eventEmitter) => {
 }
 
 exports.member = (memberResolvable, eventEmitter) => {
+    if (memberResolvable === undefined || memberResolvable === null) return null;
     //It's already a Member
     if (memberResolvable instanceof Discord.GuildMember) {
         return memberResolvable;
