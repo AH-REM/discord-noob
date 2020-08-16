@@ -20,7 +20,7 @@ exports.run = (options, eventEmitter) => {
     let response = getMessage(options);
     if (response) {
 
-        if (!options.raw) {
+        if (options.parse) {
             response = Noob.parserMessage(eventEmitter.client, eventEmitter, response);
         }
 
