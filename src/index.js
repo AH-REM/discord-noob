@@ -21,5 +21,6 @@ module.exports = {
     Group: Group,
 
     parserMessage: Util.parserMessage,
+    parseBracket: Util.parseBracket,
 
 };

@@ -18,6 +18,28 @@ class Util {
     }
 
     /**
+     * @param {string} content
+     * @return {Array} [ name, arg ]
+     */
+    static parseBracket(content) {
+
+        // Remove "{...}"
+        content = content.slice(1, content.length - 1);
+
+        const parse = content.trim().split(':');
+
+        // first element before ':'
+        let name = parse[0];
+
+        // all element after ':'
+        let arg = parse.slice(1).join(':');
+        if (arg) arg = arg.trim();
+
+        return [ name, arg ];
+
+    }
+
+    /**
      * @param {Client} client
      * @param {Object} eventEmitter
      * @param {string} content
@@ -27,20 +49,20 @@ class Util {
 
         let response = content;
 
-        const arr = content.match(/[^{}]+(?=\})/g);
+        const arr = content.match(/{([\w\s|(\w\s:(\{\w\s:\w\s\})]*)}/g);
+
         if (arr) {
 
             for (let str of arr) {
 
-                let [ name, arg ] = str.trim().split(':', 2);
-                if (arg) arg = arg.trim();
+                let [ name, arg ] = Util.parseBracket(str);
 
                 if (!client.slugs.cache.has(name)) continue;
                 const slug = client.slugs.cache.get(name);
 
                 const result = slug.exec(client, eventEmitter, arg);
 
-                response = response.replace('{' + str + '}', result);
+                response = response.replace(str, result);
 
             }
 
