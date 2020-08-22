@@ -15,7 +15,7 @@ module.exports = (client, eventEmitter, arg = 0) => {
         result = eventEmitter.arguments.join(' ');
     }
     else {
-        result = eventEmitter.arguments[nb];
+        result = eventEmitter.arguments[nb - 1];
     }
 
     return result;
