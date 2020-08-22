@@ -61,8 +61,7 @@ rand:
     options:
         message:
             parse: true
-            content: '{author}, tu as choisit le nombre **{rand:11}** !'
-    delete: 1500
+            content: '{author}, tu as choisit le nombre **{rand:{args:1}}** !'
     description: 'Feeling lucky?'
 
 # A group is basically a command that holds other commands

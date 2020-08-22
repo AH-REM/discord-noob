@@ -19,9 +19,15 @@ class Util {
 
     /**
      * @param {string} content
-     * @return {Array} [ name, arg ]
+     * @param {boolean} force
+     * @return {Array} [ name, arg ] || undefined
      */
-    static parseBracket(content) {
+    static parseBracket(content = '', force = false) {
+
+        // Test if content have bracket
+        if (!force && (
+            !content.startsWith('{') || !content.charAt(content.length - 1)
+        )) return;
 
         // Remove "{...}"
         content = content.slice(1, content.length - 1);
@@ -55,7 +61,7 @@ class Util {
 
             for (let str of arr) {
 
-                let [ name, arg ] = Util.parseBracket(str);
+                let [ name, arg ] = Util.parseBracket(str, true);
 
                 if (!client.slugs.cache.has(name)) continue;
                 const slug = client.slugs.cache.get(name);
