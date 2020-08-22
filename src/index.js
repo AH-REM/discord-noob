@@ -20,8 +20,9 @@ module.exports = {
 
     Group: Group,
 
-    parserMessage: Util.parserMessage,
+    parseFunction: Util.parseFunction,
     parseBracket: Util.parseBracket,
-    parseFunction: Util.parseFunction
+    getAllBracket: Util.getAllBracket,
+    parserMessage: Util.parserMessage,
 
 };
