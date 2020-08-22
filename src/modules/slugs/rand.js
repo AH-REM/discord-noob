@@ -5,6 +5,20 @@ const Noob = require('../../');
 const initMax = 10,
       initMin = 1;
 
+/**
+ * @example
+ * // return random number
+ * {rand}
+ * @example
+ * // Set max to number 100
+ * {rand:100}
+ * @example
+ * // Set max the first argument of the message
+ * {rand:{args:1}}
+ * @example
+ * // Use function set() to set max and min
+ * {rand:set(100, {args:1})}
+ */
 module.exports = (client, eventEmitter, arg = initMax) => {
 
     this.client = client;
