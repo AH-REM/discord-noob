@@ -19,14 +19,35 @@ class Util {
 
     /**
      * @param {string} content
+     * @return {Array|undefined} [ name, [args] ]
+     */
+    static parseFunction(content = '') {
+
+        // If the content does not have the ")" character at the end
+        if (content.charAt(content.length - 1) !== ')') return;
+
+        const indexOf = content.indexOf('(');
+        if (!indexOf) return;
+
+        let name = str.slice(0, indexOf);
+
+        let args = str.slice(indexOf).split(',');
+        args = args.map(a => a.trim());
+
+        return [ name, args ];
+
+    }
+
+    /**
+     * @param {string} content
      * @param {boolean} force
-     * @return {Array} [ name, arg ] || undefined
+     * @return {Array|undefined} [ name, arg ]
      */
     static parseBracket(content = '', force = false) {
 
         // Test if content have bracket
         if (!force && (
-            !content.startsWith('{') || !content.charAt(content.length - 1)
+            !content.startsWith('{') || content.charAt(content.length - 1) !== '}'
         )) return;
 
         // Remove "{...}"

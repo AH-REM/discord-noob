@@ -22,5 +22,6 @@ module.exports = {
 
     parserMessage: Util.parserMessage,
     parseBracket: Util.parseBracket,
+    parseFunction: Util.parseFunction
 
 };
