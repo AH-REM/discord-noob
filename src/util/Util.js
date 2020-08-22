@@ -60,7 +60,9 @@ class Util {
 
         // all element after ':'
         let arg = parse.slice(1).join(':');
-        if (arg) arg = arg.trim();
+        arg = arg.trim();
+
+        if (arg.length < 1) arg = undefined;
 
         return [ name, arg ];
 
