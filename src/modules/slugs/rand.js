@@ -24,7 +24,7 @@ module.exports = (client, eventEmitter, arg = initMax) => {
     this.client = client;
     this.eventEmitter = eventEmitter;
 
-    let [ max, min ] = getNumbers(arg);
+    let [ max, min ] = getNumbers(arg, true);
 
     if (!max) return;
     if (!min) min = initMin;
@@ -34,7 +34,7 @@ module.exports = (client, eventEmitter, arg = initMax) => {
 }
 
 /**
- * @return {int} || undefined
+ * @return {int|undefined}
  */
 const parseNumber = number => {
     if (isNaN(number)) return;
@@ -42,25 +42,44 @@ const parseNumber = number => {
 }
 
 /**
- * @return {Array} [ max, min ] || undefined
+ * @param {string} argument
+ * @param {boolean} onFunc - parse function is activate
+ * @return {Array|undefined} [ max, min ]
  */
-const getNumbers = argument => {
+const getNumbers = (argument, onFunc) => {
+
+    if (!argument) return;
 
     // It's a numberarg
     const number = parseNumber(argument);
-    if (number) {
-        return [ number ];
-    }
+    if (number) return [ number ];
 
     // It's a bracket
     const parse = Noob.parseBracket(argument);
-
     if (parse) {
         let [ name, arg ] = parse;
 
         if (name == 'args') {
             const res = require('./args')(this.client, this.eventEmitter, arg);
             return [ res ];
+        }
+
+        else return;
+    }
+
+    if (!onFunc) return;
+
+    // It's a function
+    const parse2 = Noob.parseFunction(argument);
+    if (parse2) {
+        let [ name, args ] = parse2;
+
+        if (name == 'set') {
+            let [ max, min ] = args;
+            return [
+                getNumbers(max),
+                getNumbers(min)
+            ]
         }
 
         else return;
