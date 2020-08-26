@@ -1,5 +1,5 @@
 let Discord = require('discord.js');
-let Exractors = require('./Extractors');
+let Extractors = require('./Extractors');
 
 exports.role = (roleResolvable, eventEmitter) => {
     if (roleResolvable === undefined || roleResolvable === null) return null;

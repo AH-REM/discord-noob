@@ -6,6 +6,12 @@ exports.run = (options, eventEmitter) => {
     if (!['messageReactionAdd', 'messageReactionRemove'].includes(eventEmitter.event))
         return;
 
+    let guild = Converters.guild(options.guild, eventEmitter);
+    if (!guild) {
+        console.error(`No guild with the ID/name ${options.guild} could be found.`);
+        return;
+    }
+
     let role = Converters.role(options.role, eventEmitter);
     if (!role) {
         console.error(`No role with the ID/name ${options.role} could be found, this role won't be given/taken.`);
