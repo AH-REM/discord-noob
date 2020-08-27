@@ -26,6 +26,7 @@ class Check {
      * @returns {boolean}
      */
     validate(eventEmitter, silent) {
+        eventEmitter.check = this;
         if (this.check.run(this.options, eventEmitter)) {
             return true;
         } else if (!silent && this.onError){
@@ -47,6 +48,11 @@ class Check {
             }
         }
         return this.available;
+    }
+
+    disable() {
+        console.error(`The check ${this.name} from the action ${this.action.name} has been disabled.`)
+        this.available = false;
     }
 }
 

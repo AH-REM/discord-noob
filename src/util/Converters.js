@@ -12,7 +12,7 @@ exports.role = (roleResolvable, eventEmitter) => {
         roleResolvable = Discord.MessageMentions.ROLES_PATTERN.exec(roleResolvable)[1];
     }
     //It's an id or name
-    let guild = Exractors.guild(eventEmitter);
+    let guild = Extractors.guild(eventEmitter);
 
     if (guild) {
         return guild.roles.cache.get(roleResolvable) ||

@@ -127,6 +127,11 @@ class Command {
 
         console.log(`The command ${this.name} has a defined argument count range: [${this.values.options.minArgs}, ${this.values.options.maxArgs}]`)
     }
+ 
+    disable() {
+        console.error(`The command ${this.name} has been disabled.`)
+        this.available = false;
+    }
 }
 
 module.exports = Command;

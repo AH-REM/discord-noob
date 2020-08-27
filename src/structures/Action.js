@@ -47,6 +47,11 @@ class Action {
         this.checks.forEach(check => check.isAvailable());
         return this.available;
     }
+
+    disable() {
+        console.error(`The action ${this.name} has been disabled.`)
+        this.available = false;
+    }
 }
 
 module.exports = Action;
