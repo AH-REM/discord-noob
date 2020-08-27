@@ -7,10 +7,12 @@ exports.run = (options, eventEmitter) => {
         return;
 
     let guild = Converters.guild(options.guild, eventEmitter);
-    if (!guild) {
+    if (options.guild && !guild) {
         console.error(`No guild with the ID/name ${options.guild} could be found.`);
         return;
     }
+
+    if (guild && Extractors.guild(eventEmitter).id !== guild.id) return;
 
     let role = Converters.role(options.role, eventEmitter);
     if (!role) {
