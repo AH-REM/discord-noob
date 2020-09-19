@@ -10,23 +10,30 @@ exports.run = (options, eventEmitter) => {
         return true;
     }
 
-    return hasRole(author, options.role, eventEmitter);
+    return hasRole(author, options.role, eventEmitter, options.mode);
 };
 
-function hasRole(member, roles, eventEmitter) {
-    if (roles instanceof Array) {
-        for (let role of roles) {
-            let Role = Converters.role(role, eventEmitter);
-            if (!Role)
-                console.error(`No role with the ID/name ${role} could be found.`)
-            else if (member.roles.cache.has(Role.id)) return true;
+function hasRole(member, roles, eventEmitter, mode) {
+    if (!(roles instanceof Array))
+        roles = [roles];
+    switch (mode) {
+        case "all": {
+            for (let roleId of roles) {
+                let role = Converters.role(roleId, eventEmitter);
+                if (!role)
+                    console.error(`No role with the ID/name ${role} could be found.`)
+                else if (!member.roles.cache.has(role.id)) return false;
+            }
+            return true;
+        }; break;
+        default: {
+            for (let roleId of roles) {
+                let role = Converters.role(roleId, eventEmitter);
+                if (!role)
+                    console.error(`No role with the ID/name ${role} could be found.`)
+                else if (member.roles.cache.has(role.id)) return true;
+            }
+            return false;
         }
-        return false;
     }
-    let Role = Converters.role(roles, eventEmitter);
-    if (!Role) {
-        console.error(`No role with the ID/name ${roles} could be found.`);
-        return false;
-    }
-    return member.roles.cache.has(Role.id);
 }

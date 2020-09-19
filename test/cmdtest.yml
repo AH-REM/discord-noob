@@ -160,11 +160,13 @@ moderation:
                 - 'warnings'
                 - 'bans'
                 - 'tempbans'
+                - 'mutes'
             color: '#b51b5b'
     aliases:
         - 'warnings'
         - 'bans'
         - 'tempbans'
+        - 'mutes'
 
 tempban:
     script: 'tempban'
@@ -174,3 +176,13 @@ tempban:
         definedArgCount: true
         argCountError: 'Use !help tempban'
     description: "Let's hope this one works"
+
+mute:
+    script: 'mute'
+    options:
+        mute:
+            reason: 'Default reason'
+            time: '1d'
+        definedArgCount: true
+        argCountError: 'Use !help mute'
+    description: "For spammers"

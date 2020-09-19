@@ -51,10 +51,10 @@ exports.isAvailable = (options, client) => {
         if (!guild) continue;
         for (let [userId, hist] of Object.entries(users)) {
             let tempbans = hist.tempbans || [];
-            if (tempbans.length && tempbans[hist.tempbans.length - 1]._banned) {
-                if (tempbans[hist.tempbans.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
-                let _expire = Math.max(0, tempbans[hist.tempbans.length - 1]._expire - Date.now())
-                setTimeout(timeoutFunc, _expire, client.data, guild, userId);
+            if (tempbans.length && tempbans[tempbans.length - 1]._banned) {
+                if (tempbans[tempbans.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
+                let expire = Math.max(0, tempbans[tempbans.length - 1]._expire - Date.now())
+                setTimeout(timeoutFunc, expire, client.data, guild, userId);
                 counter += 1;
             }
         }

@@ -44,3 +44,7 @@ logMessages:
 tempbanBanDetect:
     script: 'tempban'
     event: 'guildBanRemove'
+
+muteMuteDetect:
+    script: 'mute'
+    event: 'guildMemberUpdate'
