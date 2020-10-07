@@ -6,11 +6,10 @@ exports.run = async (options, eventEmitter) => {
     let guild = Extractors.member(eventEmitter);
     eventEmitter.guild = guild;
 
-    let data = eventEmitter.client.data.get('leveling');
-    data[guild.id] = data[guild.id] || {};
-    let userData = data[guild.id][guildMember.id] || {};
+    let query = eventEmitter.client.data.get('leveling', {guild: guild.id, user: guildMember.id});
+    let userData = query.length ? query[0].content : clientData.default('moderation');
 
-    let counter = userData.counter || 0;
+    let counter = userData.counter;
     let currentRole = Converters.role(userData.currentRole, eventEmitter);
     let expectedRole = await getExpectedRole(options, eventEmitter, counter + 1);
     if (currentRole && (!expectedRole || currentRole.id !== expectedRole.id) )
@@ -21,8 +20,7 @@ exports.run = async (options, eventEmitter) => {
 
     userData = {counter: counter+1, currentRole: expectedRole? expectedRole.id : null}
 
-    data[guildMember.guild.id][guildMember.id] = userData;
-    eventEmitter.client.data.set('leveling', data);
+    eventEmitter.client.data.set('leveling', {guild: guild.id, user: guildMember.id}, userData);
 }
 
 async function getExpectedRole(options, eventEmitter, counter) {

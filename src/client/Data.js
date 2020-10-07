@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const YAML = require('yaml');
 const Util = require('../util/Util');
+const ModuleManager = require('../managers/ModuleManager');
 
 /**
  * An API for the modules to store and retrieve persistent data through the bot, without having to do it themselves.
@@ -11,39 +11,44 @@ const Util = require('../util/Util');
 class DataStorage {
     constructor(client) {
         this.client = client;
-        this.cache = new Map();
-        this.dataDir = Util.getCurrentPath(client.noobOptions.data);
 
-        if (!fs.existsSync(this.dataDir)) {
-            fs.mkdirSync(this.dataDir);
+        this.dataStructures = {};
+
+        this.populateDataStructures();
+        const DataModel = ModuleManager.load(client, "dataModel", client.noobOptions.dataModel);
+        this.dataModel = new DataModel(client, this, client.noobOptions.dataSettings);
+
+    }
+
+    set(name, columns, value) {
+        this.dataModel.set(name, columns, value);
+    }
+
+    get(name, columns) {
+        return this.dataModel.get(name, columns);
+    }
+
+    populateDataStructures() {
+        const defaultDir = path.join(__dirname, "../modules/dataStructures/");
+        for (let name of fs.readdirSync(defaultDir)) {
+            const n = name.replace(/.json$/, '');
+            this.dataStructures[n] = require(path.join(defaultDir, n));
         }
 
-        this.reload();
-    }
-
-    set(name, value) {
-        this.cache.set(name, value);
-
-        const data = YAML.stringify(value);
-        fs.writeFileSync(path.join(this.dataDir, name + ".yml"), data);
-    }
-
-    get(name) {
-        return this.cache.get(name) || {};
-    }
-
-    /**
-     * Fills up the cache with the persistent data from the files.
-     */
-    reload() {
-        for (let filename of fs.readdirSync(this.dataDir)) {
-            const data = fs.readFileSync(path.join(this.dataDir, filename), { encoding:'utf8', flag:'r' });
-            const json = YAML.parse(data);
-
-            this.cache.set(filename.replace(/.yml$/, ''), json);
+        if (this.client.noobOptions.dataStructures) {
+            const customFolder = Util.getCurrentPath(this.client.noobOptions.dataStructures);
+            if (!fs.existsSync(customFolder)) return;
+            const customFiles = fs.readdirSync(customFolder);
+            for (let name of customFiles) {
+                const n = name.replace(/.json$/, '');
+                this.dataStructures[n] = require(path.join(customFolder, n));
+            }
         }
     }
 
+    default(name) {
+        return this.dataStructures[name].default;
+    }
 }
 
 module.exports = DataStorage;

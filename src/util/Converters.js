@@ -3,6 +3,7 @@ let Extractors = require('./Extractors');
 
 exports.role = (roleResolvable, eventEmitter) => {
     if (roleResolvable === undefined || roleResolvable === null) return null;
+
     //It's already a Role
     if (roleResolvable instanceof Discord.Role) {
         return roleResolvable;

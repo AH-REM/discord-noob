@@ -1,0 +1,12 @@
+{
+  "columns":
+  [
+    "guild",
+    "user",
+    "content"
+  ],
+  "default":{
+    "counter": 0,
+    "currentRole": null
+  }
+}
