@@ -45,18 +45,16 @@ exports.isAvailable = (options, client) => {
     if (client.tempData.unique.includes('tempban')) return true;
 
     let counter = 0;
-    let data = client.data.get('moderation') || {};
-    for (let [guildId, users] of Object.entries(data)) {
-        let guild = client.guilds.cache.get(guildId);
+    let data = client.data.get('moderation', {type: 'tempbans'});
+    for (let entry of data) {
+        let guild = client.guilds.cache.get(entry.guild);
+        let tempbans = entry.content;
         if (!guild) continue;
-        for (let [userId, hist] of Object.entries(users)) {
-            let tempbans = hist.tempbans || [];
-            if (tempbans.length && tempbans[tempbans.length - 1]._banned) {
-                if (tempbans[tempbans.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
-                let expire = Math.max(0, tempbans[tempbans.length - 1]._expire - Date.now())
-                setTimeout(timeoutFunc, expire, client.data, guild, userId);
-                counter += 1;
-            }
+        if (entry.content && tempbans[tempbans.length - 1]._banned) {
+            if (tempbans[tempbans.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
+            let expire = Math.max(0, tempbans[tempbans.length - 1]._expire - Date.now())
+            setTimeout(timeoutFunc, expire, client.data, guild, entry.user);
+            counter += 1;
         }
     }
     if (counter > 0) console.log(`The tempban script has set up ${counter} timeouts.`);
@@ -65,18 +63,12 @@ exports.isAvailable = (options, client) => {
 }
 
 function getTempbans(clientData, guild, userId) {
-    let data = clientData.get('moderation') || {};
-    data[guild.id] = data[guild.id] || {};
-    let userData = data[guild.id][userId] || {};
-    return userData.tempbans || [];
+    let query = clientData.get('moderation', {guild: guild.id, user: userId, type: 'tempbans'});
+    return query.length ? query[0].content : clientData.default('moderation');
 }
 
 function setTempbans(clientData, guild, userId, tempbans) {
-    let data = clientData.get('moderation') || {};
-    data[guild.id] = data[guild.id] || {};
-    data[guild.id][userId] = data[guild.id][userId] || {};
-    data[guild.id][userId].tempbans = tempbans;
-    clientData.set('moderation', data);
+    clientData.set('moderation', {guild: guild.id, user: userId, type: 'tempbans'}, tempbans);
 }
 
 function calcExpire(time) {

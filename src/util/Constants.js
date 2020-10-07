@@ -14,7 +14,11 @@ exports.DefaultOptions = {
 
     checks: './checks/',
 
-    data: './data/'
+    dataStructures: './dataStructures/',
+
+    dataSettings: {path:'./data/'},
+
+    dataModel: 'yaml'
 
     // activity: {
     //

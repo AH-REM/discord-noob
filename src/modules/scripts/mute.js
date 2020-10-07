@@ -57,20 +57,18 @@ exports.isAvailable = (options, client) => {
     if (client.tempData.unique.includes('mute')) return true;
 
     let counter = 0;
-    let data = client.data.get('moderation') || {};
-    for (let [guildId, users] of Object.entries(data)) {
-        let guild = client.guilds.cache.get(guildId);
+    let data = client.data.get('moderation', {type: 'mutes'});
+    for (let entry of data) {
+        let guild = client.guilds.cache.get(entry.guild);
         if (!guild) continue;
         let muteRole = Converters.role(options.role || "Muted", {event: "guildCreate", eventArgs: [guild]});
         if (!muteRole) continue;
-        for (let [userId, hist] of Object.entries(users)) {
-            let mutes = hist.mutes || [];
-            if (mutes.length && mutes[mutes.length - 1]._muted) {
-                if (mutes[mutes.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
-                let expire = Math.max(0, mutes[mutes.length - 1]._expire - Date.now())
-                setTimeout(timeoutFunc, expire, client.data, guild, userId, muteRole.id);
-                counter += 1;
-            }
+        let mutes = entry.content;
+        if (mutes.length && mutes[mutes.length - 1]._muted) {
+            if (mutes[mutes.length - 1]._expire - Date.now > 1000 * 3600 * 24 * 10) continue;
+            let expire = Math.max(0, mutes[mutes.length - 1]._expire - Date.now())
+            setTimeout(timeoutFunc, expire, client.data, guild, entry.user, muteRole.id);
+            counter += 1;
         }
     }
     if (counter > 0) console.log(`The mute script has set up ${counter} timeouts.`);
@@ -97,18 +95,12 @@ async function createMuteRole(guild, roleName = "Muted") {
 }
 
 function getMutes(clientData, guild, userId) {
-    let data = clientData.get('moderation') || {};
-    data[guild.id] = data[guild.id] || {};
-    let userData = data[guild.id][userId] || {};
-    return userData.mutes || [];
+    let query = clientData.get('moderation', {guild: guild.id, user: userId, type: 'mutes'});
+    return query.length ? query[0].content : clientData.default('moderation');
 }
 
 function setMutes(clientData, guild, userId, mutes) {
-    let data = clientData.get('moderation') || {};
-    data[guild.id] = data[guild.id] || {};
-    data[guild.id][userId] = data[guild.id][userId] || {};
-    data[guild.id][userId].mutes = mutes;
-    clientData.set('moderation', data);
+    clientData.set('moderation', {guild: guild.id, user: userId, type: 'mutes'}, mutes);
 }
 
 function onceMuted(eventEmitter, guildMember, time, reason, roleId) {

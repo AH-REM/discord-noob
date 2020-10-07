@@ -17,7 +17,10 @@
         scripts: './scripts',
         checks: './checks',
         slugs: './slugs',
-        data: './data'
+        dataModel: 'yaml',
+        dataSettings: {
+            path: './data'
+        }
     });
 
     await noob.load('command', 'cmdtest.yml');

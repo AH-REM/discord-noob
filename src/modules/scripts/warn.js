@@ -17,12 +17,12 @@ exports.run = (options, eventEmitter, member, ...reason) => {
         guildMember = Extractors.member(eventEmitter);
     }
 
-    let data = eventEmitter.client.data.get('moderation');
-    data[guildMember.guild.id] = data[guildMember.guild.id] || {};
-    let userData = data[guildMember.guild.id][guildMember.id] || {};
-    userData.warnings = userData.warnings || [];
-    userData.warnings.push({date: Date.now(), reason: reason || options.reason});
-    data[guildMember.guild.id][guildMember.id] = userData;
+    let data = eventEmitter.client.data;
+    let query = data.get('moderation', {guild: guildMember.guild.id, user: guildMember.id, type: 'warnings'});
 
-    eventEmitter.client.data.set('moderation', data);
+    let warnings = query.length ? query[0].content : data.default('moderation');
+
+    warnings.push({date: Date.now(), reason: reason || options.reason});
+    data.set('moderation', {guild: guildMember.guild.id, user: guildMember.id, type: 'warnings'}, warnings);
+
 }

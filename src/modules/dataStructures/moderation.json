@@ -1,0 +1,10 @@
+{
+"columns":
+  [
+    "guild",
+    "user",
+    "type",
+    "content"
+  ],
+"default": []
+}

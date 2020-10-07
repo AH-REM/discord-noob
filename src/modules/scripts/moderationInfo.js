@@ -10,9 +10,7 @@ exports.run = (options, eventEmitter, member = "") => {
         return;
     }
 
-    let data = eventEmitter.client.data.get('moderation');
-    data[guildMember.guild.id] = data[guildMember.guild.id] || {};
-    let userData = data[guildMember.guild.id][guildMember.id] || {};
+    let userData = eventEmitter.client.data.get('moderation', {guild: guildMember.guild.id, user: guildMember.id});
 
     let embed = new Discord.MessageEmbed()
         .setAuthor(guildMember.user.username, guildMember.user.avatarURL())
@@ -22,12 +20,11 @@ exports.run = (options, eventEmitter, member = "") => {
         key = key.toLowerCase();
         const title = capitalize(key);
         let content = [];
-        if (!userData[key]) {
+        let modEntry = userData.find(e => e.type === key)? userData.find(e => e.type === key).content : [];
+        if (!modEntry || !modEntry.length) {
             content = 'None.';
         } else {
-            if (!(userData[key] instanceof Array)) userData[key] = [userData[key]];
-
-            for (let modCase of userData[key]) {
+            for (let modCase of modEntry) {
             let modCaseContent = [];
             for (let [ type, value ] of Object.entries(modCase)) {
                 if (type[0] === '_') continue;
