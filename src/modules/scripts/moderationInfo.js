@@ -35,7 +35,7 @@ exports.run = (options, eventEmitter, member = "") => {
             }
             content.push(modCaseContent);
             }
-            content = content.map(arr => arr.join("\n")).join(options.separator || "\n**----------**\n");
+            content = content.map(arr => arr.join("\n")).join(options.separator || "\n━━━━━━━━━━━━━━━━━━━━\n");
         }
         embed.addField(title, content);
     }
