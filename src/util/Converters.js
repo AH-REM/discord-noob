@@ -1,8 +1,13 @@
 let Discord = require('discord.js');
+<<<<<<< HEAD
 let Extractors = require('./Extractors');
 
 exports.role = (roleResolvable, eventEmitter) => {
     if (roleResolvable === undefined || roleResolvable === null) return null;
+=======
+
+exports.role = (roleResolvable, eventEmitter) => {
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
     //It's already a Role
     if (roleResolvable instanceof Discord.Role) {
         return roleResolvable;
@@ -12,18 +17,27 @@ exports.role = (roleResolvable, eventEmitter) => {
         roleResolvable = Discord.MessageMentions.ROLES_PATTERN.exec(roleResolvable)[1];
     }
     //It's an id or name
+<<<<<<< HEAD
     let guild = Extractors.guild(eventEmitter);
 
     if (guild) {
         return guild.roles.cache.get(roleResolvable) ||
             guild.roles.cache.find((role) => role.name === roleResolvable) ||
+=======
+    if (eventEmitter.guild) {
+        return eventEmitter.guild.roles.cache.get(roleResolvable) ||
+            eventEmitter.guild.roles.cache.find((role) => role.name === roleResolvable) ||
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
             null;
     }
     return null;
 }
 
 exports.channel = (channelResolvable, eventEmitter) => {
+<<<<<<< HEAD
     if (channelResolvable === undefined || channelResolvable === null) return null;
+=======
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
     //It's already a Channel
     if (channelResolvable instanceof Discord.Channel) {
         return channelResolvable;
@@ -33,6 +47,7 @@ exports.channel = (channelResolvable, eventEmitter) => {
         channelResolvable = Discord.MessageMentions.CHANNELS_PATTERN.exec(channelResolvable)[1];
     }
     //It's an id or name
+<<<<<<< HEAD
     return eventEmitter.client.channels.cache.get(channelResolvable) ||
         eventEmitter.client.channels.cache.find((channel) => channel.name === channelResolvable) ||
         null;
@@ -40,11 +55,31 @@ exports.channel = (channelResolvable, eventEmitter) => {
 
 exports.guild = (guildResolvable, eventEmitter) => {
     if (guildResolvable === undefined || guildResolvable === null) return null;
+=======
+    if (eventEmitter.guild) {
+        return eventEmitter.guild.channels.cache.get(channelResolvable) ||
+            eventEmitter.guild.channels.cache.find((channel) => channel.name === channelResolvable) ||
+            null;
+    } else if (eventEmitter.channels) {
+        return eventEmitter.channels.cache.get(channelResolvable) ||
+            eventEmitter.channels.cache.find((channel) => channel.name === channelResolvable) ||
+            null;
+    } else if (eventEmitter.client) {
+        return eventEmitter.client.channels.cache.get(channelResolvable) ||
+            eventEmitter.client.channels.cache.find((channel) => channel.name === channelResolvable) ||
+            null;
+    }
+    return null;
+}
+
+exports.guild = (guildResolvable, eventEmitter) => {
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
     //It's already a Guild
     if (guildResolvable instanceof Discord.Guild) {
         return guildResolvable;
     }
     //It's an id or name
+<<<<<<< HEAD
     return eventEmitter.client.guilds.resolve(guildResolvable) ||
            eventEmitter.client.guilds.cache.find((guild) => guild.name === guildResolvable) ||
            null;
@@ -52,6 +87,16 @@ exports.guild = (guildResolvable, eventEmitter) => {
 
 exports.member = (memberResolvable, eventEmitter) => {
     if (memberResolvable === undefined || memberResolvable === null) return null;
+=======
+    if (eventEmitter.client) {
+        return eventEmitter.client.guilds.cache.get(guildResolvable) ||
+            eventEmitter.client.guilds.cache.find((guild) => guild.name === guildResolvable) ||
+            null;
+    }
+}
+
+exports.member = (memberResolvable, eventEmitter) => {
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
     //It's already a Member
     if (memberResolvable instanceof Discord.GuildMember) {
         return memberResolvable;
@@ -61,6 +106,7 @@ exports.member = (memberResolvable, eventEmitter) => {
         memberResolvable = Discord.MessageMentions.USERS_PATTERN.exec(memberResolvable)[1];
     }
     //It's an id or name
+<<<<<<< HEAD
     let guild = Extractors.guild(eventEmitter);
 
     if (guild) {
@@ -117,3 +163,19 @@ exports.time = (str, type) => {
         }
     }
 }
+=======
+    if (eventEmitter.guild) {
+        return eventEmitter.guild.members.cache.get(memberResolvable) ||
+            eventEmitter.guild.members.cache.find((member) => member.displayName === memberResolvable) ||
+            eventEmitter.guild.members.cache.find((member) => member.user.tag === memberResolvable) ||
+            eventEmitter.guild.members.cache.find((member) => member.user.username === memberResolvable) ||
+            null;
+    } else if (eventEmitter.users) {
+        return eventEmitter.users.cache.get(memberResolvable) ||
+            eventEmitter.users.cache.find((user) => user.tag === memberResolvable) ||
+            eventEmitter.users.cache.find((user) => user.username === memberResolvable) ||
+            null;
+    }
+    return null;
+}
+>>>>>>> 5189ab667f747eae27b24dc39a6c8ce0ae21f9ff
